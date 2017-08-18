@@ -6,4 +6,3 @@ script:
   - cmake .
   - cmake --build . -- -j2
 
-
