@@ -4,6 +4,8 @@ language: cpp
 
 addons:
   apt:
+    sources:
+    - kalakris-cmake
     packages:
     - cmake
 
