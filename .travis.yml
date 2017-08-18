@@ -2,6 +2,11 @@ dist: trusty
 sudo: false
 language: cpp
 
+addons:
+  apt:
+    packages:
+    - cmake
+
 script:
   - cmake .
   - cmake --build . -- -j2
