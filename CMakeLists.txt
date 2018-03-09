@@ -40,10 +40,10 @@ target_include_directories(test_gtkmm PRIVATE ${GTKMM_INCLUDE_DIRS})
 find_package(SFML COMPONENTS graphics window system)
 find_package(OpenGL)
 add_library(imgui
-            imgui/imgui.cpp
-            imgui/imgui_draw.cpp
-            imgui/imgui-SFML.cpp
-            imgui/test.cpp)
+            imgui/lib/imgui.cpp
+            imgui/lib/imgui_draw.cpp
+            imgui/lib/imgui-SFML.cpp
+            imgui/lib/test.cpp)
 target_link_libraries(imgui INTERFACE ${SFML_LIBRARIES} ${OPENGL_gl_LIBRARY})
 add_executable(test_imgui imgui/test.cpp)
 target_link_libraries(test_imgui imgui)

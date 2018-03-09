@@ -18,5 +18,4 @@ protected:
   Gtk::Button m_button;
 };
 
-#endif // GTKMM_EXAMPLE_HELLO_WORLD_HPP
-
+#endif// GTKMM_EXAMPLE_HELLO_WORLD_HPP
