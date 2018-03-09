@@ -1,5 +1,5 @@
-#include "imgui.h"
-#include "imgui-SFML.h"
+#include "lib/imgui.h"
+#include "lib/imgui-SFML.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
@@ -13,7 +13,6 @@ int main()
   window.setFramerateLimit(60);
   ImGui::SFML::Init(window);
 
-  ImGuiIO &io = ImGui::GetIO();
 
   sf::CircleShape shape(100.f);
   shape.setFillColor(sf::Color::Green);
