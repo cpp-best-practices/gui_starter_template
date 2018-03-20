@@ -84,3 +84,20 @@ add_executable(test_imgui imgui/test.cpp)
 target_link_libraries(test_imgui PRIVATE project_warnings imgui)
 target_include_directories(test_imgui PRIVATE ${SFML_INCLUDE_DIR})
 
+# Nana
+include(ExternalProject)
+ExternalProject_add(
+  Nana
+  GIT_REPOSITORY   https://github.com/cnjinhao/nana.git
+  GIT_TAG          v1.5.6
+  CMAKE_CACHE_ARGS "-DNANA_CMAKE_SHARED_LIB"
+  INSTALL_COMMAND  ""
+)
+
+#ExternalProject_Get_Property(Nana NANA_INCLUDE_DIR)
+ExternalProject_Get_Property(Nana SOURCE_DIR BINARY_DIR)
+add_executable(test_nana nana/main.cpp)
+target_include_directories(test_nana PRIVATE ${SOURCE_DIR}/include)
+target_link_libraries(test_nana PRIVATE ${BINARY_DIR}/libnana.so ${NANA_LINKS})
+
+
