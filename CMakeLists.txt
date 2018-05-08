@@ -51,6 +51,13 @@ add_executable(intro main.cpp)
 target_compile_features(intro PRIVATE cxx_std_17)
 target_link_libraries(intro PRIVATE project_warnings --coverage)
 
+#qt
+find_package( Qt5Widgets REQUIRED )
+set( CMAKE_AUTOMOC ON )
+add_executable( helloQt qt/qtMain.cpp qt/HelloQt.cpp )
+target_link_libraries( helloQt Qt5::Widgets )
+target_compile_features( helloQt PUBLIC cxx_nullptr )
+
 enable_testing()
 
 add_executable(tester tester.cpp)
