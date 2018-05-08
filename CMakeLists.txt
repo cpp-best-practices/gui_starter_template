@@ -17,18 +17,25 @@ else()
   target_compile_options(project_warnings INTERFACE -Wall -Wextra -Wpedantic)
 endif()
 
-add_executable(intro main.cpp)
+#qt
+find_package( Qt5Widgets REQUIRED )
+set( CMAKE_AUTOMOC ON )
+add_executable( helloQt qt/qtMain.cpp qt/HelloQt.cpp )
+target_link_libraries( helloQt Qt5::Widgets )
+target_compile_features( helloQt PUBLIC cxx_nullptr )
+
+add_executable(intro main.cpp )
 target_compile_features(intro PRIVATE cxx_lambda_init_captures)
 target_link_libraries(intro PRIVATE project_warnings)
 
-target_link_libraries(intro --coverage)
+#target_link_libraries(intro --coverage)
 
 enable_testing()
 
 add_executable(tester tester.cpp)
 target_link_libraries(tester PRIVATE project_warnings)
 
-target_link_libraries(tester --coverage)
+#target_link_libraries(tester --coverage)
 add_test(Tester tester)
 
 
