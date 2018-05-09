@@ -100,4 +100,5 @@ add_executable(test_nana nana/main.cpp)
 target_include_directories(test_nana PRIVATE ${SOURCE_DIR}/include)
 target_link_libraries(test_nana PRIVATE ${BINARY_DIR}/libnana.so ${NANA_LINKS})
 
-
+# Qt
+add_subdirectory(qt)
