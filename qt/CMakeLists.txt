@@ -11,9 +11,10 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt5Widgets REQUIRED)
 
-add_executable(
-    minimal_qt
+add_executable(minimal_qt
     main.cpp
+    MainWindow.cpp
+    MainWindow.h
 )
 
 target_link_libraries(minimal_qt
