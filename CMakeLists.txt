@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.8)
 
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" FALSE)
 
@@ -33,12 +33,12 @@ else()
                          -Wpedantic # warn if non-standard C++ is used
                          -Wconversion # warn on type conversions that may lose data
                          -Wsign-conversion # warn on sign conversions
-			 #-Wmisleading-indentation # warn if identation implies blocks where blocks do not exist
-			 #-Wduplicated-cond # warn if if / else chain has duplicated conditions
-			 #-Wduplicated-branches # warn if if / else branches have duplicated code
+			 -Wmisleading-indentation # warn if identation implies blocks where blocks do not exist
+			 -Wduplicated-cond # warn if if / else chain has duplicated conditions
+			 -Wduplicated-branches # warn if if / else branches have duplicated code
                          -Wlogical-op # warn about logical operations being used where bitwise were
                                       # probably wanted
-				      #-Wnull-dereference # warn if a null dereference is detected
+			 -Wnull-dereference # warn if a null dereference is detected
                          -Wuseless-cast # warn if you perform a cast to the same type
                          -Wdouble-promotion # warn if float is implicit promoted to double
                          -Wformat=2 # warn on security issues around functions that format output
@@ -47,7 +47,7 @@ else()
 endif()
 
 add_executable(intro main.cpp)
-#target_compile_features(intro PRIVATE cxx_std_14)
+target_compile_features(intro PRIVATE cxx_std_17)
 target_link_libraries(intro PRIVATE project_warnings --coverage)
 
 enable_testing()
@@ -95,7 +95,7 @@ target_link_libraries(test_imgui PRIVATE project_warnings imgui)
 target_include_directories(test_imgui PRIVATE ${SFML_INCLUDE_DIR})
 endif()
 
-## Nana
+# Nana
 if( DEFINED CPP_STARTER_USE_NANA )
 include(ExternalProject)
 ExternalProject_add(
