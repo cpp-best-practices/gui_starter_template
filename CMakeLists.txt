@@ -33,13 +33,13 @@ else()
                          -Wpedantic # warn if non-standard C++ is used
                          -Wconversion # warn on type conversions that may lose data
                          -Wsign-conversion # warn on sign conversions
-                         -Wmisleading-indentation # warn if identation implies blocks where blocks
+			 #-Wmisleading-indentation # warn if identation implies blocks where blocks
                                                   # do not exist
-                         -Wduplicated-cond # warn if if / else chain has duplicated conditions
-                         -Wduplicated-branches # warn if if / else branches have duplicated code
+						  #-Wduplicated-cond # warn if if / else chain has duplicated conditions
+						  #-Wduplicated-branches # warn if if / else branches have duplicated code
                          -Wlogical-op # warn about logical operations being used where bitwise were
                                       # probably wanted
-                         -Wnull-dereference # warn if a null dereference is detected
+				      #-Wnull-dereference # warn if a null dereference is detected
                          -Wuseless-cast # warn if you perform a cast to the same type
                          -Wdouble-promotion # warn if float is implicit promoted to double
                          -Wformat=2 # warn on security issues around functions that format output
@@ -48,15 +48,8 @@ else()
 endif()
 
 add_executable(intro main.cpp)
-target_compile_features(intro PRIVATE cxx_std_17)
+#target_compile_features(intro PRIVATE cxx_std_14)
 target_link_libraries(intro PRIVATE project_warnings --coverage)
-
-#qt
-find_package( Qt5Widgets REQUIRED )
-set( CMAKE_AUTOMOC ON )
-add_executable( helloQt qt/qtMain.cpp qt/HelloQt.cpp )
-target_link_libraries( helloQt Qt5::Widgets )
-target_compile_features( helloQt PUBLIC cxx_nullptr )
 
 enable_testing()
 
@@ -65,20 +58,36 @@ target_link_libraries(tester PRIVATE project_warnings --coverage)
 
 add_test(Tester tester)
 
+#qt
+if( DEFINED CPP_STARTER_USE_QT )
+message( "Using Qt" )
+find_package( Qt5Widgets REQUIRED )
+set( CMAKE_AUTOMOC ON )
+add_executable( helloQt qt/qtMain.cpp qt/HelloQt.cpp )
+#set_target_properties( helloQt PROPERTIES CMAKE_AUTOMOC ON )
+target_link_libraries( helloQt Qt5::Widgets )
+target_compile_features( helloQt PUBLIC cxx_nullptr cxx_lambdas )
+endif()
+
 #fltk test
+if( DEFINED CPP_STARTER_USE_FLTK )
 find_package(FLTK REQUIRED)
 add_executable(test_fltk fltk/test_fltk.cpp)
 target_link_libraries(test_fltk PRIVATE project_warnings ${FLTK_LIBRARIES})
 target_include_directories(test_fltk PRIVATE ${FLTK_INCLUDE_DIR})
+endif()
 
 # gtkmm test
+if( DEFINED CPP_STARTER_USE_GTKMM )
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
 add_executable(test_gtkmm gtkmm/main.cpp gtkmm/hello_world.cpp)
 target_link_libraries(test_gtkmm PRIVATE project_warnings ${GTKMM_LIBRARIES})
 target_include_directories(test_gtkmm PRIVATE ${GTKMM_INCLUDE_DIRS})
+endif()
 
 # imgui example
+if( DEFINED CPP_STARTER_USE_IMGUI )
 find_package(SFML COMPONENTS graphics window system)
 find_package(OpenGL)
 
@@ -90,8 +99,10 @@ target_link_libraries(imgui INTERFACE ${SFML_LIBRARIES} ${OPENGL_gl_LIBRARY})
 add_executable(test_imgui imgui/test.cpp)
 target_link_libraries(test_imgui PRIVATE project_warnings imgui)
 target_include_directories(test_imgui PRIVATE ${SFML_INCLUDE_DIR})
+endif()
 
-# Nana
+## Nana
+if( DEFINED CPP_STARTER_USE_NANA )
 include(ExternalProject)
 ExternalProject_add(
   Nana
@@ -106,5 +117,4 @@ ExternalProject_Get_Property(Nana SOURCE_DIR BINARY_DIR)
 add_executable(test_nana nana/main.cpp)
 target_include_directories(test_nana PRIVATE ${SOURCE_DIR}/include)
 target_link_libraries(test_nana PRIVATE ${BINARY_DIR}/libnana.so ${NANA_LINKS})
-
-
+endif()
