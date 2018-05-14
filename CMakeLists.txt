@@ -33,10 +33,9 @@ else()
                          -Wpedantic # warn if non-standard C++ is used
                          -Wconversion # warn on type conversions that may lose data
                          -Wsign-conversion # warn on sign conversions
-			 #-Wmisleading-indentation # warn if identation implies blocks where blocks
-                                                  # do not exist
-						  #-Wduplicated-cond # warn if if / else chain has duplicated conditions
-						  #-Wduplicated-branches # warn if if / else branches have duplicated code
+			 #-Wmisleading-indentation # warn if identation implies blocks where blocks do not exist
+			 #-Wduplicated-cond # warn if if / else chain has duplicated conditions
+			 #-Wduplicated-branches # warn if if / else branches have duplicated code
                          -Wlogical-op # warn about logical operations being used where bitwise were
                                       # probably wanted
 				      #-Wnull-dereference # warn if a null dereference is detected
@@ -60,12 +59,7 @@ add_test(Tester tester)
 #qt
 if( DEFINED CPP_STARTER_USE_QT )
 message( "Using Qt" )
-find_package( Qt5Widgets REQUIRED )
-set( CMAKE_AUTOMOC ON )
-add_executable( helloQt qt/qtMain.cpp qt/HelloQt.cpp )
-#set_target_properties( helloQt PROPERTIES CMAKE_AUTOMOC ON )
-target_link_libraries( helloQt Qt5::Widgets )
-target_compile_features( helloQt PUBLIC cxx_nullptr cxx_lambdas )
+add_subdirectory(qt)
 endif()
 
 #fltk test
