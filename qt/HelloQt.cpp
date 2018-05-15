@@ -5,7 +5,8 @@
 #include <QLabel>
 #include <QDebug>
 
-HelloQt::HelloQt(QWidget *parent) : QWidget(parent) {
+HelloQt::HelloQt(QWidget *parent) : QWidget(parent)
+{
   // The memory management is not done explicitly but by using the parent
   // relationship built into Qt
   // The tr calls are not strictly neccesary, but it is all that is needed for
@@ -31,17 +32,18 @@ HelloQt::HelloQt(QWidget *parent) : QWidget(parent) {
   // match
   connect(pushButton, &QPushButton::clicked, this, &HelloQt::writeToDebug);
   // Lambdas can also be used as can ordinary freestanding functions
-  connect(directButton, &QPushButton::clicked,
-      []() { qDebug() << tr("I am in line"); });
+  connect(directButton, &QPushButton::clicked, []() { qDebug() << tr("I am in line"); });
   // Most usefull signals and slots are already built into the framework.
-  connect(fatal, &QPushButton::clicked, this, &HelloQt::close); // could just use close
+  connect(fatal, &QPushButton::clicked, this, &HelloQt::close);// could just use close
 };
 
-HelloQt::~HelloQt() {
+HelloQt::~HelloQt()
+{
   // Nothing to do here, the parent system makes sure that all the elements that
   // are parented to this is cleaned up
 }
 
-void HelloQt::writeToDebug(void) {
+void HelloQt::writeToDebug(void)
+{
   qDebug() << tr("I don't know what I was supposed to debug here...");
 }
