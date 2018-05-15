@@ -39,8 +39,6 @@ HelloQt::HelloQt(QWidget *parent) : QWidget(parent)
 
 HelloQt::~HelloQt()
 {
-  // Nothing to do here, the parent system makes sure that all the elements that
-  // are parented to this is cleaned up
 }
 
 void HelloQt::writeToDebug(void)
