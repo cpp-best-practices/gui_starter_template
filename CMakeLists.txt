@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.8)
 
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" FALSE)
+option(CPP_STARTER_USE_QT "Enable compilation of QT sample" FALSE)
+option(CPP_STARTER_USE_FLTK "Enable compilation of FLTK sample" FALSE)
+option(CPP_STARTER_USE_GTKMM "Enable compilation of GTKMM sample" FALSE)
+option(CPP_STARTER_USE_IMGUI "Enable compilation of ImGui sample" FALSE)
+option(CPP_STARTER_USE_NANA "Enable compilation of Nana GUI sample" FALSE)
 
 # Link this 'library' to use the following warnings
 add_library(project_warnings INTERFACE)
