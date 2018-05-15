@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.8)
 
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" FALSE)
 
@@ -55,23 +55,33 @@ enable_testing()
 
 add_executable(tester tester.cpp)
 target_link_libraries(tester PRIVATE project_warnings --coverage)
-
 add_test(Tester tester)
 
+#qt
+if( DEFINED CPP_STARTER_USE_QT )
+message( "Using Qt" )
+add_subdirectory(qt)
+endif()
+
 #fltk test
+if( DEFINED CPP_STARTER_USE_FLTK )
 find_package(FLTK REQUIRED)
 add_executable(test_fltk fltk/test_fltk.cpp)
 target_link_libraries(test_fltk PRIVATE project_warnings ${FLTK_LIBRARIES})
 target_include_directories(test_fltk PRIVATE ${FLTK_INCLUDE_DIR})
+endif()
 
 # gtkmm test
+if( DEFINED CPP_STARTER_USE_GTKMM )
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
 add_executable(test_gtkmm gtkmm/main.cpp gtkmm/hello_world.cpp)
 target_link_libraries(test_gtkmm PRIVATE project_warnings ${GTKMM_LIBRARIES})
 target_include_directories(test_gtkmm PRIVATE ${GTKMM_INCLUDE_DIRS})
+endif()
 
 # imgui example
+if( DEFINED CPP_STARTER_USE_IMGUI )
 find_package(SFML COMPONENTS graphics window system)
 find_package(OpenGL)
 
@@ -83,8 +93,10 @@ target_link_libraries(imgui INTERFACE ${SFML_LIBRARIES} ${OPENGL_gl_LIBRARY})
 add_executable(test_imgui imgui/test.cpp)
 target_link_libraries(test_imgui PRIVATE project_warnings imgui)
 target_include_directories(test_imgui PRIVATE ${SFML_INCLUDE_DIR})
+endif()
 
 # Nana
+if( DEFINED CPP_STARTER_USE_NANA )
 include(ExternalProject)
 ExternalProject_add(
   Nana
@@ -99,5 +111,4 @@ ExternalProject_Get_Property(Nana SOURCE_DIR BINARY_DIR)
 add_executable(test_nana nana/main.cpp)
 target_include_directories(test_nana PRIVATE ${SOURCE_DIR}/include)
 target_link_libraries(test_nana PRIVATE ${BINARY_DIR}/libnana.so ${NANA_LINKS})
-
-
+endif()
