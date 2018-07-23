@@ -79,10 +79,9 @@ endif()
 # gtkmm test
 if(CPP_STARTER_USE_GTKMM)
   find_package(PkgConfig REQUIRED)
-  pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
+  pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-3.0)
   add_executable(test_gtkmm gtkmm/main.cpp gtkmm/hello_world.cpp)
-  target_link_libraries(test_gtkmm PRIVATE project_warnings ${GTKMM_LIBRARIES})
-  target_include_directories(test_gtkmm PRIVATE ${GTKMM_INCLUDE_DIRS})
+  target_link_libraries(test_gtkmm PRIVATE project_warnings PkgConfig::GTKMM)
 endif()
 
 # imgui example
