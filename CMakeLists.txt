@@ -63,13 +63,13 @@ target_link_libraries(tester PRIVATE project_warnings --coverage)
 add_test(Tester tester)
 
 # qt
-if(DEFINED CPP_STARTER_USE_QT)
+if(CPP_STARTER_USE_QT)
   message("Using Qt")
   add_subdirectory(qt)
 endif()
 
 # fltk test
-if(DEFINED CPP_STARTER_USE_FLTK)
+if(CPP_STARTER_USE_FLTK)
   find_package(FLTK REQUIRED)
   add_executable(test_fltk fltk/test_fltk.cpp)
   target_link_libraries(test_fltk PRIVATE project_warnings ${FLTK_LIBRARIES})
@@ -77,7 +77,7 @@ if(DEFINED CPP_STARTER_USE_FLTK)
 endif()
 
 # gtkmm test
-if(DEFINED CPP_STARTER_USE_GTKMM)
+if(CPP_STARTER_USE_GTKMM)
   find_package(PkgConfig REQUIRED)
   pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
   add_executable(test_gtkmm gtkmm/main.cpp gtkmm/hello_world.cpp)
@@ -86,7 +86,7 @@ if(DEFINED CPP_STARTER_USE_GTKMM)
 endif()
 
 # imgui example
-if(DEFINED CPP_STARTER_USE_IMGUI)
+if(CPP_STARTER_USE_IMGUI)
   find_package(SFML COMPONENTS graphics window system)
   find_package(OpenGL)
 
@@ -101,7 +101,7 @@ if(DEFINED CPP_STARTER_USE_IMGUI)
 endif()
 
 # Nana
-if(DEFINED CPP_STARTER_USE_NANA)
+if(CPP_STARTER_USE_NANA)
   include(ExternalProject)
   externalproject_add(Nana
                       GIT_REPOSITORY
