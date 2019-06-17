@@ -9,8 +9,17 @@ addons:
     packages:
       - g++-7
 
+matrix:
+  include:
+    - os: linux
+      env:
+        - CMAKE_FLAGS=""
+    - os: linux
+      env:
+        - CMAKE_FLAGS="-DENABLE_COVERAGE:BOOL=TRUE -DCPP_STARTER_USE_GOOGLE_TEST=ON"
+
 script:
-  - CXX=/usr/bin/g++-7 CC=/usr/bin/gcc-7 cmake -D ENABLE_COVERAGE:BOOL=TRUE . 
+  - CXX=/usr/bin/g++-7 CC=/usr/bin/gcc-7 cmake ${CMAKE_FLAGS} .
   - cmake --build . -- -j2 
   - ctest -j2
   - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-7
