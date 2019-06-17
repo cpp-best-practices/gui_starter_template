@@ -1,16 +1,26 @@
 image:
   - Visual Studio 2017
 clone_folder: c:\projects\source
-build_script:
-- cmd: >-
-    mkdir build
 
-    cd build
-    
-    cmake c:\projects\source -G "Visual Studio 15"
-    
-    cmake --build . --config "Debug"
+environment:
+  matrix:
+    - CMAKE_FLAGS: "-DENABLE_COVERAGE:BOOL=TRUE"
+    - CMAKE_FLAGS: "-DENABLE_COVERAGE:BOOL=TRUE -DCPP_STARTER_USE_GOOGLE_TEST=ON"
+    - CMAKE_FLAGS: "-DENABLE_COVERAGE:BOOL=TRUE -DCPP_STARTER_USE_CATCH2=ON"
+
+before_build:
+  - git clone https://github.com/catchorg/Catch2.git
+  - cd Catch2
+  - cmake -Bbuild -H. -DBUILD_TESTING=OFF
+  - cmake --build build/ --target install
+  - cd ..
+
+build_script:
+  - mkdir build
+  - cd build
+  - cmake c:\projects\source -G "Visual Studio 15" %CMAKE_FLAGS%
+  - cmake --build . --config "Debug"
 
 test_script:
-- cmd: ctest -C Debug
+  - cmd: ctest -C Debug
 

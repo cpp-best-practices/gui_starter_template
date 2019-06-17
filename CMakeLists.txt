@@ -7,6 +7,7 @@ option(CPP_STARTER_USE_GTKMM "Enable compilation of GTKMM sample" OFF)
 option(CPP_STARTER_USE_IMGUI "Enable compilation of ImGui sample" OFF)
 option(CPP_STARTER_USE_NANA "Enable compilation of Nana GUI sample" OFF)
 option(CPP_STARTER_USE_GOOGLE_TEST "Enable Google Test Framework" OFF)
+option(CPP_STARTER_USE_CATCH2 "Enable Catch2 Framework" OFF)
 
 # Link this 'library' to use the following warnings
 add_library(project_warnings INTERFACE)
@@ -60,56 +61,70 @@ target_link_libraries(intro PRIVATE project_warnings --coverage)
 enable_testing()
 
 if(CPP_STARTER_USE_GOOGLE_TEST)
-###########################################################
-# Google Test framework setup: as described at
-# https://github.com/google/googletest/blob/master/googletest/README.md
+  ###########################################################
+  # Google Test framework setup: as described at
+  # https://github.com/google/googletest/blob/master/googletest/README.md
 
-# Download and unpack googletest at configure time
-configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-        RESULT_VARIABLE result
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
-if(result)
-  message(FATAL_ERROR "CMake step for googletest failed: ${result}")
-endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-        RESULT_VARIABLE result
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
-if(result)
-  message(FATAL_ERROR "Build step for googletest failed: ${result}")
-endif()
+  # Download and unpack googletest at configure time
+  configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
+  execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+          RESULT_VARIABLE result
+          WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
+  if(result)
+    message(FATAL_ERROR "CMake step for googletest failed: ${result}")
+  endif()
+  execute_process(COMMAND ${CMAKE_COMMAND} --build .
+          RESULT_VARIABLE result
+          WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
+  if(result)
+    message(FATAL_ERROR "Build step for googletest failed: ${result}")
+  endif()
 
-# Prevent overriding the parent project's compiler/linker
-# settings on Windows
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+  # Prevent overriding the parent project's compiler/linker
+  # settings on Windows
+  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-# Add googletest directly to our build. This defines
-# the gtest and gtest_main targets.
-add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
-        ${CMAKE_CURRENT_BINARY_DIR}/googletest-build
-        EXCLUDE_FROM_ALL)
+  # Add googletest directly to our build. This defines
+  # the gtest and gtest_main targets.
+  add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
+          ${CMAKE_CURRENT_BINARY_DIR}/googletest-build
+          EXCLUDE_FROM_ALL)
 
-# The gtest/gtest_main targets carry header search path
-# dependencies automatically when using CMake 2.8.11 or
-# later. Otherwise we have to add them here ourselves.
-if (CMAKE_VERSION VERSION_LESS 2.8.11)
-  include_directories("${gtest_SOURCE_DIR}/include")
-endif()
+  # The gtest/gtest_main targets carry header search path
+  # dependencies automatically when using CMake 2.8.11 or
+  # later. Otherwise we have to add them here ourselves.
+  if (CMAKE_VERSION VERSION_LESS 2.8.11)
+    include_directories("${gtest_SOURCE_DIR}/include")
+  endif()
 
-# Now simply link against gtest or gtest_main as needed. Eg
-add_executable(gtester google_tests/gtest_main.cpp google_tests/GTestExample.cpp google_tests/GTestExample.h)
-target_link_libraries(gtester
-        PRIVATE project_warnings --coverage
-        PUBLIC gtest gtest_main)
-add_test(NAME GoogleTester COMMAND gtester)
+  # Now simply link against gtest or gtest_main as needed. Eg
+  add_executable(
+          gtester
+          google_tests/gtest_main.cpp
+          google_tests/GTestExample.cpp)
+  target_link_libraries(gtester
+          PRIVATE project_warnings --coverage
+          PUBLIC gtest gtest_main)
+  add_test(NAME GoogleTester COMMAND gtester)
 
-# End Google Test framework setup
-###########################################################
-else()   # CPP_STARTER_USE_GOOGLE_TEST
+elseif(CPP_STARTER_USE_CATCH2)
+  find_package(Catch2 REQUIRED)
+  add_executable(
+          catch_tester
+          catch_tests/catch_main.cpp
+          catch_tests/catch_test_example.cpp)
+  target_link_libraries(
+          catch_tester
+          PRIVATE project_warnings
+          PUBLIC Catch2::Catch2
+          --coverage)
+  add_test(NAME CatchTester COMMAND catch_tester)
+
+else()   # !CPP_STARTER_USE_GOOGLE_TEST && !CPP_STARTER_USE_CATCH2
   add_executable(tester tester.cpp)
   target_link_libraries(tester PRIVATE project_warnings --coverage)
-  add_test(Tester tester)
-endif()  # CPP_STARTER_USE_GOOGLE_TEST
+  add_test(NAME Tester COMMAND tester)
+endif()  # CPP_STARTER_USE_GOOGLE_TEST || CPP_STARTER_USE_CATCH2
 
 # qt
 if(CPP_STARTER_USE_QT)

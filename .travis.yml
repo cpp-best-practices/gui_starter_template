@@ -1,5 +1,5 @@
-dist: trusty
-sudo: false
+dist: xenial
+sudo: true
 language: cpp
 
 addons:
@@ -13,10 +13,19 @@ matrix:
   include:
     - os: linux
       env:
-        - CMAKE_FLAGS=""
+        - CMAKE_FLAGS="-DENABLE_COVERAGE:BOOL=TRUE"
     - os: linux
       env:
         - CMAKE_FLAGS="-DENABLE_COVERAGE:BOOL=TRUE -DCPP_STARTER_USE_GOOGLE_TEST=ON"
+    - os: linux
+      before_install:
+        - git clone https://github.com/catchorg/Catch2.git
+        - cd Catch2
+        - cmake -Bbuild -H. -DBUILD_TESTING=OFF
+        - sudo env "PATH=$PATH" cmake --build build/ --target install
+        - cd ..
+      env:
+        - CMAKE_FLAGS="-DENABLE_COVERAGE:BOOL=TRUE -DCPP_STARTER_USE_CATCH2=ON"
 
 script:
   - CXX=/usr/bin/g++-7 CC=/usr/bin/gcc-7 cmake ${CMAKE_FLAGS} .
