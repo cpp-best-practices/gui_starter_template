@@ -1,4 +1,20 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.15)
+
+project(myproject CXX)
+
+# Download automatically, you can also just copy the conan.cmake file
+if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+  message(
+    STATUS
+      "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+  file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.15/conan.cmake"
+       "${CMAKE_BINARY_DIR}/conan.cmake")
+endif()
+
+include(${CMAKE_BINARY_DIR}/conan.cmake)
+
+add_executable(main main.cpp)
+target_link_libraries(main ${CONAN_LIBS})
 
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(CPP_STARTER_USE_QT "Enable compilation of QT sample" OFF)
@@ -6,6 +22,30 @@ option(CPP_STARTER_USE_FLTK "Enable compilation of FLTK sample" OFF)
 option(CPP_STARTER_USE_GTKMM "Enable compilation of GTKMM sample" OFF)
 option(CPP_STARTER_USE_IMGUI "Enable compilation of ImGui sample" OFF)
 option(CPP_STARTER_USE_NANA "Enable compilation of Nana GUI sample" OFF)
+
+if(CPP_STARTER_USE_IMGUI)
+  set(CONAN_EXTRA_REQUIRES sfml/2.5.1@bincrafters/stable)
+  set(CONAN_EXTRA_OPTIONS sfml:shared=False sfml:graphics=True sfml:audio=False
+                          sfml:window=True libalsa:disable_python=True)
+endif()
+
+conan_add_remote(NAME bincrafters URL
+                 https://api.bintray.com/conan/bincrafters/public-conan)
+
+conan_cmake_run(
+  REQUIRES
+  ${CONAN_EXTRA_REQUIRES}
+  sfml/2.5.1@bincrafters/stable
+  catch2/2.4.0@bincrafters/stable
+  clara/1.1.4@bincrafters/stable
+  spdlog/1.1.0@bincrafters/stable
+  fmt/5.2.0@bincrafters/stable
+  OPTIONS
+  ${CONAN_EXTRA_OPTIONS}
+  BASIC_SETUP
+  CMAKE_TARGETS
+  BUILD
+  missing)
 
 # Link this 'library' to use the following warnings
 add_library(project_warnings INTERFACE)
@@ -21,35 +61,37 @@ endif()
 if(MSVC)
   target_compile_options(project_warnings INTERFACE /W4)
 else()
-  target_compile_options(project_warnings
-                         INTERFACE
-                         -Wall
-                         -Wextra # reasonable and standard
-                         -Wshadow # warn the user if a variable declaration shadows one from a
-                                  # parent context
-                         -Wnon-virtual-dtor # warn the user if a class with virtual functions has a
-                                            # non-virtual destructor. This helps catch hard to
-                                            # track down memory errors
-                         -Wold-style-cast # warn for c-style casts
-                         -Wcast-align # warn for potential performance problem casts
-                         -Wunused # warn on anything being unused
-                         -Woverloaded-virtual # warn if you overload (not override) a virtual
-                                              # function
-                         -Wpedantic # warn if non-standard C++ is used
-                         -Wconversion # warn on type conversions that may lose data
-                         -Wsign-conversion # warn on sign conversions
-                         -Wmisleading-indentation # warn if identation implies blocks where blocks
-                                                  # do not exist
-                         -Wduplicated-cond # warn if if / else chain has duplicated conditions
-                         -Wduplicated-branches # warn if if / else branches have duplicated code
-                         -Wlogical-op # warn about logical operations being used where bitwise were
-                                      # probably wanted
-                         -Wnull-dereference # warn if a null dereference is detected
-                         -Wuseless-cast # warn if you perform a cast to the same type
-                         -Wdouble-promotion # warn if float is implicit promoted to double
-                         -Wformat=2 # warn on security issues around functions that format output
-                                    # (ie printf)
-                         )
+  target_compile_options(
+    project_warnings
+    INTERFACE -Wall
+              -Wextra # reasonable and standard
+              -Wshadow # warn the user if a variable declaration shadows one
+                       # from a parent context
+              -Wnon-virtual-dtor # warn the user if a class with virtual
+                                 # functions has a non-virtual destructor. This
+                                 # helps catch hard to track down memory errors
+              -Wold-style-cast # warn for c-style casts
+              -Wcast-align # warn for potential performance problem casts
+              -Wunused # warn on anything being unused
+              -Woverloaded-virtual # warn if you overload (not override) a
+                                   # virtual function
+              -Wpedantic # warn if non-standard C++ is used
+              -Wconversion # warn on type conversions that may lose data
+              -Wsign-conversion # warn on sign conversions
+              -Wmisleading-indentation # warn if identation implies blocks where
+                                       # blocks do not exist
+              -Wduplicated-cond # warn if if / else chain has duplicated
+                                # conditions
+              -Wduplicated-branches # warn if if / else branches have duplicated
+                                    # code
+              -Wlogical-op # warn about logical operations being used where
+                           # bitwise were probably wanted
+              -Wnull-dereference # warn if a null dereference is detected
+              -Wuseless-cast # warn if you perform a cast to the same type
+              -Wdouble-promotion # warn if float is implicit promoted to double
+              -Wformat=2 # warn on security issues around functions that format
+                         # output (ie printf)
+  )
 endif()
 
 add_executable(intro main.cpp)
@@ -86,35 +128,32 @@ endif()
 
 # imgui example
 if(CPP_STARTER_USE_IMGUI)
-  find_package(SFML COMPONENTS graphics window system)
   find_package(OpenGL)
 
   # imgui + sfml built as a lib, intentionally not using full warning flags
-  add_library(imgui imgui/lib/imgui.cpp imgui/lib/imgui_draw.cpp imgui/lib/imgui-SFML.cpp)
-  target_link_libraries(imgui INTERFACE ${SFML_LIBRARIES} ${OPENGL_gl_LIBRARY})
+  add_library(imgui imgui/lib/imgui.cpp imgui/lib/imgui_draw.cpp
+                    imgui/lib/imgui-SFML.cpp)
+  target_link_libraries(imgui PUBLIC CONAN_PKG::sfml ${OPENGL_gl_LIBRARY})
 
   # imgui test executable, with full warnings enabled
   add_executable(test_imgui imgui/test.cpp)
   target_link_libraries(test_imgui PRIVATE project_warnings imgui)
-  target_include_directories(test_imgui PRIVATE ${SFML_INCLUDE_DIR})
 endif()
 
 # Nana
 if(CPP_STARTER_USE_NANA)
   include(ExternalProject)
-  externalproject_add(Nana
-                      GIT_REPOSITORY
-                      https://github.com/cnjinhao/nana.git
-                      GIT_TAG
-                      v1.5.6
-                      CMAKE_CACHE_ARGS
-                      "-DNANA_CMAKE_SHARED_LIB"
-                      INSTALL_COMMAND
-                      "")
+  ExternalProject_Add(
+    Nana
+    GIT_REPOSITORY https://github.com/cnjinhao/nana.git
+    GIT_TAG v1.5.6
+    CMAKE_CACHE_ARGS "-DNANA_CMAKE_SHARED_LIB"
+    INSTALL_COMMAND "")
 
   # ExternalProject_Get_Property(Nana NANA_INCLUDE_DIR)
-  externalproject_get_property(Nana SOURCE_DIR BINARY_DIR)
+  ExternalProject_Get_Property(Nana SOURCE_DIR BINARY_DIR)
   add_executable(test_nana nana/main.cpp)
   target_include_directories(test_nana PRIVATE ${SOURCE_DIR}/include)
-  target_link_libraries(test_nana PRIVATE ${BINARY_DIR}/libnana.so ${NANA_LINKS})
+  target_link_libraries(test_nana PRIVATE ${BINARY_DIR}/libnana.so
+                                          ${NANA_LINKS})
 endif()
