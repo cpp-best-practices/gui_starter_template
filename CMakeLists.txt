@@ -29,17 +29,14 @@ if(CPP_STARTER_USE_IMGUI)
                           sfml:window=True libalsa:disable_python=True)
 endif()
 
-conan_add_remote(NAME bincrafters URL
-                 https://api.bintray.com/conan/bincrafters/public-conan)
 
 conan_cmake_run(
   REQUIRES
   ${CONAN_EXTRA_REQUIRES}
-  sfml/2.5.1@bincrafters/stable
-  catch2/2.4.0@bincrafters/stable
-  clara/1.1.4@bincrafters/stable
-  spdlog/1.1.0@bincrafters/stable
-  fmt/5.2.0@bincrafters/stable
+  catch2/2.11.0
+  docopt.cpp/0.6.2
+  fmt/6.0.0
+  spdlog/1.5.0
   OPTIONS
   ${CONAN_EXTRA_OPTIONS}
   BASIC_SETUP
