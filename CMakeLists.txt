@@ -1,156 +1,66 @@
 cmake_minimum_required(VERSION 3.15)
 
+# Set the project name to your project name, my project isn't very descriptive
 project(myproject CXX)
+include(cmake/StandardProjectSettings.cmake)
 
-# Download automatically, you can also just copy the conan.cmake file
-if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-  message(
-    STATUS
-      "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-  file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.15/conan.cmake"
-       "${CMAKE_BINARY_DIR}/conan.cmake")
-endif()
+# Link this 'library' to set the c++ standard / compile-time options requested
+add_library(project_options INTERFACE)
+target_compile_features(project_options INTERFACE cxx_std_17)
 
-include(${CMAKE_BINARY_DIR}/conan.cmake)
-
-add_executable(main main.cpp)
-target_link_libraries(main ${CONAN_LIBS})
-
-option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
-option(CPP_STARTER_USE_QT "Enable compilation of QT sample" OFF)
-option(CPP_STARTER_USE_FLTK "Enable compilation of FLTK sample" OFF)
-option(CPP_STARTER_USE_GTKMM "Enable compilation of GTKMM sample" OFF)
-option(CPP_STARTER_USE_IMGUI "Enable compilation of ImGui sample" OFF)
-option(CPP_STARTER_USE_NANA "Enable compilation of Nana GUI sample" OFF)
-
-if(CPP_STARTER_USE_IMGUI)
-  set(CONAN_EXTRA_REQUIRES sfml/2.5.1@bincrafters/stable)
-  set(CONAN_EXTRA_OPTIONS sfml:shared=False sfml:graphics=True sfml:audio=False
-                          sfml:window=True libalsa:disable_python=True)
-endif()
-
-
-conan_cmake_run(
-  REQUIRES
-  ${CONAN_EXTRA_REQUIRES}
-  catch2/2.11.0
-  docopt.cpp/0.6.2
-  fmt/6.0.0
-  spdlog/1.5.0
-  OPTIONS
-  ${CONAN_EXTRA_OPTIONS}
-  BASIC_SETUP
-  CMAKE_TARGETS
-  BUILD
-  missing)
-
-# Link this 'library' to use the following warnings
+# Link this 'library' to use the warnings specified in CompilerWarnings.cmake
 add_library(project_warnings INTERFACE)
 
-if(CMAKE_COMPILER_IS_GNUCC)
-  option(ENABLE_COVERAGE "Enable coverage reporting for gcc/clang" FALSE)
+# sanitizer options if supported by compiler
+include(cmake/Sanitizers.cmake)
+enable_sanitizers(project_options)
 
-  if(ENABLE_COVERAGE)
-    add_compile_options(--coverage -O0)
-  endif()
-endif()
+include(cmake/StaticAnalyzers.cmake)
 
-if(MSVC)
-  target_compile_options(project_warnings INTERFACE /W4)
-else()
-  target_compile_options(
-    project_warnings
-    INTERFACE -Wall
-              -Wextra # reasonable and standard
-              -Wshadow # warn the user if a variable declaration shadows one
-                       # from a parent context
-              -Wnon-virtual-dtor # warn the user if a class with virtual
-                                 # functions has a non-virtual destructor. This
-                                 # helps catch hard to track down memory errors
-              -Wold-style-cast # warn for c-style casts
-              -Wcast-align # warn for potential performance problem casts
-              -Wunused # warn on anything being unused
-              -Woverloaded-virtual # warn if you overload (not override) a
-                                   # virtual function
-              -Wpedantic # warn if non-standard C++ is used
-              -Wconversion # warn on type conversions that may lose data
-              -Wsign-conversion # warn on sign conversions
-              -Wmisleading-indentation # warn if identation implies blocks where
-                                       # blocks do not exist
-              -Wduplicated-cond # warn if if / else chain has duplicated
-                                # conditions
-              -Wduplicated-branches # warn if if / else branches have duplicated
-                                    # code
-              -Wlogical-op # warn about logical operations being used where
-                           # bitwise were probably wanted
-              -Wnull-dereference # warn if a null dereference is detected
-              -Wuseless-cast # warn if you perform a cast to the same type
-              -Wdouble-promotion # warn if float is implicit promoted to double
-              -Wformat=2 # warn on security issues around functions that format
-                         # output (ie printf)
-  )
-endif()
+# standard compiler warnings
+include(cmake/CompilerWarnings.cmake)
+set_project_warnings(project_warnings)
 
-add_executable(intro main.cpp)
-target_compile_features(intro PRIVATE cxx_std_17)
-target_link_libraries(intro PRIVATE project_warnings --coverage)
+option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
+option(ENABLE_TESTING "Enable Test Builds" ON)
+option(ENABLE_FUZZING "Enable fuzz tests" OFF)
 
-enable_testing()
+set(CONAN_EXTRA_REQUIRES "")
+set(CONAN_EXTRA_OPTIONS "")
 
-add_executable(tester tester.cpp)
-target_link_libraries(tester PRIVATE project_warnings --coverage)
-add_test(Tester tester)
-
-# qt
-if(CPP_STARTER_USE_QT)
-  message("Using Qt")
-  add_subdirectory(qt)
-endif()
-
-# fltk test
-if(CPP_STARTER_USE_FLTK)
-  find_package(FLTK REQUIRED)
-  add_executable(test_fltk fltk/test_fltk.cpp)
-  target_link_libraries(test_fltk PRIVATE project_warnings ${FLTK_LIBRARIES})
-  target_include_directories(test_fltk PRIVATE ${FLTK_INCLUDE_DIR})
-endif()
-
-# gtkmm test
-if(CPP_STARTER_USE_GTKMM)
-  find_package(PkgConfig REQUIRED)
-  pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-3.0)
-  add_executable(test_gtkmm gtkmm/main.cpp gtkmm/hello_world.cpp)
-  target_link_libraries(test_gtkmm PRIVATE project_warnings PkgConfig::GTKMM)
-endif()
-
-# imgui example
 if(CPP_STARTER_USE_IMGUI)
-  find_package(OpenGL)
+  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
+                           imgui-sfml/2.1@bincrafters/stable)
 
-  # imgui + sfml built as a lib, intentionally not using full warning flags
-  add_library(imgui imgui/lib/imgui.cpp imgui/lib/imgui_draw.cpp
-                    imgui/lib/imgui-SFML.cpp)
-  target_link_libraries(imgui PUBLIC CONAN_PKG::sfml ${OPENGL_gl_LIBRARY})
-
-  # imgui test executable, with full warnings enabled
-  add_executable(test_imgui imgui/test.cpp)
-  target_link_libraries(test_imgui PRIVATE project_warnings imgui)
+  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sfml:shared=False
+  # sfml:graphics=True sfml:audio=False sfml:window=True
+  # libalsa:disable_python=True)
 endif()
 
-# Nana
-if(CPP_STARTER_USE_NANA)
-  include(ExternalProject)
-  ExternalProject_Add(
-    Nana
-    GIT_REPOSITORY https://github.com/cnjinhao/nana.git
-    GIT_TAG v1.5.6
-    CMAKE_CACHE_ARGS "-DNANA_CMAKE_SHARED_LIB"
-    INSTALL_COMMAND "")
-
-  # ExternalProject_Get_Property(Nana NANA_INCLUDE_DIR)
-  ExternalProject_Get_Property(Nana SOURCE_DIR BINARY_DIR)
-  add_executable(test_nana nana/main.cpp)
-  target_include_directories(test_nana PRIVATE ${SOURCE_DIR}/include)
-  target_link_libraries(test_nana PRIVATE ${BINARY_DIR}/libnana.so
-                                          ${NANA_LINKS})
+if(CPP_STARTER_USE_SDL)
+  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
+                           sdl2/2.0.10@bincrafters/stable)
+  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sdl2:wayland=True)
 endif()
+
+
+include(cmake/Conan.cmake)
+run_conan()
+
+if(ENABLE_TESTING)
+  enable_testing()
+  message(
+    "Building Tests. Be sure to check out test/constexpr_tests for constexpr testing"
+  )
+  add_subdirectory(test)
+endif()
+
+if(ENABLE_FUZZING)
+  message(
+    "Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html"
+  )
+  add_subdirectory(fuzz_test)
+endif()
+
+
+add_subdirectory(src)
