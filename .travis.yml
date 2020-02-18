@@ -5,9 +5,14 @@ language: cpp
 addons:
   apt:
     sources:
-      - ppa:ubuntu-toolchain-r/test
+      - ubuntu-toolchain-r-test
     packages:
       - gcc-snapshot
+      - doxygen
+
+install:
+  - pip install --user conan cmake
+
 
 script:
   - CXX=/usr/bin/gcc-10 CC=/usr/bin/g++-10 cmake -D ENABLE_COVERAGE:BOOL=TRUE . 

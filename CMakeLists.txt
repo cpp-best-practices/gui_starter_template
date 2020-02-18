@@ -11,20 +11,37 @@ target_compile_features(project_options INTERFACE cxx_std_17)
 # Link this 'library' to use the warnings specified in CompilerWarnings.cmake
 add_library(project_warnings INTERFACE)
 
-# sanitizer options if supported by compiler
-include(cmake/Sanitizers.cmake)
-enable_sanitizers(project_options)
-
-include(cmake/StaticAnalyzers.cmake)
-
 # standard compiler warnings
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)
 
+# sanitizer options if supported by compiler
+include(cmake/Sanitizers.cmake)
+enable_sanitizers(project_options)
+
+# enable doxygen
+include(cmake/Doxygen.cmake)
+enable_doxygen()
+
+# allow for static analysis options
+include(cmake/StaticAnalyzers.cmake)
+
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(ENABLE_TESTING "Enable Test Builds" ON)
-option(ENABLE_FUZZING "Enable fuzz tests" OFF)
 
+# Very basic PCH example
+option(ENABLE_PCH "Enable Precompiled Headers" OFF)
+if (ENABLE_PCH)
+  # This sets a global PCH parameter, each project will build its own PCH, which
+  # is a good idea if any #define's change
+  # 
+  # 
+  target_precompile_headers(project_options INTERFACE <vector> <string> <map> <utility>)
+endif()
+
+
+# Set up some extra Conan dependencies based on our needs
+# before loading Conan
 set(CONAN_EXTRA_REQUIRES "")
 set(CONAN_EXTRA_OPTIONS "")
 
