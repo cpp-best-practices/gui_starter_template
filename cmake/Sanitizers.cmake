@@ -9,14 +9,14 @@ function(enable_sanitizers project_name)
       target_link_libraries(project_options INTERFACE --coverage)
     endif()
 
-    option(ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" FALSE)
     set(SANITIZERS "")
+
+    option(ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" FALSE)
     if(ENABLE_SANITIZER_ADDRESS)
       list(APPEND SANITIZERS "address")
     endif()
 
     option(ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" FALSE)
-    set(SANITIZERS "")
     if(ENABLE_SANITIZER_MEMORY)
       list(APPEND SANITIZERS "memory")
     endif()
