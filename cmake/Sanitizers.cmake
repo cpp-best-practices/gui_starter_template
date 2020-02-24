@@ -15,6 +15,12 @@ function(enable_sanitizers project_name)
       list(APPEND SANITIZERS "address")
     endif()
 
+    option(ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" FALSE)
+    set(SANITIZERS "")
+    if(ENABLE_SANITIZER_MEMORY)
+      list(APPEND SANITIZERS "memory")
+    endif()
+
     option(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
            "Enable undefined behavior sanitizer" FALSE)
     if(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR)
