@@ -28,6 +28,7 @@ include(cmake/StaticAnalyzers.cmake)
 
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(ENABLE_TESTING "Enable Test Builds" ON)
+option(ENABLE_GOOGLETEST "Enable Google Test Framework Builds" OFF)
 
 # Very basic PCH example
 option(ENABLE_PCH "Enable Precompiled Headers" OFF)
@@ -70,6 +71,12 @@ if(ENABLE_TESTING)
     "Building Tests. Be sure to check out test/constexpr_tests for constexpr testing"
   )
   add_subdirectory(test)
+endif()
+
+if(ENABLE_GOOGLETEST)
+  enable_testing()
+  message("Building Google Tests.")
+  add_subdirectory(gtest)
 endif()
 
 if(ENABLE_FUZZING)
