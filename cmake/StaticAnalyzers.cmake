@@ -1,5 +1,7 @@
 option(ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
 option(ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
+option(ENABLE_INCLUDE_WHAT_YOU_USE "Enable static analysis with include-what-you-use" OFF)
+
 if(ENABLE_CPPCHECK)
   find_program(CPPCHECK cppcheck)
   if(CPPCHECK)
@@ -19,4 +21,11 @@ if(ENABLE_CLANG_TIDY)
   endif()
 endif()
 
-
+if(ENABLE_INCLUDE_WHAT_YOU_USE)
+  find_program(INCLUDEWHATYOUUSE include-what-you-use)
+  if(INCLUDEWHATYOUUSE)
+    set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${INCLUDEWHATYOUUSE})
+  else()
+    message(SEND_ERROR "include-what-you-use requested but executable not found")
+  endif()
+endif()
