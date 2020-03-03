@@ -35,6 +35,12 @@ function(enable_sanitizers project_name)
     list(JOIN SANITIZERS "," LIST_OF_SANITIZERS)
 
   endif()
+  
+  
+if (ENABLE_SANITIZER_ADDRESS AND (ENABLE_SANITIZER_THREAD OR ENABLE_SANITIZER_MEMORY))
+    message(FATAL_ERROR "SANITIZER_ADDRESS is not compatible with "
+        "SANITIZER_THREAD or SANITIZER_MEMORY.")
+endif ()
 
   if(LIST_OF_SANITIZERS)
     if(NOT "${LIST_OF_SANITIZERS}" STREQUAL "")
