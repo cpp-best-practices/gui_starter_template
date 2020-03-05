@@ -61,6 +61,10 @@ if(CPP_STARTER_USE_SDL)
   # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sdl2:wayland=True)
 endif()
 
+if(ENABLE_GOOGLETEST)
+  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES}
+                           gtest/1.10.0)
+endif()
 
 include(cmake/Conan.cmake)
 run_conan()
