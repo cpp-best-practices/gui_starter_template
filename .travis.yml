@@ -1,24 +1,59 @@
-dist: bionic
-sudo: false
 language: cpp
-
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-snapshot
-      - doxygen
 
 install:
   - pip install --user conan cmake
 
+jobs:
+  include:
+    - os: osx
+      compiler: gcc
+      osx_image: xcode11.2    # includes gcc-9 by default
+      env:
+        # Conan is at: ${HOME}/Library/Python/2.7/bin: we need this in the path
+        - PATH="${HOME}/Library/Python/2.7/bin:${PATH}"
+        - GCC_VER="9"
+        - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
+      after_script:
+        - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-${GCC_VER}
+    - os: osx
+      compiler: clang
+      osx_image: xcode11.2
+      env:
+        - PATH="${HOME}/Library/Python/2.7/bin:${PATH}"
+        - MATRIX_EVAL=""
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      env:
+        - GCC_VER="9"
+        - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
+
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            # I couldn't get ${GCC_VER} in here successfully
+            - gcc-9
+            - g++-9
+            - doxygen
+      after_script:
+        - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-${GCC_VER}
+    - os: linux
+      dist: bionic
+      compiler: clang
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+      addons: { apt: { packages: ['doxygen'] } }
+
+
+before_script:
+  - eval "${MATRIX_EVAL}"
 
 script:
-  - CXX=/usr/bin/gcc-10 CC=/usr/bin/g++-10 cmake -D ENABLE_COVERAGE:BOOL=TRUE . 
-  - cmake --build . -- -j2 
+  - cmake -D ENABLE_COVERAGE:BOOL=TRUE .
+  - cmake --build . -- -j2
   - ctest -j2
-  - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-5
 
 
 
