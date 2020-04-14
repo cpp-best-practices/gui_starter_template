@@ -64,3 +64,21 @@ Once you have selected all the options you would like to use, you can build the
 project:
 
     $ cmake --build .   # build all targets
+
+### Build using an alternate compiler
+
+If you need to use a compiler other than the system default, you will need to 
+do two things:
+
+* Tell Conan which compiler to use, via the environment variables CC and CXX
+* Tell CMake which compiler to use, via the CMake variables CMAKE_C_COMPILER 
+  and CMAKE_CXX_COMPILER
+
+Be aware that CMake will detect which compiler was used to build each of the 
+Conan targets, and if it doesn't match CMAKE_C_COMPILER or CMAKE_CXX_COMPILER,
+the project will fail to build.
+
+To build using clang, you can use these commands:
+
+    $ CC=clang CXX=clang++ ccmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
+    $ CC=clang CXX=clang++ cmake --build .
