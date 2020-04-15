@@ -9,17 +9,14 @@
 
 ## Getting Started
 
+First, click the green `Use this template` button near the top of this page.
+This will take you to Github's ['Generate Repository'](https://github.com/lefticus/cpp_starter_project/generate) page. 
+Fill in a repository name and short description, and click 'Create repository from template'. 
+This will allow you to create a new repository in your Github account, 
+prepopulated with the contents of this project. 
+Now you can clone the project locally and get to work!
 
-    $ mkdir <project_directory_name>
-    $ cd <project_directory_name>
-    $ git init
-    $ git pull git@github.com:lefticus/cpp_starter_project
-
-At this point, you have a copy of the repository, with no remotes set up.
-You will probably want to start a new repository using https://github.com/new, 
-and add a remote:
-
-    $ git remote add origin https://github.com/<user>/<your_new_repo>.git
+    $ git clone https://github.com/<user>/<your_new_repo>.git
 
 If you know you're not going to use one or more of the optional gui/graphics 
 frameworks (fltk, gtkmm, imgui, etc.), you can remove them with `git rm`:
