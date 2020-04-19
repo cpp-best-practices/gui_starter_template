@@ -7,6 +7,7 @@ if(ENABLE_CPPCHECK)
         ${CPPCHECK}
         --suppress=missingInclude
         --enable=all
+        --inline-suppr
         --inconclusive
         -i
         ${CMAKE_SOURCE_DIR}/imgui/lib)
