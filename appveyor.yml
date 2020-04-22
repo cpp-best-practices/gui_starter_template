@@ -1,15 +1,19 @@
 image:
-  - Visual Studio 2017
+  - Visual Studio 2019
 clone_folder: c:\projects\source
 build_script:
 - cmd: >-
     mkdir build
 
     cd build
-    
-    cmake c:\projects\source -G "Visual Studio 15"
-    
-    cmake --build . --config "Debug"
+
+    pip install --user conan
+
+    set PATH=%PATH%;C:\Users\appveyor\AppData\Roaming\Python\Scripts
+
+    cmake c:\projects\source -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE:STRING=Release
+
+    cmake --build . --config "Release"
 
 test_script:
 - cmd: ctest -C Debug
