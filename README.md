@@ -25,24 +25,37 @@ frameworks (fltk, gtkmm, imgui, etc.), you can remove them with `git rm`:
 
     $ git rm -r src/<unnecessary_framework>
 
-## Necessary Dependencies
+## Dependencies
 
+### Necessary Dependencies
 1. A C++ compiler that supports C++17 (gcc 7+, clang 6+, Visual Studio 2019)
 2. [Conan](https://conan.io/) - it's recommended that you install using 
 [pip](https://pip.pypa.io/en/stable/) 
 3. [CMake](https://cmake.org/)
-4. Other Linux dependencies. If you are using Linux, there may be other 
-    dependencies you will need to install, depending on what frameworks you 
-    are using. Please see the documentation for your particular framework for 
-    details:
+
+### Optional Dependencies
+This project can be made to work with several optional GUI frameworks. 
     
-    - [FLTK](https://www.fltk.org/doc-1.4/index.html)
-    - [GTKMM](https://www.gtkmm.org/en/documentation.html)
-    - [IMGUI](https://github.com/ocornut/imgui/tree/master/docs)
-    - [NANA](http://nanapro.org/en-us/documentation/)
-    - [QT](https://doc.qt.io/)
-    - [SDL](http://wiki.libsdl.org/FrontPage)
-    - [SFML](https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php)
+If desired, you should install the following optional dependencies as 
+directed by their documentation, linked here:
+ 
+- [FLTK](https://www.fltk.org/doc-1.4/index.html)
+- [GTKMM](https://www.gtkmm.org/en/documentation.html)
+- [QT](https://doc.qt.io/)
+
+The following dependencies can be downloaded automatically by CMake and Conan. 
+All you need to do to install them is to turn on a CMake flag during 
+configuration.
+If you run into difficulty using them, please refer to their documentation,
+linked here:
+
+- [NANA](http://nanapro.org/en-us/documentation/)
+- [SDL](http://wiki.libsdl.org/FrontPage)
+- [IMGUI](https://github.com/ocornut/imgui/tree/master/docs): 
+  This framework depends on SFML, and if you are using Linux, you may need
+  to install several of SFML's dependencies using your package manager. See 
+  [the SFML build tutorial](https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php)
+  for specifics.
 
 ## Build Instructions
 
