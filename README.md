@@ -152,3 +152,10 @@ earlier version of `fmt`, such as `fmt/6.0.0`, and then run:
 
 ...the first line of output would be a warning that `spdlog` needs a more recent
 version of `fmt`.
+
+## Testing
+See [Catch2 tutorial](https://github.com/catchorg/Catch2/blob/master/docs/tutorial.md)
+
+## Fuzz testing
+
+See [libFuzzer Tutorial](https://github.com/google/fuzzing/blob/master/tutorial/libFuzzerTutorial.md)
