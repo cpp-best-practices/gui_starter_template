@@ -59,11 +59,11 @@ linked here:
 
 ## Build Instructions
 
-Before we can build, we need to make a build directory. For these directions,
-we will use an in-source build directory; if you prefer using an out-of-source
-build directory, adjust these directions accordingly.
+### Make a build directory
 
     $ mkdir build && cd build
+
+### Configure your build
 
 To configure the project and write makefiles, you could use `cmake` with a
 bunch of command line options. The easier option is to run cmake interactively,
@@ -71,7 +71,10 @@ with the Cmake Curses Dialog Command Line tool:
 
     $ ccmake ..
 
-Once ccmake has finished setting up, press 'c' to configure the project.
+Once `ccmake` has finished setting up, press 'c' to configure the project, 
+press 'g' to generate, and 'q' to quit.
+
+### Build
 Once you have selected all the options you would like to use, you can build the 
 project:
 
