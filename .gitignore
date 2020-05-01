@@ -1,0 +1,50 @@
+# Build Files
+**/CMakeFiles/
+**/CMakeCache.txt
+**cmake_install.cmake
+compile_commands.json
+Makefile
+**CTestTestfile.cmake
+test/**.cmake
+
+# Conan files
+/conan.cmake
+conan.lock
+conanbuildinfo.cmake
+conanbuildinfo.txt
+conanfile.txt
+conaninfo.txt
+
+graph_info.json
+
+# Library files
+lib/
+
+# Binary files
+imgui.ini
+bin/
+build/
+out/
+cmake-build-debug/
+cmake-build-release/
+
+# Annoying OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.directory
+*~
+
+# IDE files
+.vs/
+.idea/
+.vscode/
+language.settings.xml
+**/**.swp
+
+# python venv files
+virtualenv/
