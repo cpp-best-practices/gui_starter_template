@@ -1,0 +1,8 @@
+build/*
+
+.vscode/*
+!.vscode/cpp_starter_project.code-workspace
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
