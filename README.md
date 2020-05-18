@@ -6,6 +6,8 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/ro4lbfoa7n0sy74c/branch/master?svg=true)](https://ci.appveyor.com/project/lefticus/cpp-starter-project/branch/master)
 
+![CMake](https://github.com/lefticus/cpp_starter_project/workflows/CMake/badge.svg)
+
 
 ## Getting Started
 
