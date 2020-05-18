@@ -38,7 +38,7 @@ The following compilers should work:
   The minimum compiler version is 19.15; this version ships with version 15.8 of the IDE. 
 2. [Conan](https://conan.io/) - it's recommended that you install using 
 [pip](https://pip.pypa.io/en/stable/) 
-3. [CMake](https://cmake.org/)
+3. [CMake 3.15+](https://cmake.org/)
 
 ### Optional Dependencies
 This project can be made to work with several optional GUI frameworks. 
