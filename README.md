@@ -82,20 +82,18 @@ project:
 
 ### Build using an alternate compiler
 
-If you need to use a compiler other than the system default, you will need to 
-do two things:
-
-* Tell Conan which compiler to use, via the environment variables CC and CXX
-* Tell CMake which compiler to use, via the CMake variables CMAKE_C_COMPILER 
-  and CMAKE_CXX_COMPILER
+Conan and CMake use the environment variables CC and CXX to decide which 
+compiler to use. If you don't set these variables yourself, the system 
+default compiler will be used.
 
 Be aware that CMake will detect which compiler was used to build each of the 
-Conan targets, and if it doesn't match CMAKE_C_COMPILER or CMAKE_CXX_COMPILER,
-the project will fail to build.
+Conan targets. 
+If you build all of your Conan targets with one compiler, and then build your 
+CMake targets with a different compiler, the project may fail to build. 
 
 To build using clang, you can use these commands:
 
-    $ CC=clang CXX=clang++ ccmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
+    $ CC=clang CXX=clang++ ccmake ..
     $ CC=clang CXX=clang++ cmake --build .
 
 ## Troubleshooting
