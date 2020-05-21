@@ -206,8 +206,76 @@ linked here:
 
 ### Configure your build
 
-To configure the project and write makefiles, you could use `cmake` with a
-bunch of command line options. The easier option is to run cmake interactively,
+To configure the project and write makefiles, you could use `cmake` with a bunch of command line options.
+The easier option is to run cmake interactively:
+
+#### **Configure via cmake-gui**:
+
+1) Open cmake-gui from the project directory:
+```
+cmake-gui .
+```
+2) Set the build directory:
+
+![build_dir](https://user-images.githubusercontent.com/16418197/82524586-fa48e380-9af4-11ea-8514-4e18a063d8eb.jpg)
+
+3) Configure the generator (and compilers):
+
+<details>
+<summary>Windows - MinGW and Clang</summary>
+
+In cmake-gui, from the upper menu select `Tools/Configure`.
+
+Choose MinGW Makefiles and 2nd option (specify native compilers):
+
+<img src="https://user-images.githubusercontent.com/16418197/82525058-1731e680-9af6-11ea-8d0a-98d2e5a24710.png" alt="mingw">
+
+Give the path to the compilers:
+
+<img src="https://user-images.githubusercontent.com/16418197/82523856-f025e580-9af2-11ea-9ba7-29c536082cba.png" alt="compilers">
+
+</details>
+
+<details>
+<summary>Windows - Visual Studio and default compilers</summary>
+
+In cmake-gui, from the upper menu select `Tools/Configure`.
+
+Choose "Visual Studio 16 2019" as the generator:
+
+<img src="https://user-images.githubusercontent.com/16418197/82524696-32502680-9af5-11ea-9697-a42000e900a6.jpg" alt="default_vs">
+
+</details>
+
+<details>
+
+<summary>Windows - Visual Studio and Clang</summary>
+
+Install llvm-utils:
+```
+git clone https://github.com/zufuliu/llvm-utils.git
+cd llvm-utils/VS2017
+.\install.bat
+```
+
+In cmake-gui, from the upper menu select `Tools/Configure`.
+
+Choose "Visual Studio 16 2019" as the generator. Set `LLVM_v142` for Visual Studio 2019. See [here](https://github.com/zufuliu/llvm-utils#llvm-for-visual-studio-2017-and-2019) for others. Choose the "specify native compilers" option.
+
+<img src="https://user-images.githubusercontent.com/16418197/82524065-94a82780-9af3-11ea-8547-364f96596258.png" alt="visual_studio">
+
+
+Give the path to the Clang compilers:
+
+<img src="https://user-images.githubusercontent.com/16418197/82523856-f025e580-9af2-11ea-9ba7-29c536082cba.png" alt="compilers">
+</details>
+<br/>
+
+4) Choose the Cmake options and then generate:
+
+![generate](https://user-images.githubusercontent.com/16418197/82582146-3876ef00-9b57-11ea-9b30-af3d2d85809e.jpg)
+
+#### **Configure via ccmake**:
 with the Cmake Curses Dialog Command Line tool:  
 
     $ ccmake ..
