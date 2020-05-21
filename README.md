@@ -29,23 +29,155 @@ frameworks (fltk, gtkmm, imgui, etc.), you can remove them with `git rm`:
 
 ## Dependencies
 
+Note about install commands: 
+- for Windows, we use [choco](https://chocolatey.org/install).
+- for MacOS, we use [brew](https://brew.sh/). 
+- In case of an error in cmake, make sure that the dependencies are on the PATH.
+
 ### Necessary Dependencies
-1. A C++ compiler that supports C++17. 
+1. A C++ compiler that supports C++17.
 See [cppreference.com](https://en.cppreference.com/w/cpp/compiler_support)
 to see which features are supported by each compiler.
 The following compilers should work:
-  * [gcc 7+](https://gcc.gnu.org/)
-  * [clang 6+](https://clang.llvm.org/)
-  * [Visual Studio 2017](https://visualstudio.microsoft.com/) or higher. 
-  The minimum compiler version is 19.15; this version ships with version 15.8 of the IDE. 
-2. [Conan](https://conan.io/) - it's recommended that you install using 
-[pip](https://pip.pypa.io/en/stable/) 
+
+	* [gcc 7+](https://gcc.gnu.org/)
+		<details>
+		<summary>Install command</summary>
+
+				- Debian/Ubuntu:
+					sudo apt install build-essential
+
+				- Windows:
+					choco install mingw -y
+
+				- MacOS:
+					brew install gcc
+
+		</details>
+
+	* [clang 6+](https://clang.llvm.org/)
+		<details>
+		<summary>Install command</summary>
+
+				- Debian/Ubuntu:
+					bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+
+				- Windows:
+					choco install llvm -y
+
+				- MacOS:
+			 		brew install llvm
+
+		</details>
+
+	* [Visual Studio 2017 or higher](https://visualstudio.microsoft.com/)
+		<details>
+		<summary>Install command</summary>
+			One of these
+
+			  - Build Tools 2019 and Windows SDK 10:
+				  choco install visualstudio2019buildtools -y
+				  choco install windows-sdk-10.1
+
+			  - Visual Studio IDE - 2019 Community:
+			  	  choco install visualstudio2019community -y
+
+				// The minimum compiler version is 19.15, which ships with version 15.8 of the IDE.
+		</details>
+
+
+2. [Conan](https://conan.io/)
+	<details>
+	<summary>Install Command</summary>
+
+			- Via pip - https://docs.conan.io/en/latest/installation.html#install-with-pip-recommended
+				pip install conan
+
+			- Windows:
+				choco install conan -y
+
+			- MacOS:
+			 	brew install conan
+
+	</details>
+
 3. [CMake 3.15+](https://cmake.org/)
+	<details>
+	<summary>Install Command</summary>
+
+		- Debian/Ubuntu:
+			sudo apt-get install cmake
+
+		- Windows:
+			choco install cmake -y
+
+		- MacOS:
+	 		brew install cmake
+
+	</details>
 
 ### Optional Dependencies
-This project can be made to work with several optional GUI frameworks. 
-    
-If desired, you should install the following optional dependencies as 
+#### C++ Tools
+- [Doxygen](http://doxygen.nl/)
+	<details>
+	<summary>Install Command</summary>
+
+		- Debian/Ubuntu:
+			sudo apt-get install doxygen
+			sudo apt-get install graphviz
+
+		- Windows:
+			choco install doxygen.install -y
+			choco install graphviz -y
+
+		- MacOS:
+	 		brew install doxygen
+	 		brew install graphviz
+
+	</details>
+
+- [ccache](https://ccache.dev/)
+	<details>
+	<summary>Install Command</summary>
+
+		- Debian/Ubuntu:
+			sudo apt-get install ccache
+
+		- Windows:
+			choco install ccache -y
+
+		- MacOS:
+	 		brew install ccache
+
+	</details>
+
+- [Cppcheck](http://cppcheck.sourceforge.net/)
+	<details>
+	<summary>Install Command</summary>
+
+		- Debian/Ubuntu:
+			sudo apt-get install cppcheck
+
+		- Windows:
+			choco install cppcheck -y
+
+		- MacOS:
+	 		brew install cppcheck
+
+	</details>
+
+- [include-what-you-use](https://include-what-you-use.org/)
+	<details>
+	<summary>Install Command</summary>
+
+		Follow instructions here:
+		https://github.com/include-what-you-use/include-what-you-use#how-to-install
+	</details>
+
+#### GUI libraries
+This project can be made to work with several optional GUI frameworks.
+
+If desired, you should install the following optional dependencies as
 directed by their documentation, linked here:
  
 - [FLTK](https://www.fltk.org/doc-1.4/index.html)
