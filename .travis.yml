@@ -2,20 +2,60 @@ language: cpp
 
 jobs:
   include:
-    - os: osx
+    - os: osx       # 10.15.4 - gcc-9
       compiler: gcc
-      osx_image: xcode11.2    # includes gcc-9 by default
+      osx_image: xcode11.4
       env:
+        - MACOSX_DEPLOYMENT_TARGET=10.15
         - GCC_VER="9"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
-      after_script:
-        - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-${GCC_VER}
 
-    - os: osx
-      compiler: clang
-      osx_image: xcode11.2
+    - os: osx       # 10.14.6 - gcc-9
+      compiler: gcc
+      osx_image: xcode11.3
       env:
-        - MATRIX_EVAL=""
+        - MACOSX_DEPLOYMENT_TARGET=10.14
+        - GCC_VER="9"
+        - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
+
+    - os: osx       # 10.13 - gcc-9
+      compiler: gcc
+      osx_image: xcode10.1
+      env:
+        - MACOSX_DEPLOYMENT_TARGET=10.13
+        - GCC_VER="9"
+        - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}" #brew install gcc${GCC_VER} &&
+
+    - os: osx       # 10.15.4 - clang
+      compiler: clang
+      osx_image: xcode11.4
+      env:
+        - MACOSX_DEPLOYMENT_TARGET=10.15
+
+    - os: osx       # 10.14.6 - clang
+      compiler: clang
+      osx_image: xcode11.3
+      env:
+        - MACOSX_DEPLOYMENT_TARGET=10.14
+
+    - os: osx       # 10.13 - clang
+      compiler: clang
+      osx_image: xcode10.1
+      env:
+        - MACOSX_DEPLOYMENT_TARGET=10.13
+
+    - os: osx       # 10.15.4 - clang sanitize-all-the-things build
+      compiler: clang
+      osx_image: xcode11.4
+      env:
+        - MACOSX_DEPLOYMENT_TARGET=10.15
+        - CONFIG_OPTS="-D ENABLE_CPPCHECK:BOOL=ON \
+                       -D ENABLE_SANITIZER_ADDRESS:BOOL=ON \
+                       -D ENABLE_SANITIZER_MEMORY:BOOL=ON \
+                       -D ENABLE_SANITIZER_THREAD:BOOL=ON \
+                       -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=ON"
+      install:
+        - brew install cppcheck
 
     - os: linux     # GCC-7 - Codecov build
       dist: bionic
