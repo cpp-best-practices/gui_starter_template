@@ -1,16 +1,11 @@
 language: cpp
 
-install:
-  - pip install --user conan cmake
-
 jobs:
   include:
     - os: osx
       compiler: gcc
       osx_image: xcode11.2    # includes gcc-9 by default
       env:
-        # Conan is at: ${HOME}/Library/Python/2.7/bin: we need this in the path
-        - PATH="${HOME}/Library/Python/2.7/bin:${PATH}"
         - GCC_VER="9"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
       after_script:
@@ -19,7 +14,6 @@ jobs:
       compiler: clang
       osx_image: xcode11.2
       env:
-        - PATH="${HOME}/Library/Python/2.7/bin:${PATH}"
         - MATRIX_EVAL=""
     - os: linux
       dist: bionic
@@ -48,7 +42,24 @@ jobs:
 
 
 before_script:
+  # Set CC and CXX
   - eval "${MATRIX_EVAL}"
+
+  # Set default version of Python to 3: works the same way on Mac and Linux
+  - pip install virtualenv
+  - virtualenv -p python3 ~/venv
+  - source ~/venv/bin/activate
+
+  # Fail if we are using the wrong Python
+  - python --version | grep -iE 'python\s*3'
+  - pip    --version | grep -iE 'python\s*3'
+
+  # Install Conan using Python 3.
+  - pip install conan cmake
+
+  # Fail if we can't run Conan.
+  - conan --version
+
 
 script:
   - cmake -D ENABLE_COVERAGE:BOOL=TRUE .
