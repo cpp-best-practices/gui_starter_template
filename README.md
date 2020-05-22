@@ -87,7 +87,7 @@ The following compilers should work:
 	<summary>Install Command</summary>
 
 			- Via pip - https://docs.conan.io/en/latest/installation.html#install-with-pip-recommended
-				pip install conan
+				pip install --user conan
 
 			- Windows:
 				choco install conan -y
