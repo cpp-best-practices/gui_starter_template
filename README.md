@@ -40,134 +40,156 @@ See [cppreference.com](https://en.cppreference.com/w/cpp/compiler_support)
 to see which features are supported by each compiler.
 The following compilers should work:
 
-	* [gcc 7+](https://gcc.gnu.org/)
-		<details>
-		<summary>Install command</summary>
+  * [gcc 7+](https://gcc.gnu.org/)
+	<details>
+	<summary>Install command</summary>
 
-				- Debian/Ubuntu:
-					sudo apt install build-essential
+	- Debian/Ubuntu:
+		
+			sudo apt install build-essential
 
-				- Windows:
-					choco install mingw -y
+	- Windows:
+		
+			choco install mingw -y
 
-				- MacOS:
-					brew install gcc
+	- MacOS:
+		
+			brew install gcc
+	</details>
 
-		</details>
+  * [clang 6+](https://clang.llvm.org/)
+	<details>
+	<summary>Install command</summary>
 
-	* [clang 6+](https://clang.llvm.org/)
-		<details>
-		<summary>Install command</summary>
+	- Debian/Ubuntu:
+		
+			bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 
-				- Debian/Ubuntu:
-					bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+	- Windows:
+		
+			choco install llvm -y
 
-				- Windows:
-					choco install llvm -y
+	- MacOS:
+ 		
+			brew install llvm
+	</details>
 
-				- MacOS:
-			 		brew install llvm
+  * [Visual Studio 2017 or higher](https://visualstudio.microsoft.com/)
+	<details>
+	<summary>Install command</summary>
+		The minimum compiler version is 19.15, which ships with version 15.8 of the IDE.
 
-		</details>
-
-	* [Visual Studio 2017 or higher](https://visualstudio.microsoft.com/)
-		<details>
-		<summary>Install command</summary>
-
-			  - Visual Studio IDE - 2019 Community:
-			  	  choco install -y visualstudio2019community --package-parameters "add Microsoft.VisualStudio.Workload.NativeDesktop --includeRecommended --includeOptional --passive --locale en-US"
-
-				// The minimum compiler version is 19.15, which ships with version 15.8 of the IDE.
-
-		</details>
+  	Visual Studio IDE - 2019 Community:
+		
+  	  	choco install -y visualstudio2019community --package-parameters "add Microsoft.VisualStudio.Workload.NativeDesktop --includeRecommended --includeOptional --passive --locale en-US"
+		
+	</details>
 
 
 2. [Conan](https://conan.io/)
 	<details>
 	<summary>Install Command</summary>
-
-			- Via pip - https://docs.conan.io/en/latest/installation.html#install-with-pip-recommended
-				pip install --user conan
-
-			- Windows:
-				choco install conan -y
-
-			- MacOS:
-			 	brew install conan
-
+	
+	- Via pip - https://docs.conan.io/en/latest/installation.html#install-with-pip-recommended
+		
+			pip install --user conan
+	
+	- Windows:
+		
+			choco install conan -y
+	
+	- MacOS:
+	 	
+			brew install conan
+	
 	</details>
 
 3. [CMake 3.15+](https://cmake.org/)
 	<details>
 	<summary>Install Command</summary>
-
-		- Debian/Ubuntu:
+	
+	- Debian/Ubuntu:
+		
 			sudo apt-get install cmake
-
-		- Windows:
+	
+	- Windows:
+		
 			choco install cmake -y
-
-		- MacOS:
-	 		brew install cmake
-
+	
+	- MacOS:
+	 		
+			brew install cmake
+	
 	</details>
 
 ### Optional Dependencies
 #### C++ Tools
-- [Doxygen](http://doxygen.nl/)
+  * [Doxygen](http://doxygen.nl/)
 	<details>
 	<summary>Install Command</summary>
 
-		- Debian/Ubuntu:
+	- Debian/Ubuntu:
+		
 			sudo apt-get install doxygen
 			sudo apt-get install graphviz
 
-		- Windows:
+	- Windows:
+		
 			choco install doxygen.install -y
 			choco install graphviz -y
 
-		- MacOS:
-	 		brew install doxygen
+	- MacOS:
+ 		
+			brew install doxygen
 	 		brew install graphviz
 
 	</details>
 
-- [ccache](https://ccache.dev/)
+
+  * [ccache](https://ccache.dev/)
 	<details>
 	<summary>Install Command</summary>
 
-		- Debian/Ubuntu:
+	- Debian/Ubuntu:
+		
 			sudo apt-get install ccache
 
-		- Windows:
+	- Windows:
+		
 			choco install ccache -y
 
-		- MacOS:
-	 		brew install ccache
+	- MacOS:
+ 		
+			brew install ccache
 
 	</details>
 
-- [Cppcheck](http://cppcheck.sourceforge.net/)
+
+  * [Cppcheck](http://cppcheck.sourceforge.net/)
 	<details>
 	<summary>Install Command</summary>
 
-		- Debian/Ubuntu:
+	- Debian/Ubuntu:
+		
 			sudo apt-get install cppcheck
 
-		- Windows:
+	- Windows:
+		
 			choco install cppcheck -y
 
-		- MacOS:
-	 		brew install cppcheck
+	- MacOS:
+ 		
+			brew install cppcheck
 
 	</details>
 
-- [include-what-you-use](https://include-what-you-use.org/)
+
+  * [include-what-you-use](https://include-what-you-use.org/)
 	<details>
 	<summary>Install Command</summary>
 
-		Follow instructions here:
-		https://github.com/include-what-you-use/include-what-you-use#how-to-install
+	Follow instructions here:
+	https://github.com/include-what-you-use/include-what-you-use#how-to-install
 	</details>
 
 #### GUI libraries
