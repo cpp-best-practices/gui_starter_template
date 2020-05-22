@@ -91,6 +91,69 @@ jobs:
         - sudo apt-get -qq update
         - sudo apt-get -y install clang-10
 
+    # Try many of the cmake options
+    # We can't do every combination of options, so we will try for a reasonable subset
+    - os: linux  # Clang-9 sanitize-all-the-things build
+      dist: bionic
+      compiler: clang
+      addons: { apt: { packages: ['clang-9', 'llvm-9-dev', 'libclang-9-dev'] } }
+      env:
+        - CLANG_VER="9"
+        - CLANG_SEMVER="9.0"
+        - MATRIX_EVAL="CC=clang-${CLANG_VER} && CXX=clang++-${CLANG_VER}"
+        - CONFIG_OPTS="-D ENABLE_INCLUDE_WHAT_YOU_USE:BOOL=ON \
+                       -D ENABLE_CLANG_TIDY:BOOL=ON \
+                       -D ENABLE_CPPCHECK:BOOL=ON \
+                       -D ENABLE_SANITIZER_ADDRESS:BOOL=ON \
+                       -D ENABLE_SANITIZER_MEMORY:BOOL=ON \
+                       -D ENABLE_SANITIZER_THREAD:BOOL=ON \
+                       -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=ON"
+      install:
+        - eval "${MATRIX_EVAL}"
+        - git clone https://github.com/include-what-you-use/include-what-you-use.git
+        - cd include-what-you-use && git checkout "clang_${CLANG_SEMVER}"
+        - mkdir build && cd build
+        - cmake -G "Unix Makefiles" -DCMAKE_PREFIX_PATH=/usr/lib/llvm-${CLANG_VER} -DCMAKE_INSTALL_PREFIX=./ ..
+
+    - os: linux  # GCC-9 sanitize-all-the-things build, minus IWYU
+      dist: bionic
+      compiler: gcc
+      addons: { apt: { sources: ['ubuntu-toolchain-r-test'],
+                       packages: ['cppcheck', 'gcc-9', 'g++-9'] } }
+      env:
+        - GCC_VER="9"
+        - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
+        - CONFIG_OPTS="-D ENABLE_CLANG_TIDY:BOOL=ON \
+                       -D ENABLE_CPPCHECK:BOOL=ON \
+                       -D ENABLE_SANITIZER_ADDRESS:BOOL=ON \
+                       -D ENABLE_SANITIZER_MEMORY:BOOL=ON \
+                       -D ENABLE_SANITIZER_THREAD:BOOL=ON \
+                       -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=ON"
+
+    - os: linux     # unity build GCC-7
+      dist: bionic
+      compiler: gcc
+      env:
+        - GCC_VER="7"
+        - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
+        - CONFIG_OPTS="-D ENABLE_UNITY:BOOL=ON"
+
+    - os: linux     # pch build GCC-7
+      dist: bionic
+      compiler: gcc
+      env:
+        - GCC_VER="7"
+        - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
+        - CONFIG_OPTS="-D ENABLE_PCH:BOOL=ON"
+
+    - os: linux     # ipo build GCC-7
+      dist: bionic
+      compiler: gcc
+      env:
+        - GCC_VER="7"
+        - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
+        - CONFIG_OPTS="-D ENABLE_IPO:BOOL=ON"
+
 before_script:
   # Set CC and CXX
   - eval "${MATRIX_EVAL}"
