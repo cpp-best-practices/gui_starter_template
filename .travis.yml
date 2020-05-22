@@ -10,36 +10,86 @@ jobs:
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
       after_script:
         - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-${GCC_VER}
+
     - os: osx
       compiler: clang
       osx_image: xcode11.2
       env:
         - MATRIX_EVAL=""
-    - os: linux
+
+    - os: linux     # GCC-7 - Codecov build
       dist: bionic
       compiler: gcc
+      env:
+        - GCC_VER="7"
+        - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
+        - CONFIG_OPTS="-D ENABLE_COVERAGE:BOOL=TRUE"
+      after_script:
+        - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-${GCC_VER}
+
+    - os: linux     # GCC-8 build
+      dist: bionic
+      compiler: gcc
+      addons: { apt: { packages: ['gcc-8', 'g++-8', 'doxygen'] } }
+      env:
+        - GCC_VER="8"
+        - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
+
+    - os: linux     # GCC-9 build
+      dist: bionic
+      compiler: gcc
+      addons: { apt: { sources: ['ubuntu-toolchain-r-test'],
+                       packages: ['gcc-9', 'g++-9', 'doxygen'] } }
       env:
         - GCC_VER="9"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
 
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            # I couldn't get ${GCC_VER} in here successfully
-            - gcc-9
-            - g++-9
-            - doxygen
-      after_script:
-        - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-${GCC_VER}
-    - os: linux
+    - os: linux     # GCC-10 build
+      dist: bionic
+      compiler: gcc
+      addons: { apt: { sources: ['ubuntu-toolchain-r-test'],
+                       packages: ['gcc-10', 'g++-10', 'doxygen'] } }
+      env:
+        - GCC_VER="10"
+        - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
+
+    - os: linux     # Clang-6 build
       dist: bionic
       compiler: clang
+      addons: { apt: { packages: ['clang-6.0', 'doxygen'] } }
       env:
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
-      addons: { apt: { packages: ['doxygen'] } }
+        - CLANG_SEMVER="6.0"
+        - MATRIX_EVAL="CC=clang-${CLANG_SEMVER} && CXX=clang++-${CLANG_SEMVER}"
 
+    - os: linux     # Clang-8 build
+      dist: bionic
+      compiler: clang
+      addons: { apt: { packages: ['clang-8', 'doxygen'] } }
+      env:
+        - CLANG_VER="8"
+        - MATRIX_EVAL="CC=clang-${CLANG_VER} && CXX=clang++-${CLANG_VER}"
+
+    - os: linux     # Clang-9 build
+      dist: bionic
+      compiler: clang
+      addons: { apt: { packages: ['clang-9', 'doxygen'] } }
+      env:
+        - CLANG_VER="9"
+        - MATRIX_EVAL="CC=clang-${CLANG_VER} && CXX=clang++-${CLANG_VER}"
+
+    - os: linux     # Clang-10 build
+      dist: bionic
+      compiler: clang
+      addons: { apt: { packages: ['doxygen'] } }
+      env:
+        - CLANG_VER="10"
+        - MATRIX_EVAL="CC=clang-${CLANG_VER} && CXX=clang++-${CLANG_VER}"
+      before_install:   # Add sources disallowed by travis-ci
+        # Add LLVM repo and GPG key so we can install clang-10
+        - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+        - echo "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main" | sudo tee -a /etc/apt/sources.list
+        - sudo apt-get -qq update
+        - sudo apt-get -y install clang-10
 
 before_script:
   # Set CC and CXX
@@ -62,7 +112,7 @@ before_script:
 
 
 script:
-  - cmake -D ENABLE_COVERAGE:BOOL=TRUE .
+  - cmake "${CONFIG_OPTS}" .
   - cmake --build . -- -j2
   - ctest -j2
 
