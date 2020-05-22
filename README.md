@@ -73,16 +73,12 @@ The following compilers should work:
 	* [Visual Studio 2017 or higher](https://visualstudio.microsoft.com/)
 		<details>
 		<summary>Install command</summary>
-			One of these
-
-			  - Build Tools 2019 and Windows SDK 10:
-				  choco install visualstudio2019buildtools -y
-				  choco install windows-sdk-10.1
 
 			  - Visual Studio IDE - 2019 Community:
-			  	  choco install visualstudio2019community -y
+			  	  choco install -y visualstudio2019community --package-parameters "add Microsoft.VisualStudio.Workload.NativeDesktop --includeRecommended --includeOptional --passive --locale en-US"
 
 				// The minimum compiler version is 19.15, which ships with version 15.8 of the IDE.
+
 		</details>
 
 
@@ -223,6 +219,7 @@ cmake-gui .
 
 <details>
 <summary>Windows - MinGW and Clang</summary>
+You still need to install Visual Studio because of the SDK and libraries that ship with it.
 
 In cmake-gui, from the upper menu select `Tools/Configure`.
 
