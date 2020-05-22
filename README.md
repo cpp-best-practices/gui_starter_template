@@ -27,6 +27,12 @@ frameworks (fltk, gtkmm, imgui, etc.), you can remove them with `git rm`:
 
     $ git rm -r src/<unnecessary_framework>
 
+### Remove CI builds you're not going to use
+If you know that you need to use certain C++ features that are not supported by
+a particular version of clang or gcc, you can go into the `.travis.yml` file
+and remove builds that you know are not going to work. By default, this project
+spawns ~20 different CI builds; you almost certainly will not need all of them.
+
 ## Dependencies
 
 ### Necessary Dependencies
