@@ -7,7 +7,7 @@
 #include <docopt/docopt.h>
 
 #include <iostream>
-
+#include <filesystem>
 static constexpr auto USAGE =
   R"(Naval Fate.
 
@@ -36,7 +36,7 @@ int main(int argc, const char **argv)
   for (auto const &arg : args) {
     std::cout << arg.first << arg.second << std::endl;
   }
-
+  std::cout<<"Running from: "<< std::filesystem::current_path();
 
   //Use the default logger (stdout, multi-threaded, colored)
   spdlog::info("Hello, {}!", "World");
