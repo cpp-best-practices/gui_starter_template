@@ -42,17 +42,18 @@ jobs:
     - os: linux
       dist: bionic
       compiler: clang
-      addons:
-        sources:
-          - ubuntu-toolchain-r-test
-          - llvm-toolchain-10
-        packages:
-          - clang-10
-          - libstdc++-10-dev
-          - doxygen
       env:
-          - CLANG_VER="10"
-          - MATRIX_EVAL="CC=clang-${CLANG_VER} && CXX=clang++-${CLANG_VER}"
+        - CLANG_VER="10"
+        - MATRIX_EVAL="CC=clang-${CLANG_VER} && CXX=clang++-${CLANG_VER}"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-10
+          packages:
+            - clang-10
+            - libstdc++-10-dev
+            - doxygen
 
 
 
