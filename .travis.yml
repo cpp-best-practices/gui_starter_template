@@ -51,7 +51,9 @@ before_script:
   - eval "${MATRIX_EVAL}"
 
 script:
-  - cmake -D ENABLE_COVERAGE:BOOL=TRUE .
+  - mkdir build
+  - cd build
+  - cmake -D ENABLE_COVERAGE:BOOL=TRUE ../
   - cmake --build . -- -j2
   - ctest -j2
 
