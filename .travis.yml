@@ -13,8 +13,6 @@ jobs:
         - PATH="${HOME}/Library/Python/2.7/bin:${PATH}"
         - GCC_VER="9"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
-      after_script:
-        - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-${GCC_VER}
     - os: osx
       compiler: clang
       osx_image: xcode11.2
