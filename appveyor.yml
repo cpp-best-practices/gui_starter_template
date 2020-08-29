@@ -1,13 +1,23 @@
 image:
   - Visual Studio 2019
 clone_folder: c:\projects\source
+
+environment:
+    PYTHON: "C:\\Python38-x64"    # available on VS 2017 and 2019
+
 build_script:
 - cmd: >-
     mkdir build
 
     cd build
 
-    pip install --user conan
+    "%PYTHON%\\python.exe" -m venv virtual_env
+
+    virtual_env\\Scripts\\activate.bat
+
+    python --version
+
+    pip install conan
 
     set PATH=%PATH%;C:\Users\appveyor\AppData\Roaming\Python\Scripts
 
