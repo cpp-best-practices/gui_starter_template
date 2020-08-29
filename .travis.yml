@@ -9,6 +9,9 @@ install:
   - python --version | grep -iE 'python\s*3'
   - pip    --version | grep -iE 'python\s*3'
 
+  # venv manages to find pip v9.0, but version 20.2 is current
+  - pip install --upgrade pip
+
   # Install Conan using Python 3.
   - pip install conan cmake
 
