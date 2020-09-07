@@ -4,7 +4,7 @@ install:
   # Pip cannot install Conan without these upgrades
   - python3 -m pip install --upgrade pip setuptools
   # Install Conan and CMake >= 3.15
-  - python3 -m pip install --user conan cmake
+  - python3 -m pip install conan cmake
 
   # Fail if we can't run Conan.
   - conan --version
