@@ -11,9 +11,9 @@ build_script:
 
     cd build
 
-    "%PYTHON%" -m pip install --user conan
+    set PATH=%PATH%;C:\Users\appveyor\AppData\Roaming\Python\Python38\Scripts
 
-    set PATH=%PATH%;C:\Users\appveyor\AppData\Roaming\Python\Scripts
+    "%PYTHON%" -m pip install --user conan
 
     cmake c:\projects\source -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE:STRING=Release
 
