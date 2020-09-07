@@ -1,7 +1,13 @@
 language: cpp
 
 install:
-  - pip install --user conan cmake
+  # Pip cannot install Conan without these upgrades
+  - python3 -m pip install --upgrade pip setuptools
+  # Install Conan and CMake >= 3.15
+  - python3 -m pip install --user conan cmake
+
+  # Fail if we can't run Conan.
+  - conan --version
 
 jobs:
   include:
@@ -9,8 +15,6 @@ jobs:
       compiler: gcc
       osx_image: xcode11.2    # includes gcc-9 by default
       env:
-        # Conan is at: ${HOME}/Library/Python/2.7/bin: we need this in the path
-        - PATH="${HOME}/Library/Python/2.7/bin:${PATH}"
         - GCC_VER="9"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
       after_script:
@@ -19,7 +23,6 @@ jobs:
       compiler: clang
       osx_image: xcode11.2
       env:
-        - PATH="${HOME}/Library/Python/2.7/bin:${PATH}"
         - MATRIX_EVAL=""
     - os: linux
       dist: bionic
@@ -37,6 +40,7 @@ jobs:
             - gcc-9
             - g++-9
             - doxygen
+            - python3-pip
       after_script:
         - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-${GCC_VER}
     - os: linux
@@ -44,7 +48,7 @@ jobs:
       compiler: clang
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
-      addons: { apt: { packages: ['doxygen'] } }
+      addons: { apt: { packages: ['doxygen', 'python3-pip'] } }
 
 
 before_script:
