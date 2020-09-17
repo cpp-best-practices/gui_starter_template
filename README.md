@@ -82,12 +82,11 @@ The following compilers should work:
 			brew install llvm
 	</details>
 
-  * [Visual Studio 2017 or higher](https://visualstudio.microsoft.com/)
+  * [Visual Studio 2019 or higher](https://visualstudio.microsoft.com/)
 	<details>
 	<summary>Install command + Environment setup</summary>
 
-	On Windows, you need to install Visual Studio because of the SDK and libraries that ship with it 
-	(the minimum compiler version is 19.15, which ships with version 15.8 of the IDE).
+	On Windows, you need to install Visual Studio 2019 because of the SDK and libraries that ship with it.
 
   	Visual Studio IDE - 2019 Community (installs Clang too):
 		
