@@ -390,7 +390,7 @@ Choose "Visual Studio 16 2019" as the generator. To tell Visual studio to use `c
 #### **Configure via ccmake**:
 with the Cmake Curses Dialog Command Line tool:  
 
-    ccmake .
+    ccmake -S . -B ./build
 
 Once `ccmake` has finished setting up, press 'c' to configure the project, 
 press 'g' to generate, and 'q' to quit.
@@ -403,7 +403,7 @@ project (all targets):
 
 For Visual Studio, give the build configuration (Release, RelWithDeb, Debug, etc) like the following:
 
-	cmake --build ./build -- /p:configuration=Release
+    cmake --build ./build -- /p:configuration=Release
 
 ## Troubleshooting
 
