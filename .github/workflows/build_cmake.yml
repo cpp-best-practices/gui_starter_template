@@ -37,34 +37,15 @@ jobs:
       # We'll use this as our working directory for all subsequent commands
       run: cmake -E make_directory ${{runner.workspace}}/build
 
-    # Install Conan
-    - name: Install conan Ubuntu
-      if: startsWith(matrix.os,'ubuntu')
-      shell: bash
+    - name: Install conan
       run: |
-        python3 -m pip install --upgrade pip setuptools
-        python3 -m pip install conan
-        # We need to source the profile file to make sure conan is in PATH
-        source ~/.profile
+        pip3 install wheel setuptools
+        pip3 install conan --upgrade
+    - name: Ubuntu - Fix Conan Path
+      if: startsWith(matrix.os,'ubuntu')
+      run: |
         sudo update-alternatives --install /usr/bin/conan conan /home/runner/.local/bin/conan 10
         sudo update-alternatives --config conan
-        conan -v
-
-    - name: Install conan Windows
-      if: startsWith(matrix.os,'windows')
-      shell: pwsh
-      run: |
-        choco install conan -y
-        [Environment]::SetEnvironmentVariable("Path", $env:Path + ";" + "C:/Program Files/Conan/conan", "User")
-        refreshenv
-        echo "::add-path::C:/Program Files/Conan/conan/conan.exe"
-        conan -v
-
-    - name: Install conan macOS
-      if: startsWith(matrix.os,'macOS')
-      run: |
-        brew install conan
-        conan -v
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
