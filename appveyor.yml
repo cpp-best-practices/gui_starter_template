@@ -1,15 +1,19 @@
 image:
   - Visual Studio 2019
 clone_folder: c:\projects\source
+
+environment:
+    PYTHON: "C:\\Python38-x64\\python.exe"
+
 build_script:
 - cmd: >-
     mkdir build
 
     cd build
 
-    pip install --user conan
+    set PATH=%PATH%;C:\Users\appveyor\AppData\Roaming\Python\Python38\Scripts
 
-    set PATH=%PATH%;C:\Users\appveyor\AppData\Roaming\Python\Scripts
+    "%PYTHON%" -m pip install --user conan
 
     cmake c:\projects\source -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE:STRING=Release
 

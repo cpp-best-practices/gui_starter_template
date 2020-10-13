@@ -1,5 +1,14 @@
 language: cpp
 
+install:
+  # Pip cannot install Conan without these upgrades
+  - python3 -m pip install --upgrade pip setuptools
+  # Install Conan and CMake >= 3.15
+  - python3 -m pip install conan cmake
+
+  # Fail if we can't run Conan.
+  - conan --version
+
 jobs:
   include:
     - os: osx       # 10.15.4 - gcc-9
@@ -17,6 +26,9 @@ jobs:
         - MACOSX_DEPLOYMENT_TARGET=10.14
         - GCC_VER="9"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
+    - os: osx
+      compiler: clang
+      osx_image: xcode11.2
 
     - os: osx       # 10.13 - gcc-9
       compiler: gcc
@@ -60,6 +72,7 @@ jobs:
     - os: linux     # GCC-7 - Codecov build
       dist: bionic
       compiler: gcc
+      addons: { apt: { packages: ['python3-pip'] } }
       env:
         - GCC_VER="7"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
@@ -70,8 +83,10 @@ jobs:
     - os: linux     # GCC-8 build
       dist: bionic
       compiler: gcc
-      addons: { apt: { packages: ['gcc-8', 'g++-8', 'doxygen'] } }
+      addons: { apt: { packages: ['gcc-8', 'g++-8', 'doxygen', 'python3-pip'] } }
       env:
+        - MATRIX_EVAL=""
+    - os: linux
         - GCC_VER="8"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
 
@@ -79,7 +94,7 @@ jobs:
       dist: bionic
       compiler: gcc
       addons: { apt: { sources: ['ubuntu-toolchain-r-test'],
-                       packages: ['gcc-9', 'g++-9', 'doxygen'] } }
+                       packages: ['gcc-9', 'g++-9', 'doxygen', 'python3-pip'] } }
       env:
         - GCC_VER="9"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
@@ -88,7 +103,7 @@ jobs:
       dist: bionic
       compiler: gcc
       addons: { apt: { sources: ['ubuntu-toolchain-r-test'],
-                       packages: ['gcc-10', 'g++-10', 'doxygen'] } }
+                       packages: ['gcc-10', 'g++-10', 'doxygen', 'python3-pip'] } }
       env:
         - GCC_VER="10"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
@@ -96,7 +111,7 @@ jobs:
     - os: linux     # Clang-6 build
       dist: bionic
       compiler: clang
-      addons: { apt: { packages: ['clang-6.0', 'doxygen'] } }
+      addons: { apt: { packages: ['clang-6.0', 'doxygen', 'python3-pip'] } }
       env:
         - CLANG_SEMVER="6.0"
         - MATRIX_EVAL="CC=clang-${CLANG_SEMVER} && CXX=clang++-${CLANG_SEMVER}"
@@ -104,7 +119,7 @@ jobs:
     - os: linux     # Clang-8 build
       dist: bionic
       compiler: clang
-      addons: { apt: { packages: ['clang-8', 'doxygen'] } }
+      addons: { apt: { packages: ['clang-8', 'doxygen', 'python3-pip'] } }
       env:
         - CLANG_VER="8"
         - MATRIX_EVAL="CC=clang-${CLANG_VER} && CXX=clang++-${CLANG_VER}"
@@ -112,7 +127,7 @@ jobs:
     - os: linux     # Clang-9 build
       dist: bionic
       compiler: clang
-      addons: { apt: { packages: ['clang-9', 'doxygen'] } }
+      addons: { apt: { packages: ['clang-9', 'doxygen', 'python3-pip'] } }
       env:
         - CLANG_VER="9"
         - MATRIX_EVAL="CC=clang-${CLANG_VER} && CXX=clang++-${CLANG_VER}"
@@ -120,7 +135,7 @@ jobs:
     - os: linux     # Clang-10 build
       dist: bionic
       compiler: clang
-      addons: { apt: { packages: ['doxygen'] } }
+      addons: { apt: { packages: ['doxygen', 'python3-pip'] } }
       env:
         - CLANG_VER="10"
         - MATRIX_EVAL="CC=clang-${CLANG_VER} && CXX=clang++-${CLANG_VER}"
@@ -136,7 +151,7 @@ jobs:
     - os: linux  # Clang-9 sanitize-all-the-things build
       dist: bionic
       compiler: clang
-      addons: { apt: { packages: ['clang-9', 'llvm-9-dev', 'libclang-9-dev'] } }
+      addons: { apt: { packages: ['clang-9', 'llvm-9-dev', 'libclang-9-dev', 'python3-pip'] } }
       env:
         - CLANG_VER="9"
         - CLANG_SEMVER="9.0"
@@ -198,24 +213,10 @@ before_script:
   # Set CC and CXX
   - eval "${MATRIX_EVAL}"
 
-  # Set default version of Python to 3: works the same way on Mac and Linux
-  - pip install virtualenv
-  - virtualenv -p python3 ~/venv
-  - source ~/venv/bin/activate
-
-  # Fail if we are using the wrong Python
-  - python --version | grep -iE 'python\s*3'
-  - pip    --version | grep -iE 'python\s*3'
-
-  # Install Conan using Python 3.
-  - pip install conan cmake
-
-  # Fail if we can't run Conan.
-  - conan --version
-
-
 script:
-  - cmake "${CONFIG_OPTS}" .
+  - mkdir build
+  - cd build
+  - cmake "${CONFIG_OPTS}" ../
   - cmake --build . -- -j2
   - ctest -j2
 
