@@ -161,7 +161,8 @@ jobs:
                        -D ENABLE_SANITIZER_MEMORY:BOOL=ON \
                        -D ENABLE_SANITIZER_THREAD:BOOL=ON \
                        -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=ON"
-      before_install:
+      before_script:
+        # Build IWYU: dependent on installing cmake in `install` step
         - eval "${MATRIX_EVAL}"
         - git clone https://github.com/include-what-you-use/include-what-you-use.git
         - cd include-what-you-use && git checkout "clang_${CLANG_SEMVER}"
