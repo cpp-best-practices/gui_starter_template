@@ -85,8 +85,6 @@ jobs:
       compiler: gcc
       addons: { apt: { packages: ['gcc-8', 'g++-8', 'doxygen', 'python3-pip'] } }
       env:
-        - MATRIX_EVAL=""
-    - os: linux
         - GCC_VER="8"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
 
@@ -174,7 +172,7 @@ jobs:
       dist: bionic
       compiler: gcc
       addons: { apt: { sources: ['ubuntu-toolchain-r-test'],
-                       packages: ['cppcheck', 'gcc-9', 'g++-9'] } }
+                       packages: ['cppcheck', 'gcc-9', 'g++-9', 'python3-pip'] } }
       env:
         - GCC_VER="9"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
@@ -188,6 +186,7 @@ jobs:
     - os: linux     # unity build GCC-7
       dist: bionic
       compiler: gcc
+      addons: { apt: { packages: ['python3-pip'] } }
       env:
         - GCC_VER="7"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
@@ -196,6 +195,7 @@ jobs:
     - os: linux     # pch build GCC-7
       dist: bionic
       compiler: gcc
+      addons: { apt: { packages: ['python3-pip'] } }
       env:
         - GCC_VER="7"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
@@ -204,6 +204,7 @@ jobs:
     - os: linux     # ipo build GCC-7
       dist: bionic
       compiler: gcc
+      addons: { apt: { packages: ['python3-pip'] } }
       env:
         - GCC_VER="7"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
