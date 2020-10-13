@@ -167,6 +167,7 @@ jobs:
         - cd include-what-you-use && git checkout "clang_${CLANG_SEMVER}"
         - mkdir build && cd build
         - cmake -G "Unix Makefiles" -DCMAKE_PREFIX_PATH=/usr/lib/llvm-${CLANG_VER} -DCMAKE_INSTALL_PREFIX=./ ..
+        - cd ../..  # Get out of IWYU
 
     - os: linux  # GCC-9 sanitize-all-the-things build, minus IWYU
       dist: bionic
