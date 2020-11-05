@@ -466,3 +466,28 @@ See [Catch2 tutorial](https://github.com/catchorg/Catch2/blob/master/docs/tutori
 ## Fuzz testing
 
 See [libFuzzer Tutorial](https://github.com/google/fuzzing/blob/master/tutorial/libFuzzerTutorial.md)
+
+## Quickstart using VSCode and Docker
+
+It is possible to use the [devcontainer feature](https://code.visualstudio.com/docs/remote/containers) of Visual Studio Code to quickstart the project with all of the dependencies/extensions installed and ready-to-go
+
+### Usage
+
+- Install Docker
+- Install Visual Studio Code
+- Enable the Remote-Containers extension
+- Either:
+  - Clone the new repository locally and open in vs code, then click on the down left corner and choose "Reopen in container"
+  - Open a new VSCode window, click on down left corner and choose "Clone repository in container Volume"
+
+This will create a new container, install all of the necessary dependancies, attach VSCode to said container, and install some basic C++ development extensions
+
+- On startup, there will be a prompt to choose a CMake kit, the project will then be configured
+
+Linting and IntelliSence are based on [clangd language server](https://clangd.llvm.org/) which requires the project to be configured in order to work - so IntelliSence will only work properly if the project is configured with clang
+
+### GUI apps support (except SDL) - only tested with Nvidia GPU on linux
+
+- First, enable support for containers on the GPU by following this [guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#setting-up-nvidia-container-toolkit)
+- Then, uncomment the appropriate sections in .devcontainer/Dockerfile and .devcontainer/devcontainer.json
+- Rebuild the image. If everything worked properly, a Window with a rotating horse appears

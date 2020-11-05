@@ -1,0 +1,64 @@
+{
+	"name": "C++ Starter",
+	"build": {
+		"dockerfile": "Dockerfile",
+		// Update 'VARIANT' to pick an Ubuntu version: focal, bionic
+		"args": {
+			"VARIANT": "focal",
+		}
+	},
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"clangd.arguments": [
+			"--compile-commands-dir=build/",
+			"--all-scopes-completion",
+			"--background-index",
+			"--clang-tidy",
+			"--completion-style=detailed",
+			"--fallback-style='{BasedOnStyle: LLVM, IndentWidth: 8}'",
+			"--header-insertion=iwyu",
+			"--header-insertion-decorators",
+			"--limit-results=0",
+			"--suggest-missing-includes",
+			"--pch-storage=memory",
+			"--pretty"
+		],
+		"cmake.configureOnOpen": true,
+		"editor.formatOnSave": true
+	},
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"llvm-vs-code-extensions.vscode-clangd",
+		"vadimcn.vscode-lldb",
+		"ms-vscode.cmake-tools",
+		"twxs.cmake",
+		"cschlosser.doxdocgen",
+		"mutantdino.resourcemonitor",
+		"ms-azuretools.vscode-docker"
+	],
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "uname -a",
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode",
+	/*Uncomment the section below to enable GUI support then rebuild the container. A Window with a rotating horse should appear on startup if successful*/
+	// "initializeCommand": "echo $(xhost +local:root)",
+	"runArgs": [
+		// 	"--gpus",
+		// 	"all",
+		// 	"-v",
+		// 	"/tmp/.X11-unix:/tmp/.X11-unix",
+		// "--device",
+		// "/dev/snd",
+		"--cap-add=SYS_PTRACE",
+		"--security-opt",
+		"seccomp=unconfined"
+	],
+	// "containerEnv": {
+	// 	"QT_X11_NO_MITSHM": "1",
+	// 	"DISPLAY": "${localEnv:DISPLAY}"
+	// },
+	// "postAttachCommand": "sudo ldconfig && echo $(glmark2) &",
+}
