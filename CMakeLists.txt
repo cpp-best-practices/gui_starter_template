@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.15)
 
 # Set the project name to your project name, my project isn't very descriptive
 project(myproject CXX)
+list(APPEND Targets "intro" "tests" "catch_main" "constexpr_tests" "relaxed_constexpr_tests")
+
 include(cmake/StandardProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
 
@@ -84,3 +86,6 @@ if(ENABLE_UNITY)
   # Add for any project you want to apply unity builds for
   set_target_properties(intro PROPERTIES UNITY_BUILD ON)
 endif()
+
+
+include(cmake/CodeAnalysis.cmake)
