@@ -1,7 +1,7 @@
 if (CMAKE_GENERATOR MATCHES "Visual Studio")
 
     # Read checks from the clang tidy file using PowerShell
-    execute_process(COMMAND powershell "Select-String -path ../.clang-tidy \"Checks:[\\s\\t]*[`\"'](.*)[`\"']\" -AllMatches  | Foreach-Object {$_.Matches} | Foreach-Object {$_.Groups[1].Value}" OUTPUT_VARIABLE ClangTidyChecks)
+    execute_process(COMMAND powershell "Select-String -path ${CMAKE_CURRENT_SOURCE_DIR}/.clang-tidy \"Checks:[\\s\\t]*[`\"'](.*)[`\"']\" -AllMatches  | Foreach-Object {$_.Matches} | Foreach-Object {$_.Groups[1].Value}" OUTPUT_VARIABLE ClangTidyChecks)
 
     # Visual Studio Code Analysis
     foreach(target IN LISTS Targets)
