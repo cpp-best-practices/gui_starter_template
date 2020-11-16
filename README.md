@@ -409,7 +409,13 @@ project (all targets):
 
     cmake --build ./build
 
-For Visual Studio, give the build configuration (Release, RelWithDeb, Debug, etc) like the following:
+**Visual Studio Build**:
+
+For Visual Studio, you can open the generated solution using "Open Project", and build the project from inside Visual Studio:
+
+![image](https://user-images.githubusercontent.com/16418197/99200832-49eb2d80-276d-11eb-8176-1f6744db0baa.png)
+
+If using shell, give the build configuration (Release, RelWithDeb, Debug, etc) like the following:
 
     cmake --build ./build -- /p:configuration=Release
 
