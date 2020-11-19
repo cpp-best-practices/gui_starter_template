@@ -18,10 +18,14 @@ catch_discover_tests(
   tests
   TEST_PREFIX
   "unittests."
-  EXTRA_ARGS
-  -s
-  --reporter=xml
-  --out=tests.xml)
+  REPORTER
+  xml
+  OUTPUT_DIR
+  .
+  OUTPUT_PREFIX
+  "unittests."
+  OUTPUT_SUFFIX
+  .xml)
 
 # Add a file containing a set of constexpr tests
 add_executable(constexpr_tests constexpr_tests.cpp)
@@ -31,10 +35,14 @@ catch_discover_tests(
   constexpr_tests
   TEST_PREFIX
   "constexpr."
-  EXTRA_ARGS
-  -s
-  --reporter=xml
-  --out=constexpr.xml)
+  REPORTER
+  xml
+  OUTPUT_DIR
+  .
+  OUTPUT_PREFIX
+  "constexpr."
+  OUTPUT_SUFFIX
+  .xml)
 
 # Disable the constexpr portion of the test, and build again this allows us to have an executable that we can debug when
 # things go wrong with the constexpr testing
@@ -46,7 +54,11 @@ catch_discover_tests(
   relaxed_constexpr_tests
   TEST_PREFIX
   "relaxed_constexpr."
-  EXTRA_ARGS
-  -s
-  --reporter=xml
-  --out=relaxed_constexpr.xml)
+  REPORTER
+  xml
+  OUTPUT_DIR
+  .
+  OUTPUT_PREFIX
+  "relaxed_constexpr."
+  OUTPUT_SUFFIX
+  .xml)
