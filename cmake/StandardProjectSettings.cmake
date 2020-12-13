@@ -32,3 +32,13 @@ if(ENABLE_IPO)
     message(SEND_ERROR "IPO is not supported: ${output}")
   endif()
 endif()
+
+option(ENABLE_PSO "Enable platform specific optimization" OFF)
+
+SET(ARCH
+    "native"
+    CACHE STRING "Optimization target for platform specific optimization")
+    
+if(ENABLE_PSO AND NOT MSVC)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=${ARCH}")
+endif()
