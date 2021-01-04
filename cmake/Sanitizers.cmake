@@ -1,12 +1,22 @@
-function(enable_sanitizers project_name)
+function(enable_sanitizers target_name)
 
-  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-    option(ENABLE_COVERAGE "Enable coverage reporting for gcc/clang" FALSE)
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
 
-    if(ENABLE_COVERAGE)
-      target_compile_options(${project_name} INTERFACE --coverage -O0 -g)
-      target_link_libraries(${project_name} INTERFACE --coverage)
-    endif()
+        get_property( _target_type TARGET ${target_name} PROPERTY TYPE )
+
+        if( "${_target_type}" STREQUAL "INTERFACE_LIBRARY" )
+            set(_visibility_scope INTERFACE)
+        else()
+            set(_visibility_scope PRIVATE)
+        endif()
+
+
+        option(ENABLE_COVERAGE "Enable coverage reporting for gcc/clang" FALSE)
+
+        if(ENABLE_COVERAGE)
+            target_compile_options(${target_name} ${_visibility_scope} --coverage -O0 -g)
+            target_link_libraries(${target_name} ${_visibility_scope} --coverage)
+        endif()
 
     set(SANITIZERS "")
 
@@ -58,8 +68,8 @@ function(enable_sanitizers project_name)
        "${LIST_OF_SANITIZERS}"
        STREQUAL
        "")
-      target_compile_options(${project_name} INTERFACE -fsanitize=${LIST_OF_SANITIZERS})
-      target_link_libraries(${project_name} INTERFACE -fsanitize=${LIST_OF_SANITIZERS})
+      target_compile_options(${target_name} ${_visibility_scope} -fsanitize=${LIST_OF_SANITIZERS})
+      target_link_libraries(${target_name} ${_visibility_scope} -fsanitize=${LIST_OF_SANITIZERS})
     endif()
   endif()
 
