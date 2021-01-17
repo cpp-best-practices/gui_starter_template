@@ -16,6 +16,11 @@ if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   endif()
 endif()
 
+if(MSVC)
+  # Prevent definition of `min` and `max` macros included by `windows.h`
+  target_compile_definitions(project_options INTERFACE NOMINMAX)
+endif()
+
 # Link this 'library' to use the warnings specified in CompilerWarnings.cmake
 add_library(project_warnings INTERFACE)
 
