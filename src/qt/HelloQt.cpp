@@ -37,10 +37,6 @@ HelloQt::HelloQt(QWidget *parent) : QWidget(parent)
   connect(fatal, &QPushButton::clicked, this, &HelloQt::close);// could just use close
 };
 
-HelloQt::~HelloQt()
-{
-}
-
 void HelloQt::writeToDebug(void)
 {
   qDebug() << tr("I don't know what I was supposed to debug here...");
