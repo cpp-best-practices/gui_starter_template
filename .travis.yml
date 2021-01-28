@@ -1,7 +1,13 @@
 language: cpp
 
 install:
-  - pip install --user conan cmake
+  # Pip cannot install Conan without these upgrades
+  - python3 -m pip install --upgrade pip setuptools
+  # Install Conan and CMake >= 3.15
+  - python3 -m pip install conan cmake
+
+  # Fail if we can't run Conan.
+  - conan --version
 
 jobs:
   include:
@@ -9,17 +15,12 @@ jobs:
       compiler: gcc
       osx_image: xcode11.5    # includes gcc-9 by default
       env:
-        # Conan is at: ${HOME}/Library/Python/2.7/bin: we need this in the path
-        - PATH="${HOME}/Library/Python/2.7/bin:${PATH}"
         - GCC_VER="9"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
-      after_script:
-        - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-${GCC_VER}
     - os: osx
       compiler: clang
       osx_image: xcode11.5
       env:
-        - PATH="${HOME}/Library/Python/2.7/bin:${PATH}"
         - MATRIX_EVAL=""
     - os: linux
       dist: bionic
@@ -37,6 +38,7 @@ jobs:
             - gcc-9
             - g++-9
             - doxygen
+            - python3-pip
       after_script:
         - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-${GCC_VER}
     - os: linux
@@ -55,6 +57,7 @@ jobs:
             - clang-10
             - libstdc++-10-dev
             - doxygen
+            - python3-pip
 
 
 
@@ -62,7 +65,9 @@ before_script:
   - eval "${MATRIX_EVAL}"
 
 script:
-  - cmake -D ENABLE_COVERAGE:BOOL=TRUE .
+  - mkdir build
+  - cd build
+  - cmake -D ENABLE_COVERAGE:BOOL=TRUE ../
   - cmake --build . -- -j2
   - ctest -j2
 
