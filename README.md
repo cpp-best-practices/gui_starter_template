@@ -96,15 +96,14 @@ The following compilers should work:
 
 			choco install vswhere -y
 			refreshenv
-			
-			$clpath = vswhere -latest -prerelease -find **/Hostx64/x64/*   # for x64
-			[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$clpath", "User")
-			
-			$clangpath = vswhere -latest -prerelease -find **/Llvm/bin/*
-			[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$clangpath", "User")
 
-			$vcvarsallpath =  vswhere -latest -prerelease -find **/Auxiliary/Build/*
-			[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$vcvarsallpath", "User")
+			# change to x86 for 32bit
+			$clpath = vswhere -products * -latest -prerelease -find **/Hostx64/x64/*
+			$clangpath = vswhere -products * -latest -prerelease -find **/Llvm/bin/*
+			$vcvarsallpath =  vswhere -products * -latest -prerelease -find **/Auxiliary/Build/*
+
+			$path = [System.Environment]::GetEnvironmentVariable("PATH", "User")
+			[Environment]::SetEnvironmentVariable("Path", $path + ";$clpath" + ";$clangpath" + ";$vcvarsallpath", "User")
 			refreshenv
 
 	</details>
