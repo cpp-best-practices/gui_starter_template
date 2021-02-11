@@ -82,8 +82,13 @@ if(ENABLE_TESTING)
 endif()
 
 if(ENABLE_FUZZING)
-  message("Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
-  add_subdirectory(fuzz_test)
+  # Ensure that assertions are still checked
+  if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+    message("Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
+    add_subdirectory(fuzz_test)
+  else ()
+    message(FATAL_ERROR "Building and running fuzz tests is only supported in Debug configurations.")
+  endif ()
 endif()
 
 add_subdirectory(src)
