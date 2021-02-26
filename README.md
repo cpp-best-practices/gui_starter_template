@@ -34,6 +34,14 @@ Note about install commands:
 - for MacOS, we use [brew](https://brew.sh/).
 - In case of an error in cmake, make sure that the dependencies are on the PATH.
 
+
+### Too Long, Didn't Install
+
+This is a really long list of dependencies, and it's easy to mess up. 
+That's why we have a Docker image that's already set up for you.
+See the [Docker instructions](#docker-instructions) below.
+
+
 ### Necessary Dependencies
 1. A C++ compiler that supports C++17.
 See [cppreference.com](https://en.cppreference.com/w/cpp/compiler_support)
@@ -465,3 +473,48 @@ See [Catch2 tutorial](https://github.com/catchorg/Catch2/blob/master/docs/tutori
 ## Fuzz testing
 
 See [libFuzzer Tutorial](https://github.com/google/fuzzing/blob/master/tutorial/libFuzzerTutorial.md)
+
+
+## Docker Instructions
+
+If you have [Docker](https://www.docker.com/) installed, you can run this
+in your terminal:
+
+	$ docker build --tag=my_project:latest .
+	$ docker run -it my_project:latest
+
+This command will put you in a `bash` session in a Ubuntu 18.04 Docker container, 
+with all of the tools listed in the [Dependencies](#dependencies) section already installed.
+Additionally, you will have `g++-10`, `clang++-11`, `neovim`, and `emacs` installed. 
+The CC and CXX environment variables are set to GCC version 10 by default.
+You will be logged in as root, so you will see the `#` symbol as your prompt.
+You will be in a directory that contains a copy of the `cpp_starter_project`; 
+any changes you make to your local copy will not be updated in the Docker image 
+until you rebuild it.
+If you need to mount your local copy directly in the Docker image, see
+[Docker bind mounts docs](https://docs.docker.com/storage/bind-mounts/). 
+TLDR:
+
+	$ docker run -it \
+		--mount src="/path/to/local/copy",target=/starter_project/local,type=bind \
+		my_project:latest
+
+You can configure and build using `gcc-10` with these commands:
+
+	/starter_project# mkdir build && cd build
+	/starter_project/build# cmake ..
+	/starter_project/build# make -j
+
+You can configure and build using `clang-11` with these commands:
+
+	/starter_project# mkdir build && cd build
+	/starter_project/build# CC=clang-11 CXX=clang++-11 cmake ..
+	/starter_project/build# make -j
+
+The `ccmake` tool is also installed; you can substitute `ccmake` for `cmake` to
+configure the project interactively. 
+All of the tools this project supports are installed in the Docker image; 
+enabling them is as simple as flipping a switch in the `ccmake` interface.
+Be aware that some of the sanitizers conflict with each other, so be sure to 
+run them separately.
+
