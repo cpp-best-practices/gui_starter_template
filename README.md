@@ -480,8 +480,10 @@ See [libFuzzer Tutorial](https://github.com/google/fuzzing/blob/master/tutorial/
 If you have [Docker](https://www.docker.com/) installed, you can run this
 in your terminal:
 
-	$ docker build --tag=my_project:latest .
-	$ docker run -it my_project:latest
+```bash
+$ docker build --tag=my_project:latest .
+$ docker run -it my_project:latest
+```
 
 This command will put you in a `bash` session in a Ubuntu 18.04 Docker container, 
 with all of the tools listed in the [Dependencies](#dependencies) section already installed.
@@ -495,21 +497,27 @@ If you need to mount your local copy directly in the Docker image, see
 [Docker bind mounts docs](https://docs.docker.com/storage/bind-mounts/). 
 TLDR:
 
-	$ docker run -it \
-		--mount src="/path/to/local/copy",target=/starter_project/local,type=bind \
-		my_project:latest
+```bash
+$ docker run -it \
+	--mount src="/path/to/local/copy",target=/starter_project/local,type=bind \
+	my_project:latest
+```
 
 You can configure and build using `gcc-10` with these commands:
 
-	/starter_project# mkdir build && cd build
-	/starter_project/build# cmake ..
-	/starter_project/build# make -j
+```bash
+/starter_project# mkdir build && cd build
+/starter_project/build# cmake ..
+/starter_project/build# make -j
+```
 
 You can configure and build using `clang-11` with these commands:
 
-	/starter_project# mkdir build && cd build
-	/starter_project/build# CC=clang-11 CXX=clang++-11 cmake ..
-	/starter_project/build# make -j
+```bash
+/starter_project# mkdir build && cd build
+/starter_project/build# CC=clang-11 CXX=clang++-11 cmake ..
+/starter_project/build# make -j
+```
 
 The `ccmake` tool is also installed; you can substitute `ccmake` for `cmake` to
 configure the project interactively. 
