@@ -22,6 +22,9 @@ macro(run_conan)
     spdlog/1.5.0
     OPTIONS
     ${CONAN_EXTRA_OPTIONS}
+    ENV 
+    "CC=${CMAKE_C_COMPILER}"
+    "CXX=${CMAKE_CXX_COMPILER}"
     BASIC_SETUP
     CMAKE_TARGETS # individual targets to link to
     BUILD
