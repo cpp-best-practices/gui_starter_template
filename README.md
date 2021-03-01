@@ -543,3 +543,6 @@ enabling them is as simple as flipping a switch in the `ccmake` interface.
 Be aware that some of the sanitizers conflict with each other, so be sure to 
 run them separately.
 
+A script called `build_examples.sh` is provided to help you to build the example 
+GUI projects in this container.  
+
