@@ -13,25 +13,25 @@
 
 ### Use the Github template
 First, click the green `Use this template` button near the top of this page.
-This will take you to Github's ['Generate Repository'](https://github.com/lefticus/cpp_starter_project/generate) page. 
-Fill in a repository name and short description, and click 'Create repository from template'. 
-This will allow you to create a new repository in your Github account, 
-prepopulated with the contents of this project. 
+This will take you to Github's ['Generate Repository'](https://github.com/lefticus/cpp_starter_project/generate) page.
+Fill in a repository name and short description, and click 'Create repository from template'.
+This will allow you to create a new repository in your Github account,
+prepopulated with the contents of this project.
 Now you can clone the project locally and get to work!
 
     $ git clone https://github.com/<user>/<your_new_repo>.git
 
 ### Remove frameworks you're not going to use
-If you know you're not going to use one or more of the optional gui/graphics 
+If you know you're not going to use one or more of the optional gui/graphics
 frameworks (fltk, gtkmm, imgui, etc.), you can remove them with `git rm`:
 
     $ git rm -r src/<unnecessary_framework>
 
 ## Dependencies
 
-Note about install commands: 
+Note about install commands:
 - for Windows, we use [choco](https://chocolatey.org/install).
-- for MacOS, we use [brew](https://brew.sh/). 
+- for MacOS, we use [brew](https://brew.sh/).
 - In case of an error in cmake, make sure that the dependencies are on the PATH.
 
 ### Necessary Dependencies
@@ -45,15 +45,15 @@ The following compilers should work:
 	<summary>Install command</summary>
 
 	- Debian/Ubuntu:
-		
+
 			sudo apt install build-essential
 
 	- Windows:
-		
+
 			choco install mingw -y
 
 	- MacOS:
-		
+
 			brew install gcc
 	</details>
 
@@ -62,23 +62,23 @@ The following compilers should work:
 	<summary>Install command</summary>
 
 	- Debian/Ubuntu:
-		
+
 			bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 
 	- Windows:
 
 		Visual Studio 2019 ships with LLVM (see the Visual Studio section). However, to install LLVM separately:
-		
+
 			choco install llvm -y
-			
+
 		llvm-utils for using external LLVM with Visual Studio generator:
-			
+
 			git clone https://github.com/zufuliu/llvm-utils.git
 			cd llvm-utils/VS2017
 			.\install.bat
 
 	- MacOS:
- 		
+
 			brew install llvm
 	</details>
 
@@ -89,22 +89,21 @@ The following compilers should work:
 	On Windows, you need to install Visual Studio 2019 because of the SDK and libraries that ship with it.
 
   	Visual Studio IDE - 2019 Community (installs Clang too):
-		
+
   	  	choco install -y visualstudio2019community --package-parameters "add Microsoft.VisualStudio.Workload.NativeDesktop --includeRecommended --includeOptional --passive --locale en-US"
-		
+
 	Put MSVC compiler, Clang compiler, and vcvarsall.bat on the path:
 
 			choco install vswhere -y
 			refreshenv
-			
-			$clpath = vswhere -latest -prerelease -find **/Hostx64/x64/*   # for x64
-			[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$clpath", "User")
-			
-			$clangpath = vswhere -latest -prerelease -find **/Llvm/bin/*
-			[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$clangpath", "User")
 
-			$vcvarsallpath =  vswhere -latest -prerelease -find **/Auxiliary/Build/*
-			[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$vcvarsallpath", "User")
+			# change to x86 for 32bit
+			$clpath = vswhere -products * -latest -prerelease -find **/Hostx64/x64/*
+			$clangpath = vswhere -products * -latest -prerelease -find **/Llvm/bin/*
+			$vcvarsallpath =  vswhere -products * -latest -prerelease -find **/Auxiliary/Build/*
+
+			$path = [System.Environment]::GetEnvironmentVariable("PATH", "User")
+			[Environment]::SetEnvironmentVariable("Path", $path + ";$clpath" + ";$clangpath" + ";$vcvarsallpath", "User")
 			refreshenv
 
 	</details>
@@ -113,37 +112,37 @@ The following compilers should work:
 2. [Conan](https://conan.io/)
 	<details>
 	<summary>Install Command</summary>
-	
+
 	- Via pip - https://docs.conan.io/en/latest/installation.html#install-with-pip-recommended
-		
+
 			pip install --user conan
-	
+
 	- Windows:
-		
+
 			choco install conan -y
-	
+
 	- MacOS:
-	 	
+
 			brew install conan
-	
+
 	</details>
 
 3. [CMake 3.15+](https://cmake.org/)
 	<details>
 	<summary>Install Command</summary>
-	
+
 	- Debian/Ubuntu:
-		
+
 			sudo apt-get install cmake
-	
+
 	- Windows:
-		
+
 			choco install cmake -y
-	
+
 	- MacOS:
-	 		
+
 			brew install cmake
-	
+
 	</details>
 
 ### Optional Dependencies
@@ -153,17 +152,17 @@ The following compilers should work:
 	<summary>Install Command</summary>
 
 	- Debian/Ubuntu:
-		
+
 			sudo apt-get install doxygen
 			sudo apt-get install graphviz
 
 	- Windows:
-		
+
 			choco install doxygen.install -y
 			choco install graphviz -y
 
 	- MacOS:
- 		
+
 			brew install doxygen
 	 		brew install graphviz
 
@@ -175,15 +174,15 @@ The following compilers should work:
 	<summary>Install Command</summary>
 
 	- Debian/Ubuntu:
-		
+
 			sudo apt-get install ccache
 
 	- Windows:
-		
+
 			choco install ccache -y
 
 	- MacOS:
- 		
+
 			brew install ccache
 
 	</details>
@@ -194,15 +193,15 @@ The following compilers should work:
 	<summary>Install Command</summary>
 
 	- Debian/Ubuntu:
-		
+
 			sudo apt-get install cppcheck
 
 	- Windows:
-		
+
 			choco install cppcheck -y
 
 	- MacOS:
- 		
+
 			brew install cppcheck
 
 	</details>
@@ -221,22 +220,22 @@ This project can be made to work with several optional GUI frameworks.
 
 If desired, you should install the following optional dependencies as
 directed by their documentation, linked here:
- 
+
 - [FLTK](https://www.fltk.org/doc-1.4/index.html)
 - [GTKMM](https://www.gtkmm.org/en/documentation.html)
 - [QT](https://doc.qt.io/)
 
-The following dependencies can be downloaded automatically by CMake and Conan. 
-All you need to do to install them is to turn on a CMake flag during 
+The following dependencies can be downloaded automatically by CMake and Conan.
+All you need to do to install them is to turn on a CMake flag during
 configuration.
 If you run into difficulty using them, please refer to their documentation,
 linked here:
 
 - [NANA](http://nanapro.org/en-us/documentation/)
 - [SDL](http://wiki.libsdl.org/FrontPage)
-- [IMGUI](https://github.com/ocornut/imgui/tree/master/docs): 
+- [IMGUI](https://github.com/ocornut/imgui/tree/master/docs):
   This framework depends on SFML, and if you are using Linux, you may need
-  to install several of SFML's dependencies using your package manager. See 
+  to install several of SFML's dependencies using your package manager. See
   [the SFML build tutorial](https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php)
   for specifics.
 
@@ -259,48 +258,48 @@ CMake will detect which compiler was used to build each of the Conan targets. If
 <summary>Commands for setting the compilers </summary>
 
 - Debian/Ubuntu/MacOS:
-	
+
 	Set your desired compiler (`clang`, `gcc`, etc):
-		
+
 	- Temporarily (only for the current shell)
-	
+
 		Run one of the followings in the terminal:
-	
+
 		- clang
-		
+
 				CC=clang CXX=clang++
-			
+
 		- gcc
-		
+
 				CC=gcc CXX=g++
-	
+
 	- Permanent:
 
 		Open `~/.bashrc` using your text editor:
-			
+
 			gedit ~/.bashrc
-			
+
 		Add `CC` and `CXX` to point to the compilers:
-			
+
 			export CC=clang
 			export CXX=clang++
-			
+
 		Save and close the file.
 
 - Windows:
 
 	- Permanent:
-	
+
 		Run one of the followings in PowerShell:
-				
+
 		- Visual Studio generator and compiler (cl)
-			
+
 				[Environment]::SetEnvironmentVariable("CC", "cl.exe", "User")
 				[Environment]::SetEnvironmentVariable("CXX", "cl.exe", "User")
 				refreshenv
-			
+
 		  Set the architecture using [vsvarsall](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019#vcvarsall-syntax):
-			
+
 				vsvarsall.bat x64
 
 		- clang
@@ -308,19 +307,19 @@ CMake will detect which compiler was used to build each of the Conan targets. If
 				[Environment]::SetEnvironmentVariable("CC", "clang.exe", "User")
 				[Environment]::SetEnvironmentVariable("CXX", "clang++.exe", "User")
 				refreshenv
-	 
+
 		- gcc
 
 				[Environment]::SetEnvironmentVariable("CC", "gcc.exe", "User")
 				[Environment]::SetEnvironmentVariable("CXX", "g++.exe", "User")
 				refreshenv
-	 
+
 
   - Temporarily (only for the current shell):
-		
+
 			$Env:CC="clang.exe"
 			$Env:CXX="clang++.exe"
-			
+
 </details>
 
 ### Configure your build
@@ -371,7 +370,7 @@ Choose "Visual Studio 16 2019" as the generator:
 You should have already set `C` and `CXX` to `clang.exe` and `clang++.exe`.
 
 Choose "Visual Studio 16 2019" as the generator. To tell Visual studio to use `clang-cl.exe`:
-- If you use the LLVM that is shipped with Visual Studio: write `ClangCl` under "optional toolset to use". 
+- If you use the LLVM that is shipped with Visual Studio: write `ClangCl` under "optional toolset to use".
 
 <img src="https://user-images.githubusercontent.com/16418197/82781142-ae60ac00-9e1e-11ea-8c77-222b005a8f7e.png" alt="visual_studio">
 
@@ -388,15 +387,15 @@ Choose "Visual Studio 16 2019" as the generator. To tell Visual studio to use `c
 ![generate](https://user-images.githubusercontent.com/16418197/82781591-c97feb80-9e1f-11ea-86c8-f2748b96f516.png)
 
 #### **Configure via ccmake**:
-with the Cmake Curses Dialog Command Line tool:  
+with the Cmake Curses Dialog Command Line tool:
 
     ccmake -S . -B ./build
 
-Once `ccmake` has finished setting up, press 'c' to configure the project, 
+Once `ccmake` has finished setting up, press 'c' to configure the project,
 press 'g' to generate, and 'q' to quit.
 
 ### Build
-Once you have selected all the options you would like to use, you can build the 
+Once you have selected all the options you would like to use, you can build the
 project (all targets):
 
     cmake --build ./build
@@ -408,47 +407,47 @@ For Visual Studio, give the build configuration (Release, RelWithDeb, Debug, etc
 ## Troubleshooting
 
 ### Update Conan
-Many problems that users have can be resolved by updating Conan, so if you are 
+Many problems that users have can be resolved by updating Conan, so if you are
 having any trouble with this project, you should start by doing that.
 
-To update conan: 
+To update conan:
 
-    $ pip install --user --upgrade conan 
+    $ pip install --user --upgrade conan
 
-You may need to use `pip3` instead of `pip` in this command, depending on your 
+You may need to use `pip3` instead of `pip` in this command, depending on your
 platform.
 
 ### Clear Conan cache
-If you continue to have trouble with your Conan dependencies, you can try 
+If you continue to have trouble with your Conan dependencies, you can try
 clearing your Conan cache:
 
     $ conan remove -f '*'
-    
+
 The next time you run `cmake` or `cmake --build`, your Conan dependencies will
-be rebuilt. If you aren't using your system's default compiler, don't forget to 
-set the CC, CXX, CMAKE_C_COMPILER, and CMAKE_CXX_COMPILER variables, as 
+be rebuilt. If you aren't using your system's default compiler, don't forget to
+set the CC, CXX, CMAKE_C_COMPILER, and CMAKE_CXX_COMPILER variables, as
 described in the 'Build using an alternate compiler' section above.
 
 ### Identifying misconfiguration of Conan dependencies
 
-If you have a dependency 'A' that requires a specific version of another 
-dependency 'B', and your project is trying to use the wrong version of 
-dependency 'B', Conan will produce warnings about this configuration error 
-when you run CMake. These warnings can easily get lost between a couple 
-hundred or thousand lines of output, depending on the size of your project. 
+If you have a dependency 'A' that requires a specific version of another
+dependency 'B', and your project is trying to use the wrong version of
+dependency 'B', Conan will produce warnings about this configuration error
+when you run CMake. These warnings can easily get lost between a couple
+hundred or thousand lines of output, depending on the size of your project.
 
-If your project has a Conan configuration error, you can use `conan info` to 
-find it. `conan info` displays information about the dependency graph of your 
+If your project has a Conan configuration error, you can use `conan info` to
+find it. `conan info` displays information about the dependency graph of your
 project, with colorized output in some terminals.
 
     $ cd build
     $ conan info .
 
 In my terminal, the first couple lines of `conan info`'s output show all of the
-project's configuration warnings in a bright yellow font. 
+project's configuration warnings in a bright yellow font.
 
 For example, the package `spdlog/1.5.0` depends on the package `fmt/6.1.2`.
-If you were to modify the file `cmake/Conan.cmake` so that it requires an 
+If you were to modify the file `cmake/Conan.cmake` so that it requires an
 earlier version of `fmt`, such as `fmt/6.0.0`, and then run:
 
     $ conan remove -f '*'       # clear Conan cache
