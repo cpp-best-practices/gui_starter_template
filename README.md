@@ -519,21 +519,21 @@ $ docker run -it \
 	my_project:latest
 ```
 
-You can configure and build using these commands:
+You can configure and build, [as directed above](#build) using these commands:
 
 ```bash
-/starter_project# mkdir build && cd build
-/starter_project/build# cmake ..
-/starter_project/build# make -j
+/starter_project# mkdir build
+/starter_project# cmake -S . -B ./build
+/starter_project# cmake --build ./build
 ```
 
 You can configure and build using `clang-11`, without rebuilding the container,
 with these commands:
 
 ```bash
-/starter_project# mkdir build && cd build
-/starter_project/build# CC=clang CXX=clang++ cmake ..
-/starter_project/build# make -j
+/starter_project# mkdir build
+/starter_project# CC=clang CXX=clang++ cmake -S . -B ./build
+/starter_project# cmake --build ./build
 ```
 
 The `ccmake` tool is also installed; you can substitute `ccmake` for `cmake` to
