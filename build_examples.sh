@@ -12,7 +12,6 @@ BUILD_DIR="${DEFAULT_BUILD_DIR}"
 SCRIPT_NAME=$(basename $0)
 PROJECT_DIRNAME=$(dirname $(readlink -f $0))
 USAGE="Usage: ${SCRIPT_NAME} [options]...
-This script is meant to be run from the 'cpp_starter_project' directory
 
 Options:
   -h, --help                  Print this message
