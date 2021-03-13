@@ -519,7 +519,7 @@ $ docker run -it \
 	my_project:latest
 ```
 
-You can configure and build, [as directed above](#build) using these commands:
+You can configure and build [as directed above](#build) using these commands:
 
 ```bash
 /starter_project# mkdir build
@@ -539,7 +539,7 @@ with these commands:
 The `ccmake` tool is also installed; you can substitute `ccmake` for `cmake` to
 configure the project interactively. 
 All of the tools this project supports are installed in the Docker image; 
-enabling them is as simple as flipping a switch in the `ccmake` interface.
+enabling them is as simple as flipping a switch using the `ccmake` interface.
 Be aware that some of the sanitizers conflict with each other, so be sure to 
 run them separately.
 
