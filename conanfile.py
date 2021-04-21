@@ -10,7 +10,12 @@ class CppStarterProject(ConanFile):
     }
     name = "CppStarterProject"
     version = "0.1"
-    requires = "catch2/2.13.3", "docopt.cpp/0.6.2", "fmt/6.2.1", "spdlog/1.5.0"
+    requires = (
+        "catch2/2.13.3",
+        "docopt.cpp/0.6.2",
+        "fmt/6.2.1",
+        "spdlog/1.5.0",
+    )
     generators = "cmake", "gcc", "txt"
 
     def requirements(self):
