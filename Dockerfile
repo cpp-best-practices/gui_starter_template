@@ -3,7 +3,7 @@ FROM ubuntu:bionic
 # Install packages available from standard repos
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends \
-        software-properties-common wget git gpg-agent sudo file \
+        software-properties-common wget git gpg-agent file \
         python3 python3-pip doxygen graphviz ccache cppcheck build-essential \
         neovim emacs nano
 
@@ -83,6 +83,11 @@ ENV CXX=${USE_CLANG:+"clang++"}
 # if CC is null, set it to 'gcc' (or leave as is otherwise).
 ENV CC=${CC:-"gcc"}
 ENV CXX=${CXX:-"g++"}
+
+# By default, anything you run in Docker is done as superuser.
+# Conan runs some install commands as superuser, and will prepend `sudo` to
+# these commands, unless `CONAN_SYSREQUIRES_SUDO=0` is in your env variables.
+ENV CONAN_SYSREQUIRES_SUDO 0
 
 # Include project
 ADD . /starter_project
