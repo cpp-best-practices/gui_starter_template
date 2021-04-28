@@ -88,6 +88,10 @@ ENV CXX=${CXX:-"g++"}
 # Conan runs some install commands as superuser, and will prepend `sudo` to
 # these commands, unless `CONAN_SYSREQUIRES_SUDO=0` is in your env variables.
 ENV CONAN_SYSREQUIRES_SUDO 0
+# Some packages request that Conan use the system package manager to install
+# a few dependencies. This flag allows Conan to proceed with these installations;
+# leaving this flag undefined can cause some installation failures.
+ENV CONAN_SYSREQUIRES_MODE enabled
 
 # Include project
 ADD . /starter_project
