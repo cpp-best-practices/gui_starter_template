@@ -56,6 +56,10 @@ if(ENABLE_PCH)
     <utility>)
 endif()
 
+# spdlog async wants pthread_create
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 # Set up some extra Conan dependencies based on our needs before loading Conan
 set(CONAN_EXTRA_REQUIRES "")
 set(CONAN_EXTRA_OPTIONS "")

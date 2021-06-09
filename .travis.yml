@@ -47,6 +47,15 @@ jobs:
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
       addons: { apt: { packages: ['doxygen', 'python3-pip'] } }
+    - os: freebsd
+      compiler: clang
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+      addons:
+        pkg:
+            - py37-pip
+            - conan
+
 
 
 before_script:
