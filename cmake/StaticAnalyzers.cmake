@@ -7,6 +7,7 @@ if(ENABLE_CPPCHECK)
   if(CPPCHECK)
     set(CMAKE_CXX_CPPCHECK
         ${CPPCHECK}
+        --error-exitcode=2
         --suppress=missingInclude
         --enable=all
         --inline-suppr
