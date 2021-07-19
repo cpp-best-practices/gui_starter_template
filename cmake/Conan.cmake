@@ -12,7 +12,7 @@ macro(run_conan)
     NAME
     bincrafters
     URL
-    https://bincrafters.jfrog.io/artifactory/api/conan/public-conan
+    https://bincrafters.jfrog.io/artifactory/api/conan/public-conan)
 
   conan_cmake_run(
     REQUIRES
