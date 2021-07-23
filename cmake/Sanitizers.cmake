@@ -36,6 +36,7 @@ function(enable_sanitizers project_name)
 
     option(ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" FALSE)
     if(ENABLE_SANITIZER_MEMORY AND CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+      message(WARNING "Memory sanitizer reports false positives when running against libraries that are not MSan-instrumented (including libc++)")
       if("address" IN_LIST SANITIZERS
          OR "thread" IN_LIST SANITIZERS
          OR "leak" IN_LIST SANITIZERS)
