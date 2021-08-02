@@ -1,12 +1,8 @@
 if (CMAKE_GENERATOR MATCHES "Visual Studio")
-
-    # Read checks from the clang tidy file using PowerShell
-    execute_process(COMMAND powershell "Select-String -path ${CMAKE_CURRENT_SOURCE_DIR}/.clang-tidy \"Checks:[\\s\\t]*[`\"'](.*)[`\"']\" -AllMatches  | Foreach-Object {$_.Matches} | Foreach-Object {$_.Groups[1].Value}" OUTPUT_VARIABLE ClangTidyChecks)
-
     # Visual Studio Code Analysis
     foreach(target IN LISTS Targets)
       set_target_properties(${target} PROPERTIES
-          
+
           # Run code analysis on build
           # This is set to false delibarately. We already gave compiler warnings in CompilerWarnings file
           VS_GLOBAL_RunCodeAnalysis false
@@ -17,7 +13,6 @@ if (CMAKE_GENERATOR MATCHES "Visual Studio")
 
           # Clang tidy
           VS_GLOBAL_EnableClangTidyCodeAnalysis true
-          VS_GLOBAL_ClangTidyChecks ${ClangTidyChecks}
       )
     endforeach()
 endif()
