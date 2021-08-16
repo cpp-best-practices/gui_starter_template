@@ -1,0 +1,51 @@
+{
+ "graph_lock": {
+  "nodes": {
+   "0": {
+    "options": "catch2:with_main=False\ndocopt.cpp:boost_regex=False\ndocopt.cpp:fPIC=True\ndocopt.cpp:shared=False\nfmt:fPIC=True\nfmt:header_only=False\nfmt:shared=False\nfmt:with_fmt_alias=False\nspdlog:fPIC=True\nspdlog:header_only=False\nspdlog:no_exceptions=False\nspdlog:shared=False\nspdlog:wchar_filenames=False\nspdlog:wchar_support=False",
+    "requires": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "path": "conanfile.txt",
+    "context": "host"
+   },
+   "1": {
+    "ref": "catch2/2.13.3",
+    "options": "with_main=False",
+    "package_id": "5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9",
+    "prev": "0",
+    "context": "host"
+   },
+   "2": {
+    "ref": "docopt.cpp/0.6.2",
+    "options": "boost_regex=False\nfPIC=True\nshared=False",
+    "package_id": "f54287fc3dbd09590f968b580bebb565ea4a4b17",
+    "prev": "0",
+    "context": "host"
+   },
+   "3": {
+    "ref": "fmt/6.2.0",
+    "options": "fPIC=True\nheader_only=False\nshared=False\nwith_fmt_alias=False",
+    "package_id": "f54287fc3dbd09590f968b580bebb565ea4a4b17",
+    "prev": "0",
+    "context": "host"
+   },
+   "4": {
+    "ref": "spdlog/1.5.0",
+    "options": "fPIC=True\nheader_only=False\nno_exceptions=False\nshared=False\nwchar_filenames=False\nwchar_support=False\nfmt:fPIC=True\nfmt:header_only=False\nfmt:shared=False\nfmt:with_fmt_alias=False",
+    "package_id": "12c8590eca64ca13d7eac957bde897f3a31c0f6e",
+    "prev": "0",
+    "requires": [
+     "3"
+    ],
+    "context": "host"
+   }
+  },
+  "revisions_enabled": false
+ },
+ "version": "0.4",
+ "profile_host": "[settings]\narch=x86_64\narch_build=x86_64\nbuild_type=RelWithDebInfo\ncompiler=gcc\ncompiler.libcxx=libstdc++11\ncompiler.version=9\nos=Linux\nos_build=Linux\n[options]\n[build_requires]\n[env]\n"
+}

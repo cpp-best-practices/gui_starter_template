@@ -1,0 +1,14 @@
+/workspace/template-cpp/build/CMakeFiles/rebuild_cache.dir
+/workspace/template-cpp/build/CMakeFiles/edit_cache.dir
+/workspace/template-cpp/build/CMakeFiles/test.dir
+/workspace/template-cpp/build/test/CMakeFiles/rebuild_cache.dir
+/workspace/template-cpp/build/test/CMakeFiles/edit_cache.dir
+/workspace/template-cpp/build/test/CMakeFiles/test.dir
+/workspace/template-cpp/build/test/CMakeFiles/relaxed_constexpr_tests.dir
+/workspace/template-cpp/build/test/CMakeFiles/constexpr_tests.dir
+/workspace/template-cpp/build/test/CMakeFiles/tests.dir
+/workspace/template-cpp/build/test/CMakeFiles/catch_main.dir
+/workspace/template-cpp/build/src/CMakeFiles/rebuild_cache.dir
+/workspace/template-cpp/build/src/CMakeFiles/edit_cache.dir
+/workspace/template-cpp/build/src/CMakeFiles/test.dir
+/workspace/template-cpp/build/src/CMakeFiles/intro.dir

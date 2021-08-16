@@ -1,0 +1,5 @@
+if(EXISTS "/workspace/template-cpp/build/test/constexpr_tests_tests-bb82bf4.cmake")
+  include("/workspace/template-cpp/build/test/constexpr_tests_tests-bb82bf4.cmake")
+else()
+  add_test(constexpr_tests_NOT_BUILT-bb82bf4 constexpr_tests_NOT_BUILT-bb82bf4)
+endif()

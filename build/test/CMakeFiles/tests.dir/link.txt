@@ -1,0 +1,1 @@
+/usr/bin/c++    -O2 -g -DNDEBUG   CMakeFiles/tests.dir/tests.cpp.o  -o ../bin/tests  ../lib/libcatch_main.a 

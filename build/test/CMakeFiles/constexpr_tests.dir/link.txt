@@ -1,0 +1,1 @@
+/usr/bin/c++    -O2 -g -DNDEBUG   CMakeFiles/constexpr_tests.dir/constexpr_tests.cpp.o  -o ../bin/constexpr_tests  ../lib/libcatch_main.a 

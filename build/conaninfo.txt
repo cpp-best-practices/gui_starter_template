@@ -1,0 +1,54 @@
+[settings]
+    arch=x86_64
+    build_type=RelWithDebInfo
+    compiler=gcc
+    compiler.libcxx=libstdc++11
+    compiler.version=9
+    os=Linux
+
+[requires]
+    catch2/2.Y.Z
+    docopt.cpp/0.6.2
+    fmt/6.Y.Z
+    spdlog/1.Y.Z
+
+[options]
+
+
+[full_settings]
+    arch=x86_64
+    arch_build=x86_64
+    build_type=RelWithDebInfo
+    compiler=gcc
+    compiler.libcxx=libstdc++11
+    compiler.version=9
+    os=Linux
+    os_build=Linux
+
+[full_requires]
+    catch2/2.13.3:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
+    docopt.cpp/0.6.2:f54287fc3dbd09590f968b580bebb565ea4a4b17
+    fmt/6.2.0:f54287fc3dbd09590f968b580bebb565ea4a4b17
+    spdlog/1.5.0:12c8590eca64ca13d7eac957bde897f3a31c0f6e
+
+[full_options]
+    catch2:with_main=False
+    docopt.cpp:boost_regex=False
+    docopt.cpp:fPIC=True
+    docopt.cpp:shared=False
+    fmt:fPIC=True
+    fmt:header_only=False
+    fmt:shared=False
+    fmt:with_fmt_alias=False
+    spdlog:fPIC=True
+    spdlog:header_only=False
+    spdlog:no_exceptions=False
+    spdlog:shared=False
+    spdlog:wchar_filenames=False
+    spdlog:wchar_support=False
+
+[recipe_hash]
+
+
+[env]
+

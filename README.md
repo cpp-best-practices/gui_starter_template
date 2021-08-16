@@ -1,225 +1,39 @@
-# cpp_starter_project
+# A C++ CMake template on Gitpod
 
-[![codecov](https://codecov.io/gh/lefticus/cpp_starter_project/branch/master/graph/badge.svg)](https://codecov.io/gh/lefticus/cpp_starter_project)
+This is a [C++ CMake](https://clang.llvm.org/) template configured for ephemeral development environments on [Gitpod](https://www.gitpod.io/).
 
-[![Build Status](https://travis-ci.org/lefticus/cpp_starter_project.svg?branch=master)](https://travis-ci.org/lefticus/cpp_starter_project)
+## Next Steps
 
-[![Build status](https://ci.appveyor.com/api/projects/status/ro4lbfoa7n0sy74c/branch/master?svg=true)](https://ci.appveyor.com/project/lefticus/cpp-starter-project/branch/master)
+Click the button below to start a new development environment:
 
-![CMake](https://github.com/lefticus/cpp_starter_project/workflows/CMake/badge.svg)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gitpod-io/template-cpp)
 
+## Get Started With Your Own Project
 
-## Getting Started
+### A new project
 
-### Use the Github template
-First, click the green `Use this template` button near the top of this page.
-This will take you to Github's ['Generate Repository'](https://github.com/lefticus/cpp_starter_project/generate) page.
-Fill in a repository name and short description, and click 'Create repository from template'.
-This will allow you to create a new repository in your Github account,
-prepopulated with the contents of this project.
-Now you can clone the project locally and get to work!
+Click the above "Open in Gitpod" button to start a new workspace. Once you're ready to push your first code changes, Gitpod will guide you to fork this project so you own it.
 
-    $ git clone https://github.com/<user>/<your_new_repo>.git
+### An existing project
+
+To get started with nix on Gitpod, copy the contents of this foler to your own project. To learn more, please see the [Getting Started](https://www.gitpod.io/docs/getting-started) documentation.
+
+## Notes & caveats
+
+This template is based upon the excellent work by [@lefticus](https://github.com/lefticus/cpp_starter_project).
 
 ### Remove frameworks you're not going to use
+
 If you know you're not going to use one or more of the optional gui/graphics
 frameworks (fltk, gtkmm, imgui, etc.), you can remove them with `git rm`:
 
     $ git rm -r src/<unnecessary_framework>
 
-## Dependencies
-
-Note about install commands:
-- for Windows, we use [choco](https://chocolatey.org/install).
-- for MacOS, we use [brew](https://brew.sh/).
-- In case of an error in cmake, make sure that the dependencies are on the PATH.
-
-### Necessary Dependencies
-1. A C++ compiler that supports C++17.
-See [cppreference.com](https://en.cppreference.com/w/cpp/compiler_support)
-to see which features are supported by each compiler.
-The following compilers should work:
-
-  * [gcc 7+](https://gcc.gnu.org/)
-	<details>
-	<summary>Install command</summary>
-
-	- Debian/Ubuntu:
-
-			sudo apt install build-essential
-
-	- Windows:
-
-			choco install mingw -y
-
-	- MacOS:
-
-			brew install gcc
-	</details>
-
-  * [clang 6+](https://clang.llvm.org/)
-	<details>
-	<summary>Install command</summary>
-
-	- Debian/Ubuntu:
-
-			bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-
-	- Windows:
-
-		Visual Studio 2019 ships with LLVM (see the Visual Studio section). However, to install LLVM separately:
-
-			choco install llvm -y
-
-		llvm-utils for using external LLVM with Visual Studio generator:
-
-			git clone https://github.com/zufuliu/llvm-utils.git
-			cd llvm-utils/VS2017
-			.\install.bat
-
-	- MacOS:
-
-			brew install llvm
-	</details>
-
-  * [Visual Studio 2019 or higher](https://visualstudio.microsoft.com/)
-	<details>
-	<summary>Install command + Environment setup</summary>
-
-	On Windows, you need to install Visual Studio 2019 because of the SDK and libraries that ship with it.
-
-  	Visual Studio IDE - 2019 Community (installs Clang too):
-
-  	  	choco install -y visualstudio2019community --package-parameters "add Microsoft.VisualStudio.Workload.NativeDesktop --includeRecommended --includeOptional --passive --locale en-US"
-
-	Put MSVC compiler, Clang compiler, and vcvarsall.bat on the path:
-
-			choco install vswhere -y
-			refreshenv
-
-			# change to x86 for 32bit
-			$clpath = vswhere -products * -latest -prerelease -find **/Hostx64/x64/*
-			$clangpath = vswhere -products * -latest -prerelease -find **/Llvm/bin/*
-			$vcvarsallpath =  vswhere -products * -latest -prerelease -find **/Auxiliary/Build/*
-
-			$path = [System.Environment]::GetEnvironmentVariable("PATH", "User")
-			[Environment]::SetEnvironmentVariable("Path", $path + ";$clpath" + ";$clangpath" + ";$vcvarsallpath", "User")
-			refreshenv
-
-	</details>
-
-
-2. [Conan](https://conan.io/)
-	<details>
-	<summary>Install Command</summary>
-
-	- Via pip - https://docs.conan.io/en/latest/installation.html#install-with-pip-recommended
-
-			pip install --user conan
-
-	- Windows:
-
-			choco install conan -y
-
-	- MacOS:
-
-			brew install conan
-
-	</details>
-
-3. [CMake 3.15+](https://cmake.org/)
-	<details>
-	<summary>Install Command</summary>
-
-	- Debian/Ubuntu:
-
-			sudo apt-get install cmake
-
-	- Windows:
-
-			choco install cmake -y
-
-	- MacOS:
-
-			brew install cmake
-
-	</details>
-
-### Optional Dependencies
-#### C++ Tools
-  * [Doxygen](http://doxygen.nl/)
-	<details>
-	<summary>Install Command</summary>
-
-	- Debian/Ubuntu:
-
-			sudo apt-get install doxygen
-			sudo apt-get install graphviz
-
-	- Windows:
-
-			choco install doxygen.install -y
-			choco install graphviz -y
-
-	- MacOS:
-
-			brew install doxygen
-	 		brew install graphviz
-
-	</details>
-
-
-  * [ccache](https://ccache.dev/)
-	<details>
-	<summary>Install Command</summary>
-
-	- Debian/Ubuntu:
-
-			sudo apt-get install ccache
-
-	- Windows:
-
-			choco install ccache -y
-
-	- MacOS:
-
-			brew install ccache
-
-	</details>
-
-
-  * [Cppcheck](http://cppcheck.sourceforge.net/)
-	<details>
-	<summary>Install Command</summary>
-
-	- Debian/Ubuntu:
-
-			sudo apt-get install cppcheck
-
-	- Windows:
-
-			choco install cppcheck -y
-
-	- MacOS:
-
-			brew install cppcheck
-
-	</details>
-
-
-  * [include-what-you-use](https://include-what-you-use.org/)
-	<details>
-	<summary>Install Command</summary>
-
-	Follow instructions here:
-	https://github.com/include-what-you-use/include-what-you-use#how-to-install
-	</details>
-
 #### GUI libraries
+
 This project can be made to work with several optional GUI frameworks.
 
-If desired, you should install the following optional dependencies as
-directed by their documentation, linked here:
+If desired, you should install the following optional dependencies as directed by their documentation, linked here:
 
 - [FLTK](https://www.fltk.org/doc-1.4/index.html)
 - [GTKMM](https://www.gtkmm.org/en/documentation.html)
@@ -254,73 +68,7 @@ Conan and CMake use the environment variables CC and CXX to decide which compile
 
 CMake will detect which compiler was used to build each of the Conan targets. If you build all of your Conan targets with one compiler, and then build your CMake targets with a different compiler, the project may fail to build.
 
-<details>
-<summary>Commands for setting the compilers </summary>
-
-- Debian/Ubuntu/MacOS:
-
-	Set your desired compiler (`clang`, `gcc`, etc):
-
-	- Temporarily (only for the current shell)
-
-		Run one of the followings in the terminal:
-
-		- clang
-
-				CC=clang CXX=clang++
-
-		- gcc
-
-				CC=gcc CXX=g++
-
-	- Permanent:
-
-		Open `~/.bashrc` using your text editor:
-
-			gedit ~/.bashrc
-
-		Add `CC` and `CXX` to point to the compilers:
-
-			export CC=clang
-			export CXX=clang++
-
-		Save and close the file.
-
-- Windows:
-
-	- Permanent:
-
-		Run one of the followings in PowerShell:
-
-		- Visual Studio generator and compiler (cl)
-
-				[Environment]::SetEnvironmentVariable("CC", "cl.exe", "User")
-				[Environment]::SetEnvironmentVariable("CXX", "cl.exe", "User")
-				refreshenv
-
-		  Set the architecture using [vsvarsall](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019#vcvarsall-syntax):
-
-				vsvarsall.bat x64
-
-		- clang
-
-				[Environment]::SetEnvironmentVariable("CC", "clang.exe", "User")
-				[Environment]::SetEnvironmentVariable("CXX", "clang++.exe", "User")
-				refreshenv
-
-		- gcc
-
-				[Environment]::SetEnvironmentVariable("CC", "gcc.exe", "User")
-				[Environment]::SetEnvironmentVariable("CXX", "g++.exe", "User")
-				refreshenv
-
-
-  - Temporarily (only for the current shell):
-
-			$Env:CC="clang.exe"
-			$Env:CXX="clang++.exe"
-
-</details>
+The environment variables have been pre-defined in the `.gitpod.Dockerfile`.
 
 ### Configure your build
 
@@ -459,9 +207,9 @@ earlier version of `fmt`, such as `fmt/6.0.0`, and then run:
 ...the first line of output would be a warning that `spdlog` needs a more recent
 version of `fmt`.
 
-## Testing
+### Testing
 See [Catch2 tutorial](https://github.com/catchorg/Catch2/blob/master/docs/tutorial.md)
 
-## Fuzz testing
+### Fuzz testing
 
 See [libFuzzer Tutorial](https://github.com/google/fuzzing/blob/master/tutorial/libFuzzerTutorial.md)
