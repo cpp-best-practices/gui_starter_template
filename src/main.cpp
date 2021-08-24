@@ -30,7 +30,7 @@ int main(int argc, const char **argv)
     "Naval Fate 2.0");// version string
 
   for (auto const &arg : args) {
-    std::cout << arg.first << arg.second << std::endl;
+    std::cout << arg.first << "=" << arg.second << std::endl;
   }
 
 
