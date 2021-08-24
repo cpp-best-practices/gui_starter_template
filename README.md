@@ -8,6 +8,7 @@
 
 ![CMake](https://github.com/lefticus/cpp_starter_project/workflows/CMake/badge.svg)
 
+[![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/lefticus/cpp_starter_project)](https://lgtm.com/projects/g/lefticus/cpp_starter_project/context:cpp)
 
 ## Getting Started
 
