@@ -2,11 +2,7 @@
 #include <iostream>
 
 #include <spdlog/spdlog.h>
-
-
 #include <docopt/docopt.h>
-
-#include <iostream>
 
 static constexpr auto USAGE =
   R"(Naval Fate.
@@ -34,7 +30,7 @@ int main(int argc, const char **argv)
     "Naval Fate 2.0");// version string
 
   for (auto const &arg : args) {
-    std::cout << arg.first << arg.second << std::endl;
+    std::cout << arg.first << "=" << arg.second << std::endl;
   }
 
 
