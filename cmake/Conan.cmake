@@ -10,6 +10,12 @@ macro(run_conan)
 
   conan_add_remote(
     NAME
+    conan-center
+    URL
+    https://api.bintray.com/conan/conan/conan-center)
+
+  conan_add_remote(
+    NAME
     bincrafters
     URL
     https://bincrafters.jfrog.io/artifactory/api/conan/public-conan)
