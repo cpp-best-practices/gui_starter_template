@@ -21,14 +21,11 @@ macro(run_conan)
     https://bincrafters.jfrog.io/artifactory/api/conan/public-conan)
 
   conan_cmake_run(
-    REQUIRES
-    ${CONAN_EXTRA_REQUIRES}
-    catch2/2.13.3
-    docopt.cpp/0.6.2
-    fmt/6.2.1
-    spdlog/1.5.0
+    CONANFILE
+    conanfile.py
     OPTIONS
-    ${CONAN_EXTRA_OPTIONS}
+    cpp_starter_use_imgui=${CPP_STARTER_USE_IMGUI}
+    cpp_starter_use_sdl=${CPP_STARTER_USE_SDL}
     BASIC_SETUP
     CMAKE_TARGETS # individual targets to link to
     BUILD
