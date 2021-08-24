@@ -35,10 +35,11 @@ endif()
 
 option(ENABLE_PSO "Enable platform specific optimization" OFF)
 
-SET(ARCH
-    "native"
-    CACHE STRING "Optimization target for platform specific optimization")
-    
-if(ENABLE_PSO AND NOT MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=${ARCH}")
+message(STATUS "CMAKE_SYSTEM_PROCESSOR = ${CMAKE_SYSTEM_PROCESSOR}")
+if(ENABLE_PSO AND "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64" OR  "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL AMD64)
+  if(MSVC)
+    target_compile_options(${project_name} PRIVATE /arch:native)
+  else()
+    target_compile_options(${project_name} PRIVATE -march=native)
+  endif()
 endif()
