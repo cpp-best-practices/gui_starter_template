@@ -33,7 +33,7 @@ if(ENABLE_IPO)
   endif()
 endif()
 
-option(ENABLE_PSO "Enable platform specific optimization" OFF)
+option(ENABLE_PSO "Enable platform specific optimization, note, the resulting binary will be less portable." OFF)
 
 message(STATUS "CMAKE_SYSTEM_PROCESSOR = ${CMAKE_SYSTEM_PROCESSOR}")
 if(ENABLE_PSO AND "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64" OR  "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL AMD64)
