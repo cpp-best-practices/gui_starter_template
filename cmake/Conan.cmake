@@ -5,15 +5,14 @@ macro(run_conan)
     file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.16.1/conan.cmake" "${CMAKE_BINARY_DIR}/conan.cmake")
   endif()
 
+  set (ENV{CONAN_REVISIONS_ENABLED} 1)
   include(${CMAKE_BINARY_DIR}/conan.cmake)
 
   conan_add_remote(
-    NAME conan-center
-    URL https://api.bintray.com/conan/conan/conan-center)
-
-  conan_add_remote(
-    NAME bincrafters
-    URL https://api.bintray.com/conan/bincrafters/public-conan)
+    NAME
+    bincrafters
+    URL
+    https://bincrafters.jfrog.io/artifactory/api/conan/public-conan)
 
   conan_cmake_run(
     REQUIRES
