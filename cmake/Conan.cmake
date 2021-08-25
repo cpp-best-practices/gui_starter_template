@@ -19,19 +19,25 @@ macro(run_conan)
 
   include(${CMAKE_BINARY_DIR}/conan.cmake)
 
+  # Add (or remove) remotes as needed
   # conan_add_remote(NAME conan-center URL https://conan.bintray.com)
   conan_add_remote(NAME cci URL https://center.conan.io INDEX 0)
   conan_add_remote(
     NAME bincrafters URL
     https://bincrafters.jfrog.io/artifactory/api/conan/public-conan)
 
+  # Detects current build settings to pass into conan
   conan_cmake_autodetect(settings)
 
+  # PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR} is used to tell conan to process
+  # the external "conanfile.py" provided with the project
+  # Alternatively a conanfile.txt could be used 
   conan_cmake_install(
     PATH_OR_REFERENCE
     ${CMAKE_SOURCE_DIR}
     BUILD
     missing
+    # Pass compile-time configured options into conan
     OPTIONS
     cpp_starter_use_imgui=${CPP_STARTER_USE_IMGUI}
     cpp_starter_use_sdl=${CPP_STARTER_USE_SDL}
