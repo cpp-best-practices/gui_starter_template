@@ -36,7 +36,7 @@ endif()
 option(ENABLE_PSO "Enable platform specific optimization. Note: the resulting binary will be less portable." OFF)
 
 message(STATUS "CMAKE_SYSTEM_PROCESSOR = ${CMAKE_SYSTEM_PROCESSOR}")
-if(ENABLE_PSO AND "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64" OR  "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL AMD64)
+if(ENABLE_PSO AND ("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64" OR  "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL AMD64))
   if(MSVC)
     target_compile_options(${project_name} PRIVATE /arch:native)
   else()
