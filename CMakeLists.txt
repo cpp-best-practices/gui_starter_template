@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 # Set the project name to your project name, my project isn't very descriptive
 project(myproject CXX)
+# Targets is used in cmake/StaticAnalyzers.cmake:
 list(APPEND Targets "intro" "tests" "catch_main" "constexpr_tests" "relaxed_constexpr_tests")
 
 include(cmake/StandardProjectSettings.cmake)
@@ -39,9 +40,6 @@ enable_sanitizers(project_options)
 # enable doxygen
 include(cmake/Doxygen.cmake)
 enable_doxygen()
-
-# allow for static analysis options
-include(cmake/StaticAnalyzers.cmake)
 
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(ENABLE_TESTING "Enable Test Builds" ON)
@@ -86,3 +84,6 @@ if(ENABLE_UNITY)
   # Add for any project you want to apply unity builds for
   set_target_properties(intro PROPERTIES UNITY_BUILD ON)
 endif()
+
+# allow for static analysis options
+include(cmake/StaticAnalyzers.cmake)
