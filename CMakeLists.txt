@@ -12,7 +12,7 @@ target_compile_features(project_options INTERFACE cxx_std_17)
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
   if(ENABLE_BUILD_WITH_TIME_TRACE)
-    add_compile_definitions(project_options INTERFACE -ftime-trace)
+    target_compile_options(project_options INTERFACE -ftime-trace)
   endif()
 endif()
 
@@ -21,6 +21,10 @@ add_library(project_warnings INTERFACE)
 
 # enable cache system
 include(cmake/Cache.cmake)
+
+# Add linker configuration
+include(cmake/Linker.cmake)
+configure_linker(project_options)
 
 # standard compiler warnings
 include(cmake/CompilerWarnings.cmake)
@@ -54,22 +58,6 @@ if(ENABLE_PCH)
     <string>
     <map>
     <utility>)
-endif()
-
-# Set up some extra Conan dependencies based on our needs before loading Conan
-set(CONAN_EXTRA_REQUIRES "")
-set(CONAN_EXTRA_OPTIONS "")
-
-if(CPP_STARTER_USE_IMGUI)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} imgui-sfml/2.1@bincrafters/stable)
-
-  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sfml:shared=False sfml:graphics=True sfml:audio=False
-  # sfml:window=True libalsa:disable_python=True)
-endif()
-
-if(CPP_STARTER_USE_SDL)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} sdl2/2.0.10@bincrafters/stable)
-  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sdl2:wayland=True)
 endif()
 
 include(cmake/Conan.cmake)
