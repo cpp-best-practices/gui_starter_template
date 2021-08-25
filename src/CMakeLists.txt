@@ -41,12 +41,16 @@ if(CPP_STARTER_USE_NANA)
   add_subdirectory(nana)
 endif()
 
+find_package(fmt)
+find_package(spdlog)
+find_package(docopt)
+
 # Generic test that uses conan libs
 add_executable(intro main.cpp)
 target_link_libraries(
   intro
   PRIVATE project_options
           project_warnings
-          CONAN_PKG::docopt.cpp
-          CONAN_PKG::fmt
-          CONAN_PKG::spdlog)
+          docopt::docopt
+          fmt::fmt
+          spdlog::spdlog)
