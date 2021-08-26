@@ -60,8 +60,11 @@ if(ENABLE_PCH)
     <utility>)
 endif()
 
-include(cmake/Conan.cmake)
-run_conan()
+option(ENABLE_CONAN "Use Conan for dependency management" ON)
+if(ENABLE_CONAN)
+  include(cmake/Conan.cmake)
+  run_conan()
+endif()
 
 if(ENABLE_TESTING)
   enable_testing()
