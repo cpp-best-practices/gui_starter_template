@@ -20,13 +20,13 @@ This will allow you to create a new repository in your Github account,
 prepopulated with the contents of this project.
 Now you can clone the project locally and get to work!
 
-    $ git clone https://github.com/<user>/<your_new_repo>.git
+    git clone https://github.com/<user>/<your_new_repo>.git
 
 ### Remove frameworks you're not going to use
 If you know you're not going to use one or more of the optional gui/graphics
 frameworks (fltk, gtkmm, imgui, etc.), you can remove them with `git rm`:
 
-    $ git rm -r src/<unnecessary_framework>
+    git rm -r src/<unnecessary_framework>
 
 ## Dependencies
 
@@ -38,7 +38,7 @@ Note about install commands:
 
 ### Too Long, Didn't Install
 
-This is a really long list of dependencies, and it's easy to mess up. 
+This is a really long list of dependencies, and it's easy to mess up.
 That's why we have a Docker image that's already set up for you.
 See the [Docker instructions](#docker-instructions) below.
 
@@ -250,12 +250,21 @@ linked here:
 
 ## Build Instructions
 
-### Build directory
-Make a build directory:
+A full build has different steps:
+1) Creating the build directory
+2) Specifying the compiler using environment variables
+3) Configuring the project
+4) Building the project
+
+For the subsequent builds, in case you change the source code, you only need to repeat the last step.
+
+### (1) Create the build directory
+
 ```
-mkdir build
+cmake -E make_directory ./build
 ```
-### Specify the compiler using environment variables
+
+### (2) Specify the compiler using environment variables
 
 By default (if you don't set environment variables `CC` and `CXX`), the system default compiler will be used.
 
@@ -331,22 +340,37 @@ CMake will detect which compiler was used to build each of the Conan targets. If
 
 </details>
 
-### Configure your build
+### (3) Configure your build
 
-To configure the project and write makefiles, you could use `cmake` with a bunch of command line options.
-The easier option is to run cmake interactively:
+To configure the project, you could use `cmake`, or `ccmake` or `cmake-gui`. Each of them are explained in the following:
 
-#### **Configure via cmake-gui**:
+#### (3.a) Configuring via cmake:
+With Cmake directly
 
-1) Open cmake-gui from the project directory:
+    cmake -S . -B ./build
+
+#### (3.b) Configuring via ccmake:
+
+With the Cmake Curses Dialog Command Line tool:
+
+    ccmake -S . -B ./build
+
+Once `ccmake` has finished setting up, press 'c' to configure the project,
+press 'g' to generate, and 'q' to quit.
+
+#### (3.c) Configuring via cmake-gui:
+
+To use the GUI of the cmake:
+
+3.c.1) Open cmake-gui from the project directory:
 ```
 cmake-gui .
 ```
-2) Set the build directory:
+3.c.2) Set the build directory:
 
 ![build_dir](https://user-images.githubusercontent.com/16418197/82524586-fa48e380-9af4-11ea-8514-4e18a063d8eb.jpg)
 
-3) Configure the generator:
+3.c.3) Configure the generator:
 
 In cmake-gui, from the upper menu select `Tools/Configure`.
 
@@ -391,19 +415,11 @@ Choose "Visual Studio 16 2019" as the generator. To tell Visual studio to use `c
 </details>
 <br/>
 
-4) Choose the Cmake options and then generate:
+3.c.4) Choose the Cmake options and then generate:
 
 ![generate](https://user-images.githubusercontent.com/16418197/82781591-c97feb80-9e1f-11ea-86c8-f2748b96f516.png)
 
-#### **Configure via ccmake**:
-with the Cmake Curses Dialog Command Line tool:
-
-    ccmake -S . -B ./build
-
-Once `ccmake` has finished setting up, press 'c' to configure the project,
-press 'g' to generate, and 'q' to quit.
-
-### Build
+### (4) Build the project
 Once you have selected all the options you would like to use, you can build the
 project (all targets):
 
@@ -421,7 +437,7 @@ having any trouble with this project, you should start by doing that.
 
 To update conan:
 
-    $ pip install --user --upgrade conan
+    pip install --user --upgrade conan
 
 You may need to use `pip3` instead of `pip` in this command, depending on your
 platform.
@@ -430,7 +446,7 @@ platform.
 If you continue to have trouble with your Conan dependencies, you can try
 clearing your Conan cache:
 
-    $ conan remove -f '*'
+    conan remove -f '*'
 
 The next time you run `cmake` or `cmake --build`, your Conan dependencies will
 be rebuilt. If you aren't using your system's default compiler, don't forget to
@@ -449,8 +465,8 @@ If your project has a Conan configuration error, you can use `conan info` to
 find it. `conan info` displays information about the dependency graph of your
 project, with colorized output in some terminals.
 
-    $ cd build
-    $ conan info .
+    cd build
+    conan info .
 
 In my terminal, the first couple lines of `conan info`'s output show all of the
 project's configuration warnings in a bright yellow font.
@@ -459,11 +475,11 @@ For example, the package `spdlog/1.5.0` depends on the package `fmt/6.1.2`.
 If you were to modify the file `cmake/Conan.cmake` so that it requires an
 earlier version of `fmt`, such as `fmt/6.0.0`, and then run:
 
-    $ conan remove -f '*'       # clear Conan cache
-    $ rm -rf build              # clear previous CMake build
-    $ mkdir build && cd build
-    $ cmake ..                  # rebuild Conan dependencies
-    $ conan info .
+    conan remove -f '*'       # clear Conan cache
+    rm -rf build              # clear previous CMake build
+    mkdir build && cd build
+    cmake ..                  # rebuild Conan dependencies
+    conan info .
 
 ...the first line of output would be a warning that `spdlog` needs a more recent
 version of `fmt`.
@@ -482,40 +498,40 @@ If you have [Docker](https://www.docker.com/) installed, you can run this
 in your terminal, when the Dockerfile is in your working directory:
 
 ```bash
-$ docker build --tag=my_project:latest .
-$ docker run -it my_project:latest
+docker build --tag=my_project:latest .
+docker run -it my_project:latest
 ```
 
-This command will put you in a `bash` session in a Ubuntu 18.04 Docker container, 
+This command will put you in a `bash` session in a Ubuntu 18.04 Docker container,
 with all of the tools listed in the [Dependencies](#dependencies) section already installed.
-Additionally, you will have `g++-10` and `clang++-11` installed as the default 
+Additionally, you will have `g++-10` and `clang++-11` installed as the default
 versions of `g++` and `clang++`.
 
-If you want to build this container using some other versions of gcc and clang, 
+If you want to build this container using some other versions of gcc and clang,
 you may do so with the `GCC_VER` and `LLVM_VER` arguments:
 
 ```bash
-$ docker build --tag=myproject:latest --build-arg GCC_VER=9 --build-arg LLVM_VER=10 .
+docker build --tag=myproject:latest --build-arg GCC_VER=9 --build-arg LLVM_VER=10 .
 ```
 
 The CC and CXX environment variables are set to GCC version 10 by default.
-If you wish to use clang as your default CC and CXX environment variables, you 
+If you wish to use clang as your default CC and CXX environment variables, you
 may do so like this:
 
 ```bash
-$ docker build --tag=my_project:latest --build-arg USE_CLANG=1 .
+docker build --tag=my_project:latest --build-arg USE_CLANG=1 .
 ```
 
 You will be logged in as root, so you will see the `#` symbol as your prompt.
-You will be in a directory that contains a copy of the `cpp_starter_project`; 
-any changes you make to your local copy will not be updated in the Docker image 
+You will be in a directory that contains a copy of the `cpp_starter_project`;
+any changes you make to your local copy will not be updated in the Docker image
 until you rebuild it.
 If you need to mount your local copy directly in the Docker image, see
-[Docker volumes docs](https://docs.docker.com/storage/volumes/). 
+[Docker volumes docs](https://docs.docker.com/storage/volumes/).
 TLDR:
 
 ```bash
-$ docker run -it \
+docker run -it \
 	-v absolute_path_on_host_machine:absolute_path_in_guest_container \
 	my_project:latest
 ```
@@ -538,12 +554,12 @@ with these commands:
 ```
 
 The `ccmake` tool is also installed; you can substitute `ccmake` for `cmake` to
-configure the project interactively. 
-All of the tools this project supports are installed in the Docker image; 
+configure the project interactively.
+All of the tools this project supports are installed in the Docker image;
 enabling them is as simple as flipping a switch using the `ccmake` interface.
-Be aware that some of the sanitizers conflict with each other, so be sure to 
+Be aware that some of the sanitizers conflict with each other, so be sure to
 run them separately.
 
-A script called `build_examples.sh` is provided to help you to build the example 
-GUI projects in this container.  
+A script called `build_examples.sh` is provided to help you to build the example
+GUI projects in this container.
 
