@@ -26,8 +26,18 @@ macro(run_conan)
     NAME bincrafters URL
     https://bincrafters.jfrog.io/artifactory/api/conan/public-conan)
 
-  # For multi configuration generators, like VS and XCode 
-  foreach(TYPE ${CMAKE_CONFIGURATION_TYPES})
+  # For multi configuration generators, like VS and XCode
+  if("${CMAKE_CONFIGURATION_TYPES}" STREQUAL "")
+    message(STATUS "Single configuration build!")
+    set(LIST_OF_BUILD_TYPES ${CMAKE_BUILD_TYPE})
+  else()
+    message(STATUS "Multi-configuration build: '${CMAKE_CONFIGURATION_TYPES}'!")
+    set(LIST_OF_BUILD_TYPES ${CMAKE_CONFIGURATION_TYPES})
+  endif()
+
+  foreach(TYPE ${LIST_OF_BUILD_TYPES})
+    message(STATUS "Running Conan for build type '${TYPE}'")
+
     # Detects current build settings to pass into conan
     conan_cmake_autodetect(settings BUILD_TYPE ${TYPE})
 
