@@ -27,7 +27,7 @@ macro(run_conan)
     https://bincrafters.jfrog.io/artifactory/api/conan/public-conan)
 
   # For multi configuration generators, like VS and XCode
-  if("${CMAKE_CONFIGURATION_TYPES}" STREQUAL "")
+  if(NOT CMAKE_CONFIGURATION_TYPES)
     message(STATUS "Single configuration build!")
     set(LIST_OF_BUILD_TYPES ${CMAKE_BUILD_TYPE})
   else()
