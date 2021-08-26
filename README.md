@@ -472,14 +472,16 @@ In my terminal, the first couple lines of `conan info`'s output show all of the
 project's configuration warnings in a bright yellow font.
 
 For example, the package `spdlog/1.5.0` depends on the package `fmt/6.1.2`.
-If you were to modify the file `cmake/Conan.cmake` so that it requires an
+If you were to modify the file `conanfile.py` so that it requires an
 earlier version of `fmt`, such as `fmt/6.0.0`, and then run:
 
-    conan remove -f '*'       # clear Conan cache
-    rm -rf build              # clear previous CMake build
-    mkdir build && cd build
-    cmake ..                  # rebuild Conan dependencies
-    conan info .
+```bash
+conan remove -f '*'       # clear Conan cache
+rm -rf build              # clear previous CMake build
+mkdir build && cd build
+cmake ..                  # rebuild Conan dependencies
+conan info .
+```
 
 ...the first line of output would be a warning that `spdlog` needs a more recent
 version of `fmt`.
