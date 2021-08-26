@@ -26,22 +26,35 @@ macro(run_conan)
     NAME bincrafters URL
     https://bincrafters.jfrog.io/artifactory/api/conan/public-conan)
 
-  # Detects current build settings to pass into conan
-  conan_cmake_autodetect(settings)
+  # For multi configuration generators, like VS and XCode
+  if("${CMAKE_CONFIGURATION_TYPES}" STREQUAL "")
+    message(STATUS "Single configuration build!")
+    set(LIST_OF_BUILD_TYPES ${CMAKE_BUILD_TYPE})
+  else()
+    message(STATUS "Multi-configuration build: '${CMAKE_CONFIGURATION_TYPES}'!")
+    set(LIST_OF_BUILD_TYPES ${CMAKE_CONFIGURATION_TYPES})
+  endif()
 
-  # PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR} is used to tell conan to process
-  # the external "conanfile.py" provided with the project
-  # Alternatively a conanfile.txt could be used 
-  conan_cmake_install(
-    PATH_OR_REFERENCE
-    ${CMAKE_SOURCE_DIR}
-    BUILD
-    missing
-    # Pass compile-time configured options into conan
-    OPTIONS
-    cpp_starter_use_imgui=${CPP_STARTER_USE_IMGUI}
-    cpp_starter_use_sdl=${CPP_STARTER_USE_SDL}
-    SETTINGS
-    ${settings})
+  foreach(TYPE ${LIST_OF_BUILD_TYPES})
+    message(STATUS "Running Conan for build type '${TYPE}'")
+
+    # Detects current build settings to pass into conan
+    conan_cmake_autodetect(settings BUILD_TYPE ${TYPE})
+
+    # PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR} is used to tell conan to process
+    # the external "conanfile.py" provided with the project
+    # Alternatively a conanfile.txt could be used 
+    conan_cmake_install(
+      PATH_OR_REFERENCE
+      ${CMAKE_SOURCE_DIR}
+      BUILD
+      missing
+      # Pass compile-time configured options into conan
+      OPTIONS
+      cpp_starter_use_imgui=${CPP_STARTER_USE_IMGUI}
+      cpp_starter_use_sdl=${CPP_STARTER_USE_SDL}
+      SETTINGS
+      ${settings})
+  endforeach()
 
 endmacro()
