@@ -473,8 +473,7 @@ earlier version of `fmt`, such as `fmt/6.0.0`, and then run:
 ```bash
 conan remove -f '*'       # clear Conan cache
 rm -rf build              # clear previous CMake build
-mkdir build && cd build
-cmake ..                  # rebuild Conan dependencies
+cmake -S . -B ./build     # rebuild Conan dependencies
 conan info .
 ```
 
