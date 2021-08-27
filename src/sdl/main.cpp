@@ -12,7 +12,6 @@
 #include <cstdlib>
 
 
-
 static void check_audio_driver(const char *name)
 {
   std::cout << "checking for audio driver " << name << " ... ";
@@ -40,7 +39,8 @@ static void check_video_driver(const char *name)
 }
 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   SDL_version v;
   SDL_GetVersion(&v);
   std::cout << "SDL version " << int(v.major) << "." << int(v.minor) << "." << int(v.patch) << std::endl;
@@ -55,10 +55,10 @@ int main(int argc, char *argv[]) {
 
   SDL_Window *window = NULL;
   SDL_Surface *screenSurface = NULL;
-//  if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-//    fprintf(stderr, "could not initialize sdl2: %s\n", SDL_GetError());
-//    return 1;
-//  }
+  //  if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+  //    fprintf(stderr, "could not initialize sdl2: %s\n", SDL_GetError());
+  //    return 1;
+  //  }
   window = SDL_CreateWindow(
     "hello_sdl2",
     SDL_WINDOWPOS_UNDEFINED,
