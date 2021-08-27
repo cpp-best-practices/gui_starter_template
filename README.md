@@ -251,20 +251,13 @@ linked here:
 ## Build Instructions
 
 A full build has different steps:
-1) Creating the build directory
-2) Specifying the compiler using environment variables
-3) Configuring the project
-4) Building the project
+1) Specifying the compiler using environment variables
+2) Configuring the project
+3) Building the project
 
 For the subsequent builds, in case you change the source code, you only need to repeat the last step.
 
-### (1) Create the build directory
-
-```
-cmake -E make_directory ./build
-```
-
-### (2) Specify the compiler using environment variables
+### (1) Specify the compiler using environment variables
 
 By default (if you don't set environment variables `CC` and `CXX`), the system default compiler will be used.
 
@@ -340,16 +333,18 @@ CMake will detect which compiler was used to build each of the Conan targets. If
 
 </details>
 
-### (3) Configure your build
+### (2) Configure your build
 
 To configure the project, you could use `cmake`, or `ccmake` or `cmake-gui`. Each of them are explained in the following:
 
-#### (3.a) Configuring via cmake:
-With Cmake directly
+#### (2.a) Configuring via cmake:
+With Cmake directly:
 
     cmake -S . -B ./build
 
-#### (3.b) Configuring via ccmake:
+Cmake will automatically create the `./build` folder if it does not exist, and it wil configure the project.
+
+#### (2.b) Configuring via ccmake:
 
 With the Cmake Curses Dialog Command Line tool:
 
@@ -358,19 +353,19 @@ With the Cmake Curses Dialog Command Line tool:
 Once `ccmake` has finished setting up, press 'c' to configure the project,
 press 'g' to generate, and 'q' to quit.
 
-#### (3.c) Configuring via cmake-gui:
+#### (2.c) Configuring via cmake-gui:
 
 To use the GUI of the cmake:
 
-3.c.1) Open cmake-gui from the project directory:
+2.c.1) Open cmake-gui from the project directory:
 ```
 cmake-gui .
 ```
-3.c.2) Set the build directory:
+2.c.2) Set the build directory:
 
 ![build_dir](https://user-images.githubusercontent.com/16418197/82524586-fa48e380-9af4-11ea-8514-4e18a063d8eb.jpg)
 
-3.c.3) Configure the generator:
+2.c.3) Configure the generator:
 
 In cmake-gui, from the upper menu select `Tools/Configure`.
 
@@ -415,11 +410,11 @@ Choose "Visual Studio 16 2019" as the generator. To tell Visual studio to use `c
 </details>
 <br/>
 
-3.c.4) Choose the Cmake options and then generate:
+2.c.4) Choose the Cmake options and then generate:
 
 ![generate](https://user-images.githubusercontent.com/16418197/82781591-c97feb80-9e1f-11ea-86c8-f2748b96f516.png)
 
-### (4) Build the project
+### (3) Build the project
 Once you have selected all the options you would like to use, you can build the
 project (all targets):
 
