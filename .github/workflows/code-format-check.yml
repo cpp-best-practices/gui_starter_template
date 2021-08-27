@@ -1,0 +1,45 @@
+name: Code Format Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install tools
+        run: |
+          pip install cmakelang
+
+      - name: Check cpp code formatting
+        run: |
+          git ls-files |\
+            grep -E '\.(c|cc|C|cii|cpp|cxx|c++|h|hii|hpp|hxx|h++)$' |\
+            xargs clang-format --dry-run --Werror
+
+      - name: Check CMake code formatting
+        run: |
+          git ls-files |\
+            grep -E '(\.cmake$|CMakeLists.txt)' |\
+            xargs cmake-format --check
+
+      - name: Lint CMake code
+        # This step is configured to print all the output that cmake-lint would
+        # generate, but it will not cause a build job failure.
+        # If you need this step to fail when cmake-lint reports issues,
+        # simply remove the `|| true` from the last line.
+        run: |
+          git ls-files |\
+            grep -E '(\.cmake$|CMakeLists.txt)' |\
+            xargs cmake-lint || true
