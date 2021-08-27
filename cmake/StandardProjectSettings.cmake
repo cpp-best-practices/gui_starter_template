@@ -21,11 +21,7 @@ option(ENABLE_IPO "Enable Interprocedural Optimization, aka Link Time Optimizati
 
 if(ENABLE_IPO)
   include(CheckIPOSupported)
-  check_ipo_supported(
-    RESULT
-    result
-    OUTPUT
-    output)
+  check_ipo_supported(RESULT result OUTPUT output)
   if(result)
     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
   else()
@@ -39,4 +35,3 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 else()
   message(STATUS "No colored compiler diagnostic set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
 endif()
-
