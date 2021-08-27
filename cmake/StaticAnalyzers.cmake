@@ -42,9 +42,12 @@ if(ENABLE_INCLUDE_WHAT_YOU_USE)
   endif()
 endif()
 
+include(cmake/Utils.cmake)
+
 if (CMAKE_GENERATOR MATCHES "Visual Studio")
+    get_all_targets(TARGETS ${CMAKE_CURRENT_SOURCE_DIR})
     # Visual Studio Code Analysis
-    foreach(target IN LISTS Targets)
+    foreach(target IN LISTS ${TARGETS})
       set_target_properties(${target} PROPERTIES
 
           # Run code analysis on build
