@@ -74,6 +74,7 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: |
           set -x
+          sudo apt install -y lcov gcovr
           lcov --zerocounters --directory .
           ctest -C $BUILD_TYPE
           gcovr --root ../ --exclude '.*test/' --xml-pretty --xml coverage.xml
