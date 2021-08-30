@@ -16,5 +16,4 @@ build_script:
     cmake --build ./build --config "Release"
 
 test_script:
-- cmd: ctest -C Debug
-
+- cmd: cd build && ctest -C Debug

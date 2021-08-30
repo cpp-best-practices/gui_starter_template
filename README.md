@@ -424,6 +424,17 @@ For Visual Studio, give the build configuration (Release, RelWithDeb, Debug, etc
 
     cmake --build ./build -- /p:configuration=Release
 
+
+### Running the tests
+
+You can use the `ctest` command run the tests.
+
+```shell
+cd ./build
+ctest -C Debug
+cd ../
+```
+
 ## Troubleshooting
 
 ### Update Conan
@@ -474,7 +485,7 @@ earlier version of `fmt`, such as `fmt/6.0.0`, and then run:
 conan remove -f '*'       # clear Conan cache
 rm -rf build              # clear previous CMake build
 cmake -S . -B ./build     # rebuild Conan dependencies
-conan info .
+conan info ./build
 ```
 
 ...the first line of output would be a warning that `spdlog` needs a more recent
