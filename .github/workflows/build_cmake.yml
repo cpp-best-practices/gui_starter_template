@@ -52,10 +52,11 @@ jobs:
 
     - name: Install conan
       run: |
-        pip3 install wheel setuptools
+        pip3 install wheel setuptools gcovr
         pip3 install conan --upgrade
+
     - name: Ubuntu - Fix Conan Path
-      if: startsWith(matrix.os,'ubuntu')
+      if: runner.os == 'Linux'
       run: |
         sudo update-alternatives --install /usr/bin/conan conan /home/runner/.local/bin/conan 10
         sudo update-alternatives --config conan
@@ -82,10 +83,8 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: |
           set -x
-          sudo apt-get -qq -y install lcov gcovr
-          lcov --zerocounters --directory .
           ctest -C $BUILD_TYPE
-          gcovr --root ../ --xml-pretty --xml coverage.xml
+          gcovr -j $(nproc) --delete --root ../ --xml-pretty --xml coverage.xml .
 
     - name: Publish to codecov
       if: runner.os == 'Linux'
