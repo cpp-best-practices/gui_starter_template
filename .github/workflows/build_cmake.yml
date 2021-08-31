@@ -28,6 +28,14 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        include:
+        - os: ubuntu-latest
+          ENABLE_COVERAGE: ON
+        - os: windows-latest
+          ENABLE_COVERAGE: OFF
+        - os: macos-latest
+          ENABLE_COVERAGE: OFF
+
 
     steps:
     - uses: actions/checkout@v2
@@ -54,7 +62,7 @@ jobs:
 
     - name: Configure CMake
       run: |
-        cmake -S . -B ./build -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+          cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE -DENABLE_COVERAGE:BOOL=${{ matrix.ENABLE_COVERAGE }}
 
     - name: Build
       # Execute the build.  You can specify a specific target with "--target <NAME>"
