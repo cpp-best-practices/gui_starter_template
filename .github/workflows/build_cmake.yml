@@ -34,7 +34,7 @@ jobs:
         - os: windows-latest
           ENABLE_COVERAGE: OFF
         - os: macos-latest
-          ENABLE_COVERAGE: OFF
+          ENABLE_COVERAGE: ON
 
 
     steps:
