@@ -32,6 +32,7 @@ jobs:
         - os: ubuntu-latest
           ENABLE_COVERAGE: ON
         - os: windows-latest
+          # Windows works differently
           ENABLE_COVERAGE: OFF
         - os: macos-latest
           ENABLE_COVERAGE: ON
@@ -55,11 +56,20 @@ jobs:
         pip3 install wheel setuptools gcovr
         pip3 install conan --upgrade
 
-    - name: Ubuntu - Fix Conan Path
-      if: runner.os == 'Linux'
+    - name: Install / Configure dependencies
+      shell: bash
       run: |
-        sudo update-alternatives --install /usr/bin/conan conan /home/runner/.local/bin/conan 10
-        sudo update-alternatives --config conan
+        if [ "$RUNNER_OS" == "Linux" ]; then
+          echo "Ubuntu - Fix Conan Path"
+          sudo update-alternatives --install /usr/bin/conan conan /home/runner/.local/bin/conan 10
+          sudo update-alternatives --config conan
+        elif [ "$RUNNER_OS" == "Windows" ]; then
+          echo "Using chocolatey to install OpenCppCoverage"
+          choco install opencppcoverage
+          # Add to Path
+          echo "C:/Program Files/OpenCppCoverage" >> $GITHUB_PATH
+        # elif [ "$RUNNER_OS" == "macOs" ]; then
+        fi;
 
     - name: Configure CMake
       run: |
@@ -69,14 +79,7 @@ jobs:
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: cmake --build ./build --config $BUILD_TYPE
 
-    - name: Test
-      if: runner.os == 'Windows'
-      working-directory: ./build
-      # Execute tests defined by the CMake configuration.
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C $BUILD_TYPE
-
-    - name: Test and coverage
+    - name: Unix - Test and coverage
       if: runner.os != 'Windows'
       working-directory: ./build
       # Execute tests defined by the CMake configuration.
@@ -86,8 +89,14 @@ jobs:
           ctest -C $BUILD_TYPE
           gcovr -j $(nproc) --delete --root ../ --print-summary --xml-pretty --xml coverage.xml .
 
+    - name: Windows - Test and coverage
+      if: runner.os == 'Windows'
+      working-directory: ./build
+      # The problem here is that you can't just use ctest...
+      run: |
+        OpenCppCoverage.exe --sources cpp_starter_project --export_type cobertura:coverage.xml -- ctest -C $BUILD_TYPE
+
     - name: Publish to codecov
-      if: runner.os != 'Windows'
       uses: codecov/codecov-action@v2
       with:
         flags: ${{ runner.os }}
