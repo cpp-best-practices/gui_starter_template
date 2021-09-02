@@ -87,7 +87,7 @@ jobs:
           gcovr -j $(nproc) --delete --root ../ --print-summary --xml-pretty --xml coverage.xml .
 
     - name: Publish to codecov
-      if: runner.os == 'Linux'
+      if: runner.os != 'Windows'
       uses: codecov/codecov-action@v2
       with:
         flags: ${{ runner.os }}
