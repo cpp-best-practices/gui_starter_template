@@ -10,9 +10,7 @@ if(ENABLE_CPPCHECK)
         --suppress=missingInclude
         --enable=all
         --inline-suppr
-        --inconclusive
-        -i
-        ${CMAKE_SOURCE_DIR}/imgui/lib)
+        --inconclusive)
     if(WARNINGS_AS_ERRORS)
       list(APPEND CMAKE_CXX_CPPCHECK --error-exitcode=2)
     endif()
