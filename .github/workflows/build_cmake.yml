@@ -68,7 +68,6 @@ jobs:
           choco install opencppcoverage
           # Add to Path
           echo "C:/Program Files/OpenCppCoverage" >> $GITHUB_PATH
-        # elif [ "$RUNNER_OS" == "macOs" ]; then
         fi;
 
     - name: Configure CMake
