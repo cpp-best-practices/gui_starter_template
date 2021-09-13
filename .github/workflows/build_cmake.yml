@@ -90,7 +90,6 @@ jobs:
     - name: Windows - Test and coverage
       if: runner.os == 'Windows'
       working-directory: ./build
-      # The problem here is that you can't just use ctest...
       run: |
         OpenCppCoverage.exe --sources cpp_starter_project --export_type cobertura:coverage.xml --cover_children -- ctest -C $BUILD_TYPE
 
