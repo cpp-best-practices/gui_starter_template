@@ -56,19 +56,17 @@ jobs:
         pip3 install wheel setuptools gcovr
         pip3 install conan --upgrade
 
-    - name: Install / Configure dependencies
-      shell: bash
+    - name: Linux - Fix Conan Path
+      if: runner.os == 'Linux'
       run: |
-        if [ "$RUNNER_OS" == "Linux" ]; then
-          echo "Ubuntu - Fix Conan Path"
           sudo update-alternatives --install /usr/bin/conan conan /home/runner/.local/bin/conan 10
           sudo update-alternatives --config conan
-        elif [ "$RUNNER_OS" == "Windows" ]; then
-          echo "Using chocolatey to install OpenCppCoverage"
+
+    - name: Windows - Install OpenCppCoverage
+      if: runner.os == 'Windows'
+      run: |
           choco install opencppcoverage
-          # Add to Path
           echo "C:/Program Files/OpenCppCoverage" >> $GITHUB_PATH
-        fi;
 
     - name: Configure CMake
       run: |
