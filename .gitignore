@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Misc
+vcpkg/
+build/
+out/
+.vs/
+.vscod/
+CMakeSettings.json

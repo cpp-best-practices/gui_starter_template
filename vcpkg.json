@@ -1,0 +1,10 @@
+{
+    "name": "cppbugdb",
+    "version-string": "0.1.0",
+    "dependencies": [
+        "catch2",
+        "spdlog",
+        "fmt",
+        "docopt"
+    ]
+}

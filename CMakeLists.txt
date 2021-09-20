@@ -1,7 +1,21 @@
 cmake_minimum_required(VERSION 3.15)
 
+find_package(Git QUIET)
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg")
+    option(GIT_SUBMODULE "Check submodules during build" ON)
+        message(STATUS "Submodule update")
+        execute_process(COMMAND ${GIT_EXECUTABLE} clone -b 2021.05.12 --single-branch  https://github.com/microsoft/vcpkg
+                        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                        )
+endif()
+
+
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
+  CACHE STRING "Vcpkg toolchain file")
+
+
 # Set the project name to your project name, my project isn't very descriptive
-project(myproject CXX)
+project(cppbugdb CXX)
 include(cmake/StandardProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
 
@@ -60,24 +74,7 @@ if(ENABLE_PCH)
     <utility>)
 endif()
 
-# Set up some extra Conan dependencies based on our needs before loading Conan
-set(CONAN_EXTRA_REQUIRES "")
-set(CONAN_EXTRA_OPTIONS "")
 
-if(CPP_STARTER_USE_IMGUI)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} imgui-sfml/2.1@bincrafters/stable)
-
-  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sfml:shared=False sfml:graphics=True sfml:audio=False
-  # sfml:window=True libalsa:disable_python=True)
-endif()
-
-if(CPP_STARTER_USE_SDL)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} sdl2/2.0.10@bincrafters/stable)
-  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sdl2:wayland=True)
-endif()
-
-include(cmake/Conan.cmake)
-run_conan()
 
 if(ENABLE_TESTING)
   enable_testing()
