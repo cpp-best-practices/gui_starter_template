@@ -78,10 +78,6 @@ if(ENABLE_FUZZING)
   add_subdirectory(fuzz_test)
 endif()
 
-add_subdirectory(src)
-
 option(ENABLE_UNITY "Enable Unity builds of projects" ON)
-if(ENABLE_UNITY)
-  # Add for any project you want to apply unity builds for
-  set_target_properties(intro PROPERTIES UNITY_BUILD ON)
-endif()
+
+add_subdirectory(src)

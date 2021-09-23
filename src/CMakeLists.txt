@@ -54,3 +54,7 @@ target_link_libraries(
           docopt::docopt
           fmt::fmt
           spdlog::spdlog)
+#
+# Add for any project you want to apply unity builds for
+#
+set_target_properties(intro PROPERTIES UNITY_BUILD ${ENABLE_UNITY})

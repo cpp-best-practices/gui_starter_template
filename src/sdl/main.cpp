@@ -1,16 +1,22 @@
-#include <SDL2/SDL.h>
-#include <stdio.h>
+//
+// NOTE: form include-what-you-use reported diagnostics:
+//
+#include <SDL.h>          // for SDL_Quit
+#include <SDL_audio.h>    // for SDL_GetAudioDriver, SDL_GetNumAudioDrivers
+#include <SDL_error.h>    // for SDL_GetError
+#include <SDL_pixels.h>   // for SDL_MapRGB
+#include <SDL_surface.h>  // for SDL_FillRect, SDL_Surface
+#include <SDL_timer.h>    // for SDL_Delay
+#include <SDL_version.h>  // for SDL_version, SDL_GetVersion
+#include <SDL_video.h>    // for SDL_CreateWindow, SDL_DestroyWindow, SDL_Ge...
+
+#include <stdio.h>        // for fprintf, stderr
+#include <string.h>       // for strcmp
+#include <cstdlib>        // for NULL
+#include <iostream>       // for operator<<, char_traits, basic_ostream, cout
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
-
-
-#include <stdexcept>
-#include <string>
-#include <sstream>
-#include <iostream>
-#include <cstdlib>
-
 
 
 static void check_audio_driver(const char *name)
@@ -40,7 +46,7 @@ static void check_video_driver(const char *name)
 }
 
 
-int main(int argc, char *argv[]) {
+int main(int /* argc */, char ** /* argv */) {
   SDL_version v;
   SDL_GetVersion(&v);
   std::cout << "SDL version " << int(v.major) << "." << int(v.minor) << "." << int(v.patch) << std::endl;
