@@ -78,6 +78,6 @@ if(ENABLE_FUZZING)
   add_subdirectory(fuzz_test)
 endif()
 
-option(ENABLE_UNITY "Enable Unity builds of projects" ON)
+option(ENABLE_UNITY "Enable Unity builds of projects" OFF)
 
 add_subdirectory(src)
