@@ -1,19 +1,125 @@
-additional_commands:
-  foo:
-    flags:
-    - BAR
-    - BAZ
-    kwargs:
-      DEPENDS: '*'
-      HEADERS: '*'
-      SOURCES: '*'
-bullet_char: '*'
-dangle_parens: false
-enum_char: .
-line_ending: unix
-line_width: 120
-max_pargs_hwrap: 3
-separate_ctrl_name_with_space: false
-separate_fn_name_with_space: false
-tab_size: 2
-
+parse:
+  additional_commands:
+    catch_discover_tests:
+      pargs:
+        nargs: '*'
+        flags: []
+      kwargs:
+        OUTPUT_DIR: 1
+        OUTPUT_PREFIX: 1
+        OUTPUT_SUFFIX: 1
+        REPORTER: 1
+        TEST_PREFIX: 1
+    conan_add_remote:
+      pargs:
+        nargs: '*'
+        flags: []
+      kwargs:
+        INDEX: 1
+        NAME: 1
+        URL: 1
+    conan_cmake_install:
+      pargs:
+        nargs: '*'
+        flags: []
+      kwargs:
+        BUILD: +
+        INSTALL_FOLDER: 1
+        LOCKFILE: 1
+        LOCKFILE_NODE_ID: 1
+        LOCKFILE_OUT: 1
+        PATH_OR_REFERENCE: 1
+        REFERENCE: 1
+        REMOTE: 1
+        ENV: +
+        ENV_BUILD: +
+        ENV_HOST: +
+        GENERATOR: +
+        OPTIONS: +
+        OPTIONS_BUILD: +
+        OPTIONS_HOST: +
+        PROFILE: +
+        PROFILE_BUILD: +
+        PROFILE_HOST: +
+        SETTINGS: +
+        SETTINGS_BUILD: +
+        SETTINGS_HOST: +
+    cpmaddpackage:
+      pargs:
+        nargs: '*'
+        flags: []
+      spelling: CPMAddPackage
+      kwargs: &id001
+        DOWNLOAD_COMMAND: 1
+        DOWNLOAD_NAME: 1
+        DOWNLOAD_NO_EXTRACT: 1
+        DOWNLOAD_ONLY: 1
+        FIND_PACKAGE_ARGUMENTS: 1
+        FORCE: 1
+        GITHUB_REPOSITORY: 1
+        GITLAB_REPOSITORY: 1
+        GIT_REPOSITORY: 1
+        GIT_SHALLOW: 1
+        GIT_TAG: 1
+        HTTP_PASSWORD: 1
+        HTTP_USERNAME: 1
+        NAME: 1
+        NO_CACHE: 1
+        SOURCE_DIR: 1
+        SVN_REPOSITORY: 1
+        SVN_REVISION: 1
+        URL: 1
+        URL_HASH: 1
+        URL_MD5: 1
+        VERSION: 1
+        OPTIONS: +
+    cpmfindpackage:
+      pargs:
+        nargs: '*'
+        flags: []
+      spelling: CPMFindPackage
+      kwargs: *id001
+    cpmdeclarepackage:
+      pargs:
+        nargs: '*'
+        flags: []
+      spelling: CPMDeclarePackage
+      kwargs: *id001
+    packageproject:
+      pargs:
+        nargs: '*'
+        flags: []
+      spelling: packageProject
+      kwargs:
+        BINARY_DIR: 1
+        COMPATIBILITY: 1
+        DISABLE_VERSION_SUFFIX: 1
+        EXPORT_HEADER: 1
+        INCLUDE_DESTINATION: 1
+        INCLUDE_DIR: 1
+        NAME: 1
+        NAMESPACE: 1
+        VERSION: 1
+        VERSION_HEADER: 1
+        DEPENDENCIES: +
+    cpmusepackagelock:
+      pargs: 1
+      spelling: CPMUsePackageLock
+    cpmregisterpackage:
+      pargs: 1
+      spelling: CPMRegisterPackage
+    cpmgetpackageversion:
+      pargs: 2
+      spelling: CPMGetPackageVersion
+format:
+  line_width: 120
+  tab_size: 2
+  max_pargs_hwrap: 3
+  separate_ctrl_name_with_space: false
+  separate_fn_name_with_space: false
+  dangle_parens: false
+  line_ending: unix
+markup:
+  bullet_char: '*'
+  enum_char: .
+  enable_markup: false

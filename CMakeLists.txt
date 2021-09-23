@@ -1,7 +1,8 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.15...3.21)
 
 # Set the project name to your project name, my project isn't very descriptive
-project(myproject CXX)
+project(myproject VERSION 0.1.0 LANGUAGES CXX)
+
 include(cmake/StandardProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
 
@@ -79,7 +80,7 @@ endif()
 
 add_subdirectory(src)
 
-option(ENABLE_UNITY "Enable Unity builds of projects" OFF)
+option(ENABLE_UNITY "Enable Unity builds of projects" ON)
 if(ENABLE_UNITY)
   # Add for any project you want to apply unity builds for
   set_target_properties(intro PROPERTIES UNITY_BUILD ON)
