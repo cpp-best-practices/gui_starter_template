@@ -39,6 +39,7 @@ target_compile_features(project_options INTERFACE cxx_std_17)
 add_subdirectory(src)
 
 # Adding the tests:
+option(ENABLE_TESTING "Enable the tests" ON)
 if(ENABLE_TESTING)
   enable_testing()
   message("Building Tests. Be sure to check out test/constexpr_tests for constexpr
@@ -46,6 +47,7 @@ testing")
   add_subdirectory(test)
 endif()
 
+option(ENABLE_FUZZING "Enable the fuzz tests" OFF)
 if(ENABLE_FUZZING)
   message("Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
   add_subdirectory(fuzz_test)
