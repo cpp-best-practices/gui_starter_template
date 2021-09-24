@@ -1,8 +1,16 @@
-#include <functional>
-#include <iostream>
-
-#include <spdlog/spdlog.h>
-#include <docopt/docopt.h>
+//
+// The full include-list reported from include-what-you-use
+//
+#include <docopt/docopt.h>  // for docopt
+#include <docopt_value.h>   // for operator<<, value
+#include <fmt/format.h>     // for make_format_args, print, vformat_to
+#include <spdlog/spdlog.h>  // for info
+#include <exception>        // for exception
+#include <iostream>         // for string, char_traits, operator<<, basic_os...
+#include <iterator>         // for next
+#include <map>              // for map, __map_iterator, operator!=
+#include <type_traits>      // for enable_if<>::type
+#include <utility>          // for pair
 
 static constexpr auto USAGE =
   R"(Naval Fate.
@@ -22,7 +30,7 @@ static constexpr auto USAGE =
           --drifting    Drifting mine.
 )";
 
-int main()
+int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
 {
   std::map<std::string, docopt::value> args = docopt::docopt(USAGE,
     { std::next(argv), std::next(argv, argc) },

@@ -43,7 +43,11 @@ endif()
 
 find_package(fmt)
 find_package(spdlog)
-find_package(docopt)
+find_package(docopt REQUIRED)
+
+if(NOT TARGET docopt::docopt)
+  add_library(docopt::docopt ALIAS docopt)
+endif()
 
 # Generic test that uses conan libs
 add_executable(intro main.cpp)
