@@ -32,6 +32,8 @@ if(ENABLE_IPO)
     message(SEND_ERROR "IPO is not supported: ${output}")
   endif()
 endif()
+
+# TODO: do not use global add_compiler_options()! CK
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   add_compile_options(-fcolor-diagnostics)
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")

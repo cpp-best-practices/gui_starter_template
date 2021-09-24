@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.15...3.21)
+cmake_minimum_required(VERSION 3.16...3.21)
 
-# Set the project name to your project name, my project isn't very descriptive
+# TODO: Set the project name to your project name, and version; my project isn't very descriptive
 project(myproject VERSION 0.1.0 LANGUAGES CXX)
 
 include(cmake/StandardProjectSettings.cmake)
@@ -10,6 +10,11 @@ include(cmake/PreventInSourceBuilds.cmake)
 add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_17)
 
+#
+# FIXME: TBC
+#  IMHO: should be moved to cmake/StandardProjectSettings.cmake CK
+#
+# XXX configure_compiler(project_options)
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
   if(ENABLE_BUILD_WITH_TIME_TRACE)

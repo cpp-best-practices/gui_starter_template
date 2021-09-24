@@ -40,7 +40,7 @@ macro(run_conan)
     # the external "conanfile.py" provided with the project
     # Alternatively a conanfile.txt could be used
     conan_cmake_install(
-      ERROR_QUIET
+      OUTPUT_QUIET
       PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR}
       BUILD missing
       # Pass compile-time configured options into conan
