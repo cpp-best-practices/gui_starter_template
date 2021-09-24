@@ -13,3 +13,4 @@ cmake_find_package
 cmake
 gcc
 txt
+visual_studio
