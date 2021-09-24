@@ -2,7 +2,7 @@
 // The full include-list reported from include-what-you-use
 //
 #include <docopt/docopt.h>  // for docopt
-#include <docopt_value.h>   // for operator<<, value
+#include <docopt/docopt_value.h>   // for operator<<, value
 #include <fmt/format.h>     // for make_format_args, print, vformat_to
 #include <spdlog/spdlog.h>  // for info
 #include <exception>        // for exception
