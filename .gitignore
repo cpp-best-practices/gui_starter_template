@@ -31,10 +31,10 @@
 *.out
 *.app
 
-# Misc
+# IDEs and build output
 vcpkg/
 build/
 out/
 .vs/
-.vscod/
+.vscode/
 CMakeSettings.json
