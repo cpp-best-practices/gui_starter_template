@@ -5,10 +5,6 @@ on: [push]
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: RelWithDebInfo
-  # Conan cache environment variables
-  CONAN_SYSREQUIRES_MODE: enabled
-  CONAN_USER_HOME: "${{ github.workspace }}/conan-cache"
-  CONAN_USER_HOME_SHORT: "${{ github.workspace }}/conan-cache/short"
 
 # Use a bash shell so we can use the same syntax for environment variable
 # access regardless of the host operating system
@@ -26,31 +22,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Cache
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-conan-modules
-      with:
-        path: |
-          ${{ env.CONAN_USER_HOME }}
-          ~/.cache/pip
-        key: ${{ runner.os }}-${{ env.BUILD_TYPE }}-${{ hashFiles('CMakeLists.txt') }}-${{ hashFiles('cmake/Conan.cmake') }}
-
-    - name: Create Build Environment
-      # Some projects don't allow in-source building, so create a separate build directory
-      # We'll use this as our working directory for all subsequent commands
-      run: cmake -E make_directory ./build
-
-    - name: Install conan
-      run: |
-        pip3 install wheel setuptools
-        pip3 install conan --upgrade
-    - name: Ubuntu - Fix Conan Path
-      if: startsWith(matrix.os,'ubuntu')
-      run: |
-        sudo update-alternatives --install /usr/bin/conan conan /home/runner/.local/bin/conan 10
-        sudo update-alternatives --config conan
 
     - name: Configure CMake
       run: |
