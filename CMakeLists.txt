@@ -1,5 +1,17 @@
 cmake_minimum_required(VERSION 3.15)
 
+find_package(Git QUIET)
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg")
+    option(GIT_SUBMODULE "Check submodules during build" ON)
+        message(STATUS "Submodule update")
+        execute_process(COMMAND ${GIT_EXECUTABLE} clone -b 2021.05.12 --single-branch  https://github.com/microsoft/vcpkg
+                        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                        )
+endif()
+
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
+  CACHE STRING "Vcpkg toolchain file")
+
 # Set the project name to your project name, my project isn't very descriptive
 project(myproject CXX)
 include(cmake/StandardProjectSettings.cmake)
@@ -60,20 +72,14 @@ if(ENABLE_PCH)
     <utility>)
 endif()
 
-option(ENABLE_CONAN "Use Conan for dependency management" ON)
-if(ENABLE_CONAN)
-  include(cmake/Conan.cmake)
-  run_conan()
-endif()
-
 if(ENABLE_TESTING)
   enable_testing()
-  message("Building Tests. Be sure to check out test/constexpr_tests for constexpr testing")
+  message("Building Tests.")
   add_subdirectory(test)
 endif()
 
 if(ENABLE_FUZZING)
-  message("Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
+  message("Building Fuzz Tests")
   add_subdirectory(fuzz_test)
 endif()
 

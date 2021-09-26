@@ -10,10 +10,6 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: RelWithDebInfo
-  # Conan cache environment variables
-  CONAN_SYSREQUIRES_MODE: enabled
-  CONAN_USER_HOME: "${{ github.workspace }}/conan-cache"
-  CONAN_USER_HOME_SHORT: "${{ github.workspace }}/conan-cache/short"
 
 # Use a bash shell so we can use the same syntax for environment variable
 # access regardless of the host operating system
@@ -41,29 +37,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Cache
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-conan-modules
-      with:
-        path: |
-          ${{ env.CONAN_USER_HOME }}
-          ~/.cache/pip
-        key: ${{ runner.os }}-${{ env.BUILD_TYPE }}-${{ hashFiles('CMakeLists.txt') }}-${{ hashFiles('cmake/Conan.cmake') }}
-
-    - name: Install conan
-      run: |
-        pip3 install wheel setuptools gcovr
-        pip3 install conan --upgrade
-
     - name: Install / Configure dependencies
       shell: bash
       run: |
-        if [ "$RUNNER_OS" == "Linux" ]; then
-          echo "Ubuntu - Fix Conan Path"
-          sudo update-alternatives --install /usr/bin/conan conan /home/runner/.local/bin/conan 10
-          sudo update-alternatives --config conan
-        elif [ "$RUNNER_OS" == "Windows" ]; then
+        if [ "$RUNNER_OS" == "Windows" ]; then
           echo "Using chocolatey to install OpenCppCoverage"
           choco install opencppcoverage
           # Add to Path

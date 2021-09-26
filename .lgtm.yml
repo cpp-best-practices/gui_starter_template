@@ -10,10 +10,7 @@ extraction:
         - g++-10
         - ccache
       script:
-        - mkdir ~/.conan
-        - cat /usr/local/share/ca-certificates/semmle-cache-ca/semmle-cache-ca.crt >> ~/.conan/cacert.pem
         - python3 -m pip install --upgrade pip setuptools
-        - python3 -m pip install conan
         - python3 -m pip install cmake
         - source ~/.profile
     configure:
