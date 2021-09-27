@@ -12,7 +12,7 @@ include(${cmakelib_SOURCE_DIR}/Index.cmake)
 # Initialize cmakelib
 # uncomment the options to enable them
 cmakelib(
-    Enable_CACHE
+    ENABLE_CACHE
     ENABLE_CONAN
     WARNINGS_AS_ERRORS
     # ENABLE_CPPCHECK
