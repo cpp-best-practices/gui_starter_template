@@ -40,3 +40,19 @@ else()
   message(STATUS "No colored compiler diagnostic set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
 endif()
 
+option(USE_OUTPUT_PATH "build all libaries and runtime files at lib and bin directory" YES)
+set(OUTPUT_LIB_PATH "/lib" CACHE STRING "Choose the output path of library targets.")
+set(OUTPUT_BIN_PATH "/bin" CACHE STRING "Choose the output path of binary targets.")
+if(USE_OUTPUT_PATH)
+  # -----------------------------------------------------------------------
+  # Where to put all the LIBRARY targets when built. This variable is used to initialize the
+  # LIBRARY_OUTPUT_DIRECTORY property on all the targets.
+  # -----------------------------------------------------------------------
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}${OUTPUT_LIB_PATH})
+
+  # -----------------------------------------------------------------------
+  # Where to put all the RUNTIME targets when built. This variable is used to initialize the
+  # RUNTIME_OUTPUT_DIRECTORY property on all the targets.
+  # -----------------------------------------------------------------------
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}${OUTPUT_BIN_PATH})
+endif()
