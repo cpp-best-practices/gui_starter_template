@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 3.15)
 # Set the project name to your project name, my project isn't very descriptive
 project(myproject CXX)
 
-# Add cmakelib
+# Add cmakelib v0.1.0
 include(FetchContent)
-FetchContent_Declare(cmakelib URL https://github.com/aminya/cmakelib/archive/refs/heads/main.zip)
+FetchContent_Declare(cmakelib URL https://github.com/aminya/cmakelib/archive/refs/tags/v0.1.0.zip)
 FetchContent_MakeAvailable(cmakelib)
 include(${cmakelib_SOURCE_DIR}/Index.cmake)
 
