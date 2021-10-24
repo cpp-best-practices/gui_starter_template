@@ -3,33 +3,35 @@ cmake_minimum_required(VERSION 3.15)
 # Set the project name to your project name, my project isn't very descriptive
 project(myproject CXX)
 
-# Add cmakelib v0.1.0
+# Add ProjectOptions v0.2.0
+# https://github.com/aminya/ProjectOptions
 include(FetchContent)
-FetchContent_Declare(cmakelib URL https://github.com/aminya/cmakelib/archive/refs/tags/v0.1.1.zip)
-FetchContent_MakeAvailable(cmakelib)
-include(${cmakelib_SOURCE_DIR}/Index.cmake)
+FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.2.0.zip)
+FetchContent_MakeAvailable(projectoptions)
+include(${projectoptions_SOURCE_DIR}/Index.cmake)
 
-# Initialize cmakelib
+# Initialize ProjectOptions
 # uncomment the options to enable them
-cmakelib(
-    ENABLE_CACHE
-    ENABLE_CONAN
-    WARNINGS_AS_ERRORS
-    # ENABLE_CPPCHECK
-    # ENABLE_CLANG_TIDY
-    # ENABLE_INCLUDE_WHAT_YOU_USE
-    # ENABLE_COVERAGE
-    # ENABLE_PCH
-    # ENABLE_DOXYGEN
-    # ENABLE_IPO
-    # ENABLE_USER_LINKER
-    # ENABLE_BUILD_WITH_TIME_TRACE
-    # ENABLE_UNITY
-    # ENABLE_SANITIZER_ADDRESS
-    # ENABLE_SANITIZER_LEAK
-    # ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
-    # ENABLE_SANITIZER_THREAD
-    # ENABLE_SANITIZER_MEMORY
+ProjectOptions(
+      ENABLE_CACHE
+      ENABLE_CONAN
+      WARNINGS_AS_ERRORS
+      # ENABLE_CPPCHECK
+      # ENABLE_CLANG_TIDY
+      # ENABLE_INCLUDE_WHAT_YOU_USE
+      # ENABLE_COVERAGE
+      # ENABLE_PCH
+      # ENABLE_DOXYGEN
+      # ENABLE_IPO
+      # ENABLE_USER_LINKER
+      # ENABLE_BUILD_WITH_TIME_TRACE
+      # ENABLE_UNITY
+      # ENABLE_SANITIZER_ADDRESS
+      # ENABLE_SANITIZER_LEAK
+      # ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
+      # ENABLE_SANITIZER_THREAD
+      # ENABLE_SANITIZER_MEMORY
+      # CONAN_OPTIONS
 )
 
 # project_options is defined inside cmakelib
