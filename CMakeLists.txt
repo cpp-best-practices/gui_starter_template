@@ -1,17 +1,21 @@
 cmake_minimum_required(VERSION 3.15)
 
-# Set the project name to your project name, my project isn't very descriptive
-project(myproject CXX)
-
-# Add ProjectOptions v0.2.0
+# Add ProjectOptions v0.3.0
 # https://github.com/aminya/ProjectOptions
 include(FetchContent)
-FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.2.0.zip)
+FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.3.0.zip)
 FetchContent_MakeAvailable(projectoptions)
 include(${projectoptions_SOURCE_DIR}/Index.cmake)
 
+# uncomment to enable vcpkg:
+# # Setup vcpkg - should be called before defining project()
+# run_vcpkg()
+
+# Set the project name to your project name, my_project isn't very descriptive
+project(myproject LANGUAGES CXX)
+
 # Initialize ProjectOptions
-# uncomment the options to enable them
+# uncomment the options to enable them:
 ProjectOptions(
       ENABLE_CACHE
       ENABLE_CONAN
