@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.15)
 
-# Add ProjectOptions v0.3.0
+# Add ProjectOptions v0.4.0
 # https://github.com/aminya/ProjectOptions
 include(FetchContent)
-FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.3.0.zip)
+FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.4.0.zip)
 FetchContent_MakeAvailable(projectoptions)
 include(${projectoptions_SOURCE_DIR}/Index.cmake)
 
