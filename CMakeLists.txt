@@ -1,9 +1,15 @@
 cmake_minimum_required(VERSION 3.15)
 
-# Add ProjectOptions v0.7.0
+# uncomment to set a default CXX standard for the external tools like clang-tidy and cppcheck
+# and the targets that do not specify a standard.
+# If not set, the latest supported standard for your compiler is used
+# You can later set fine-grained standards for each target using `target_compile_features`
+# set(CMAKE_CXX_STANDARD 17)
+
+# Add ProjectOptions v0.9.0
 # https://github.com/aminya/ProjectOptions
 include(FetchContent)
-FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.7.0.zip)
+FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.9.0.zip)
 FetchContent_MakeAvailable(projectoptions)
 include(${projectoptions_SOURCE_DIR}/Index.cmake)
 
@@ -22,11 +28,12 @@ ProjectOptions(
       WARNINGS_AS_ERRORS
       # ENABLE_CPPCHECK
       # ENABLE_CLANG_TIDY
+      # ENABLE_IPO
       # ENABLE_INCLUDE_WHAT_YOU_USE
       # ENABLE_COVERAGE
       # ENABLE_PCH
+      # PCH_HEADERS
       # ENABLE_DOXYGEN
-      # ENABLE_IPO
       # ENABLE_USER_LINKER
       # ENABLE_BUILD_WITH_TIME_TRACE
       # ENABLE_UNITY
@@ -37,7 +44,6 @@ ProjectOptions(
       # ENABLE_SANITIZER_MEMORY
       # CONAN_OPTIONS
 )
-
 # project_options is defined inside cmakelib
 target_compile_features(project_options INTERFACE cxx_std_17)
 
