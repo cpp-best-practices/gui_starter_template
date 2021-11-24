@@ -6,10 +6,10 @@ cmake_minimum_required(VERSION 3.15)
 # You can later set fine-grained standards for each target using `target_compile_features`
 # set(CMAKE_CXX_STANDARD 17)
 
-# Add ProjectOptions v0.9.0
+# Add ProjectOptions v0.10.0
 # https://github.com/aminya/ProjectOptions
 include(FetchContent)
-FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.9.0.zip)
+FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.10.0.zip)
 FetchContent_MakeAvailable(projectoptions)
 include(${projectoptions_SOURCE_DIR}/Index.cmake)
 
@@ -24,10 +24,10 @@ project(myproject LANGUAGES CXX)
 # uncomment the options to enable them:
 ProjectOptions(
       ENABLE_CACHE
+      # WARNINGS_AS_ERRORS
+      ENABLE_CPPCHECK
+      ENABLE_CLANG_TIDY
       ENABLE_CONAN
-      WARNINGS_AS_ERRORS
-      # ENABLE_CPPCHECK
-      # ENABLE_CLANG_TIDY
       # ENABLE_IPO
       # ENABLE_INCLUDE_WHAT_YOU_USE
       # ENABLE_COVERAGE
