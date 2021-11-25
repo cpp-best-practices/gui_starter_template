@@ -1,0 +1,25 @@
+# Build directories and binary files
+build/
+out/
+cmake-build-*/
+
+# IDE files
+.vs/
+.idea/
+.vscode/
+*.swp
+*~
+
+# OS Generated Files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.Trash-*
+$RECYCLE.BIN/
+.TemporaryItems
+ehthumbs.db
+Thumbs.db
+Dockerfile
