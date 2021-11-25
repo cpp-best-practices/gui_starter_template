@@ -1,5 +1,9 @@
+###############################
+# Git Line Endings            #
+###############################
+
 # Set the default behavior, in case people don't have core.autocrlf set.
-* text=auto
+* text=auto eol=lf
 
 # Explicitly declare text files you want to always be normalized and converted
 # to native line endings on checkout.
@@ -18,11 +22,44 @@
 .clang-format text
 .clang-tidy text
 Dockerfile text
+*.Dockerfile text
+Dockerfile.* text
 LICENSE text
 
-# Declare files that will always have CRLF line endings on checkout.
-*.sln text eol=crlf
+# Force batch scripts to always use CRLF line endings so that if a repo is accessed
+# in Windows via a file share from Linux, the scripts will work.
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
 
-# Denote all files that are truly binary and should not be modified.
-*.png binary
-*.jpg binary
+# Force bash scripts to always use LF line endings so that if a repo is accessed
+# in Unix via a file share from Windows, the scripts will work.
+*.sh text eol=lf
+
+###############################
+# Git Large File System (LFS) #
+###############################
+
+# Archives
+*.7z filter=lfs diff=lfs merge=lfs -text
+*.br filter=lfs diff=lfs merge=lfs -text
+*.gz filter=lfs diff=lfs merge=lfs -text
+*.tar filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+
+# Documents
+*.pdf filter=lfs diff=lfs merge=lfs -text
+
+# Images
+*.gif filter=lfs diff=lfs merge=lfs -text
+*.ico filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.pdf filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.webp filter=lfs diff=lfs merge=lfs -text
+
+# Fonts
+*.woff2 filter=lfs diff=lfs merge=lfs -text
+
+# Other
+*.exe filter=lfs diff=lfs merge=lfs -text
