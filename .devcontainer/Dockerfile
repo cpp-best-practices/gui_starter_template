@@ -1,10 +1,15 @@
-FROM ubuntu:bionic
+# [Choice] bionic (18.04), focal (20.04)
+ARG VARIANT="focal"
+FROM ubuntu:${VARIANT}
 
 # Install packages available from standard repos
-RUN apt-get update -qq && \
+RUN apt-get update -qq && export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --no-install-recommends \
-        software-properties-common wget git gpg-agent file \
-        python3 python3-pip doxygen graphviz ccache cppcheck build-essential \
+        software-properties-common wget git socat gpg gpg-agent file apt-utils\
+        build-essential make ninja-build \
+        rsync zip \
+        doxygen graphviz ccache cppcheck \
+        python3 python3-pip\
         neovim emacs nano
 
 # Install conan
@@ -13,10 +18,10 @@ RUN python3 -m pip install --upgrade pip setuptools && \
     conan --version
 
 # User-settable versions:
-# This Dockerfile should support gcc-[7, 8, 9, 10] and clang-[10, 11]
+# This Dockerfile should support gcc-[7, 8, 9, 10, 11] and clang-[10, 11, 12, 13]
 # Earlier versions of clang will require significant modifications to the IWYU section
-ARG GCC_VER="10"
-ARG LLVM_VER="11"
+ARG GCC_VER="11"
+ARG LLVM_VER="12"
 
 # Add gcc-${GCC_VER}
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
@@ -25,21 +30,21 @@ RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
 
 # Add clang-${LLVM_VER}
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - 2>/dev/null && \
-    add-apt-repository -y "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${LLVM_VER} main" && \
+    add-apt-repository -y "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${LLVM_VER} main" && \
     apt-get update -qq && \
     apt-get install -y --no-install-recommends \
         clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
         llvm-${LLVM_VER}-dev libclang-${LLVM_VER}-dev clang-tidy-${LLVM_VER}
 
+# Set the default clang-tidy, so CMake can find it
+RUN update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 1
+
 # Add current cmake/ccmake, from Kitware
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null \
         | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null && \
-    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' && \
-    apt-get update -qq && \
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' && \
+    apt-get update -qq && export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --no-install-recommends cmake cmake-curses-gui
-
-# Set the default clang-tidy, so CMake can find it
-RUN update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 1
 
 # Install include-what-you-use
 ENV IWYU /home/iwyu
@@ -64,7 +69,7 @@ RUN ln -s $(readlink -f /usr/lib/clang/${LLVM_VER}/include) \
     $(include-what-you-use -print-resource-dir 2>/dev/null)/include
 
 ## Cleanup cached apt data we don't need anymore
-#RUN apt-get clean && \
+#RUN apt-get autoremove -y && apt-get clean && \
 #    rm -rf /var/lib/apt/lists/*
 
 # Set gcc-${GCC_VER} as default gcc
@@ -94,7 +99,7 @@ ENV CONAN_SYSREQUIRES_SUDO 0
 ENV CONAN_SYSREQUIRES_MODE enabled
 
 # Include project
-ADD . /starter_project
-WORKDIR /starter_project
+#ADD . /home/cpp_starter_project
+#WORKDIR /home/cpp_starter_project
 
 CMD ["/bin/bash"]
