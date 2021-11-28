@@ -6,10 +6,10 @@ cmake_minimum_required(VERSION 3.15)
 # You can later set fine-grained standards for each target using `target_compile_features`
 # set(CMAKE_CXX_STANDARD 17)
 
-# Add ProjectOptions v0.10.0
+# Add ProjectOptions v0.11.1
 # https://github.com/aminya/ProjectOptions
 include(FetchContent)
-FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.10.0.zip)
+FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.11.1.zip)
 FetchContent_MakeAvailable(projectoptions)
 include(${projectoptions_SOURCE_DIR}/Index.cmake)
 
