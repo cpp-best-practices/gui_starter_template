@@ -99,7 +99,7 @@ ENV CONAN_SYSREQUIRES_SUDO 0
 ENV CONAN_SYSREQUIRES_MODE enabled
 
 # Include project
-#ADD . /home/cpp_starter_project
-#WORKDIR /home/cpp_starter_project
+#ADD . /workspaces/cpp_starter_project
+#WORKDIR /workspaces/cpp_starter_project
 
 CMD ["/bin/bash"]

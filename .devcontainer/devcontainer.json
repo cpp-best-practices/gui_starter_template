@@ -34,8 +34,6 @@
 		"ms-vscode.cpptools",
 		"ms-vscode.cmake-tools",
 		"twxs.cmake",
-		"llvm-vs-code-extensions.vscode-clangd",
-		"vadimcn.vscode-lldb",
 		"cschlosser.doxdocgen",
 		"ms-vscode.cpptools-themes",
 		"eamodio.gitlens",
