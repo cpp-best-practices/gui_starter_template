@@ -5,53 +5,43 @@
 	"build": {
 		"dockerfile": "Dockerfile",
 		// Update 'VARIANT' to pick an Ubuntu OS version: bionic (18.04), focal (20.04)
-		"args": { "VARIANT": "focal", "GCC_VER": "11", "LLVM_VER": "12", "USE_CLANG": "1" }
+		"args": {
+			"VARIANT": "focal",
+			"GCC_VER": "11",
+			"LLVM_VER": "12"
+		}
 	},
-	"runArgs": ["--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined"],
-
+	"runArgs": [
+		"--cap-add=SYS_PTRACE",
+		"--security-opt",
+		"seccomp=unconfined"
+	],
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
-		"clangd.arguments": [
-			"--compile-commands-dir=build/",
-			"--all-scopes-completion",
-			"--background-index",
-			"--clang-tidy",
-			"--completion-style=detailed",
-			"--fallback-style='{BasedOnStyle: LLVM, IndentWidth: 8}'",
-			"--header-insertion=iwyu",
-			"--header-insertion-decorators",
-			"--limit-results=0",
-			"--suggest-missing-includes",
-			"--pch-storage=memory",
-			"--pretty"
-		],
 		"cmake.configureOnOpen": true,
 		"editor.formatOnSave": true
 	},
-
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-vscode.cpptools",
 		"ms-vscode.cmake-tools",
 		"twxs.cmake",
-		"cschlosser.doxdocgen",
 		"ms-vscode.cpptools-themes",
+		"cschlosser.doxdocgen",
 		"eamodio.gitlens",
+		"ms-python.python",
+		"ms-python.vscode-pylance",
 		"mutantdino.resourcemonitor"
 	],
-
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "uname -a",
-
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	//"remoteUser": "vscode",
 	"features": {
 		"git": "latest",
 		"git-lfs": "latest",
-		"python": "latest",
 		"powershell": "latest"
 	}
 }
