@@ -2,6 +2,9 @@
 ARG VARIANT="focal"
 FROM ubuntu:${VARIANT}
 
+# Restate the variant to use it later on in the llvm and cmake installations
+ARG VARIANT
+
 # Install packages available from standard repos
 RUN apt-get update -qq && export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --no-install-recommends \
@@ -18,7 +21,7 @@ RUN python3 -m pip install --upgrade pip setuptools && \
     conan --version
 
 # User-settable versions:
-# This Dockerfile should support gcc-[7, 8, 9, 10, 11] and clang-[10, 11, 12, 13]
+# This Dockerfile should support gcc-[7, 8, 9, 10, 11] and clang-[10, 11, 12]
 # Earlier versions of clang will require significant modifications to the IWYU section
 ARG GCC_VER="11"
 ARG LLVM_VER="12"
@@ -29,9 +32,11 @@ RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
     apt-get install -y --no-install-recommends gcc-${GCC_VER} g++-${GCC_VER}
 
 # Add clang-${LLVM_VER}
+ARG LLVM_URL="http://apt.llvm.org/${VARIANT}/"
+ARG LLVM_PKG="llvm-toolchain-${VARIANT}-${LLVM_VER}"
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - 2>/dev/null && \
-    add-apt-repository -y "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${LLVM_VER} main" && \
-    apt-get update -qq && \
+    add-apt-repository -y "deb ${LLVM_URL} ${LLVM_PKG} main" && \
+    apt-get update -qq && export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --no-install-recommends \
         clang-${LLVM_VER} lldb-${LLVM_VER} lld-${LLVM_VER} clangd-${LLVM_VER} \
         llvm-${LLVM_VER}-dev libclang-${LLVM_VER}-dev clang-tidy-${LLVM_VER}
@@ -40,9 +45,11 @@ RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - 2>/dev/
 RUN update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-tidy-${LLVM_VER}) 1
 
 # Add current cmake/ccmake, from Kitware
+ARG CMAKE_URL="https://apt.kitware.com/ubuntu/"
+ARG CMAKE_PKG=${VARIANT}
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null \
         | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null && \
-    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' && \
+    apt-add-repository -y "deb ${CMAKE_URL} ${CMAKE_PKG} main" && \
     apt-get update -qq && export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --no-install-recommends cmake cmake-curses-gui
 
