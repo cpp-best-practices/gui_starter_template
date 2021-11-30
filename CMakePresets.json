@@ -131,7 +131,7 @@
                     ]
                 },
                 "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
-                    "sourceDir": "$env{HOME}/$ms{projectDirName}"
+                    "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
                 }
             }
         },
@@ -154,7 +154,7 @@
                     ]
                 },
                 "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
-                    "sourceDir": "$env{HOME}/$ms{projectDirName}"
+                    "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
                 }
             }
         },
@@ -177,7 +177,7 @@
                     ]
                 },
                 "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
-                    "sourceDir": "$env{HOME}/$ms{projectDirName}"
+                    "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
                 }
             }
         },
@@ -200,7 +200,7 @@
                     ]
                 },
                 "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
-                    "sourceDir": "$env{HOME}/$ms{projectDirName}"
+                    "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
                 }
             }
         }
