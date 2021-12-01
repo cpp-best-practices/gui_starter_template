@@ -8,11 +8,11 @@ ARG VARIANT
 # Install packages available from standard repos
 RUN apt-get update -qq && export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --no-install-recommends \
-        software-properties-common wget git socat gpg gpg-agent file apt-utils\
-        build-essential make ninja-build \
-        rsync zip \
-        doxygen graphviz ccache cppcheck \
-        python3 python3-pip\
+        software-properties-common wget apt-utils file zip \
+        openssh-client gpg gpg-agent socat rsync \
+        build-essential git make ninja-build \
+        ccache doxygen graphviz cppcheck \
+        python3 python3-pip \
         neovim emacs nano
 
 # Install conan
