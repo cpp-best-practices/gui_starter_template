@@ -5,7 +5,7 @@ FROM ubuntu:${VARIANT}
 # Restate the variant to use it later on in the llvm and cmake installations
 ARG VARIANT
 
-# Install nessesary packages available from standard repos
+# Install necessary packages available from standard repos
 RUN apt-get update -qq && export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --no-install-recommends \
         software-properties-common wget apt-utils file zip \
@@ -58,15 +58,6 @@ RUN update-alternatives --install /usr/bin/clang-tidy clang-tidy $(which clang-t
 RUN update-alternatives --install /usr/bin/clang clang $(which clang-${LLVM_VER}) 100
 RUN update-alternatives --install /usr/bin/clang++ clang++ $(which clang++-${LLVM_VER}) 100
 
-# Allow the user to set compiler defaults
-ARG USE_CLANG
-# if --build-arg USE_CLANG=1, set CC to 'clang' or set to null otherwise.
-ENV CC=${USE_CLANG:+"clang"}
-ENV CXX=${USE_CLANG:+"clang++"}
-# if CC is null, set it to 'gcc' (or leave as is otherwise).
-ENV CC=${CC:-"gcc"}
-ENV CXX=${CXX:-"g++"}
-
 # Add current cmake/ccmake, from Kitware
 ARG CMAKE_URL="https://apt.kitware.com/ubuntu/"
 ARG CMAKE_PKG=${VARIANT}
@@ -79,7 +70,7 @@ RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/nul
 # Install optional dependecies
 RUN apt-get update -qq && export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --no-install-recommends \
-        doxygen ccache cppcheck \
+        doxygen graphviz ccache cppcheck \
         neovim emacs nano
 
 # Install include-what-you-use
@@ -107,6 +98,15 @@ RUN ln -s $(readlink -f /usr/lib/clang/${LLVM_VER}/include) \
 ## Cleanup cached apt data we don't need anymore
 RUN apt-get autoremove -y && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Allow the user to set compiler defaults
+ARG USE_CLANG
+# if --build-arg USE_CLANG=1, set CC to 'clang' or set to null otherwise.
+ENV CC=${USE_CLANG:+"clang"}
+ENV CXX=${USE_CLANG:+"clang++"}
+# if CC is null, set it to 'gcc' (or leave as is otherwise).
+ENV CC=${CC:-"gcc"}
+ENV CXX=${CXX:-"g++"}
 
 # Include project
 #ADD . /workspaces/cpp_starter_project
