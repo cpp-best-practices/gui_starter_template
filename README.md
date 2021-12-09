@@ -514,7 +514,7 @@ docker run -it my_project:latest
 
 This command will put you in a `bash` session in a Ubuntu 20.04 Docker container,
 with all of the tools listed in the [Dependencies](#dependencies) section already installed.
-Additionally, you will have `g++-11` and `clang++-12` installed as the default
+Additionally, you will have `g++-11` and `clang++-13` installed as the default
 versions of `g++` and `clang++`.
 
 If you want to build this container using some other versions of gcc and clang,
@@ -554,7 +554,7 @@ You can configure and build [as directed above](#build) using these commands:
 /starter_project# cmake --build ./build
 ```
 
-You can configure and build using `clang-12`, without rebuilding the container,
+You can configure and build using `clang-13`, without rebuilding the container,
 with these commands:
 
 ```bash
