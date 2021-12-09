@@ -4,12 +4,15 @@
 	"name": "C++",
 	"build": {
 		"dockerfile": "Dockerfile",
-		// Update 'VARIANT' to pick an Ubuntu OS version: bionic (18.04), focal (20.04)
-		"args": {
-			"VARIANT": "focal",
-			"GCC_VER": "11",
-			"LLVM_VER": "12"
-		}
+		// Update 'VARIANT' to pick an Ubuntu OS version. Options: [bionic, focal]. Default: focal
+		// Update 'GCC_VER' to pick a gcc and g++ version. Options: [7, 8, 9, 10, 11]. Default: 11
+		// Update 'LLVM_VER' to pick clang version. Options: [10, 11, 12, 13]. Default: 13
+		// Update 'USE_CLANG' to set clang as the default C and C++ compiler. Options: [1, null]. Default null
+		// "args": {
+		// 	"VARIANT": "focal",
+		// 	"GCC_VER": "11",
+		// 	"LLVM_VER": "13"
+		// }
 	},
 	"runArgs": [
 		"--cap-add=SYS_PTRACE",

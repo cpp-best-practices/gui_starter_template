@@ -28,7 +28,7 @@ ENV CONAN_SYSREQUIRES_SUDO 0
 ENV CONAN_SYSREQUIRES_MODE enabled
 
 # User-settable versions:
-# This Dockerfile should support gcc-[7, 8, 9, 10, 11] and clang-[10, 11, 12]
+# This Dockerfile should support gcc-[7, 8, 9, 10, 11] and clang-[10, 11, 12, 13]
 # Earlier versions of clang will require significant modifications to the IWYU section
 ARG GCC_VER="11"
 # Add gcc-${GCC_VER}
@@ -41,7 +41,7 @@ RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
 RUN update-alternatives --install /usr/bin/gcc gcc $(which gcc-${GCC_VER}) 100
 RUN update-alternatives --install /usr/bin/g++ g++ $(which g++-${GCC_VER}) 100
 
-ARG LLVM_VER="12"
+ARG LLVM_VER="13"
 # Add clang-${LLVM_VER}
 ARG LLVM_URL="http://apt.llvm.org/${VARIANT}/"
 ARG LLVM_PKG="llvm-toolchain-${VARIANT}-${LLVM_VER}"
