@@ -504,11 +504,7 @@ If you have [Docker](https://www.docker.com/) installed, you can run this
 in your terminal, when the Dockerfile is inside the .devconatiner directory:
 
 ```bash
-cd .devcontainer/
-```
-
-```bash
-docker build --tag=my_project:latest .
+docker build -f ./.devcontainer/Dockerfile --tag=my_project:latest .
 docker run -it my_project:latest
 ```
 
