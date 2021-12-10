@@ -42,6 +42,8 @@
 	//"postCreateCommand": "uname -a",
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	//"remoteUser": "vscode",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace/${localWorkspaceFolderBasename},type=bind,consistency=delegated",
+	"workspaceFolder": "/workspace/${localWorkspaceFolderBasename}",
 	"features": {
 		"git": "latest",
 		"git-lfs": "latest",
