@@ -6,10 +6,10 @@ cmake_minimum_required(VERSION 3.15)
 # You can later set fine-grained standards for each target using `target_compile_features`
 # set(CMAKE_CXX_STANDARD 17)
 
-# Add ProjectOptions v0.11.2
+# Add ProjectOptions v0.11.3
 # https://github.com/aminya/ProjectOptions
 include(FetchContent)
-FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.11.2.zip)
+FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.11.3.zip)
 FetchContent_MakeAvailable(projectoptions)
 include(${projectoptions_SOURCE_DIR}/Index.cmake)
 
@@ -17,7 +17,7 @@ include(${projectoptions_SOURCE_DIR}/Index.cmake)
 # # Setup vcpkg - should be called before defining project()
 # run_vcpkg()
 
-# Set the project name to your project name, my_project isn't very descriptive
+# Set the project name and language
 project(myproject LANGUAGES CXX)
 
 # Initialize ProjectOptions
