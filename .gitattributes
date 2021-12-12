@@ -1,40 +1,10 @@
 ###############################
 # Git Line Endings            #
-###############################
-
-# Set the default behavior, in case people don't have core.autocrlf set.
+# line endings
 * text=auto eol=lf
-
-# Explicitly declare text files you want to always be normalized and converted
-# to native line endings on checkout.
-*.txt text
-*.yml text
-*.py text
-*.cmake text
-*.c text
-*.cpp text
-*.h text
-*.hpp text
-.gitattributes text
-.gitignore text
-.dockerignore text
-*.md text
-.clang-format text
-.clang-tidy text
-Dockerfile text
-*.Dockerfile text
-Dockerfile.* text
-LICENSE text
-
-# Force batch scripts to always use CRLF line endings so that if a repo is accessed
-# in Windows via a file share from Linux, the scripts will work.
 *.{cmd,[cC][mM][dD]} text eol=crlf
 *.{bat,[bB][aA][tT]} text eol=crlf
-
-# Force bash scripts to always use LF line endings so that if a repo is accessed
-# in Unix via a file share from Windows, the scripts will work.
-*.sh text eol=lf
-
+*.{vcxproj,vcxproj.filters} text eol=crlf
 ###############################
 # Git Large File System (LFS) #
 ###############################
