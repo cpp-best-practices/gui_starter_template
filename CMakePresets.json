@@ -207,123 +207,51 @@
     ],
     "buildPresets": [
         {
-            "name": "default-build-windows-msvc-debug",
+            "name": "build-windows-msvc-debug",
             "displayName": "Default",
             "description": "Vanilla build",
             "configurePreset": "windows-msvc-debug"
         },
         {
-            "name": "verbose-build-windows-msvc-debug",
-            "displayName": "Verbose",
-            "description": "Passes -v to Ninja",
-            "nativeToolOptions": [
-                "-v"
-            ],
-            "configurePreset": "windows-msvc-debug"
-        },
-        {
-            "name": "default-build-windows-msvc-release",
+            "name": "build-windows-msvc-release",
             "displayName": "Default",
             "description": "Vanilla build",
             "configurePreset": "windows-msvc-release"
         },
         {
-            "name": "verbose-build-windows-msvc-release",
-            "displayName": "Verbose",
-            "description": "Passes -v to Ninja",
-            "nativeToolOptions": [
-                "-v"
-            ],
-            "configurePreset": "windows-msvc-release"
-        },
-        {
-            "name": "default-build-windows-clang-debug",
+            "name": "build-windows-clang-debug",
             "displayName": "Default",
             "description": "Vanilla build",
             "configurePreset": "windows-clang-debug"
         },
         {
-            "name": "verbose-build-windows-clang-debug",
-            "displayName": "Verbose",
-            "description": "Passes -v to Ninja",
-            "nativeToolOptions": [
-                "-v"
-            ],
-            "configurePreset": "windows-clang-debug"
-        },
-        {
-            "name": "default-build-windows-clang-release",
+            "name": "build-windows-clang-release",
             "displayName": "Default",
             "description": "Vanilla build",
             "configurePreset": "windows-clang-release"
         },
         {
-            "name": "verbose-build-windows-clang-release",
-            "displayName": "Verbose",
-            "description": "Passes -v to Ninja",
-            "nativeToolOptions": [
-                "-v"
-            ],
-            "configurePreset": "windows-clang-release"
-        },
-        {
-            "name": "default-build-linux-gcc-debug",
+            "name": "build-linux-gcc-debug",
             "displayName": "Default",
             "description": "Vanilla build",
             "configurePreset": "linux-gcc-debug"
         },
         {
-            "name": "verbose-build-linux-gcc-debug",
-            "displayName": "Verbose",
-            "description": "Passes -v to Ninja",
-            "nativeToolOptions": [
-                "-v"
-            ],
-            "configurePreset": "linux-gcc-debug"
-        },
-        {
-            "name": "default-build-linux-gcc-release",
+            "name": "build-linux-gcc-release",
             "displayName": "Default",
             "description": "Vanilla build",
             "configurePreset": "linux-gcc-release"
         },
         {
-            "name": "verbose-build-linux-gcc-release",
-            "displayName": "Verbose",
-            "description": "Passes -v to Ninja",
-            "nativeToolOptions": [
-                "-v"
-            ],
-            "configurePreset": "linux-gcc-release"
-        },
-        {
-            "name": "default-build-linux-clang-debug",
+            "name": "build-linux-clang-debug",
             "displayName": "Default",
             "description": "Vanilla build",
             "configurePreset": "linux-clang-debug"
         },
         {
-            "name": "verbose-build-linux-clang-debug",
-            "displayName": "Verbose",
-            "description": "Passes -v to Ninja",
-            "nativeToolOptions": [
-                "-v"
-            ],
-            "configurePreset": "linux-clang-debug"
-        },
-        {
-            "name": "default-build-linux-clang-release",
+            "name": "build-linux-clang-release",
             "displayName": "Default",
             "description": "Vanilla build",
-            "configurePreset": "linux-clang-release"
-        },
-        {
-            "name": "verbose-build-linux-clang-release",
-            "displayName": "Verbose",
-            "description": "Passes -v to Ninja",
-            "nativeToolOptions": [
-                "-v"
-            ],
             "configurePreset": "linux-clang-release"
         }
     ],
