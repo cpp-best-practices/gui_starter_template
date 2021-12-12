@@ -13,7 +13,7 @@ cmake-build-*/
 !.vscode/extensions.json
 *.swp
 *~
-**/_ReSharper*
+_ReSharper*
 *.log
 
 # OS Generated Files
