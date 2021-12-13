@@ -6,10 +6,10 @@ cmake_minimum_required(VERSION 3.15)
 # You can later set fine-grained standards for each target using `target_compile_features`
 # set(CMAKE_CXX_STANDARD 17)
 
-# Add ProjectOptions v0.11.3
-# https://github.com/aminya/ProjectOptions
+# Add ProjectOptions v0.11.4
+# https://github.com/cpp-best-practices/ProjectOptions
 include(FetchContent)
-FetchContent_Declare(projectoptions URL https://github.com/aminya/ProjectOptions/archive/refs/tags/v0.11.3.zip)
+FetchContent_Declare(projectoptions URL https://github.com/cpp-best-practices/ProjectOptions/archive/refs/tags/v0.11.4.zip)
 FetchContent_MakeAvailable(projectoptions)
 include(${projectoptions_SOURCE_DIR}/Index.cmake)
 
@@ -28,9 +28,9 @@ ProjectOptions(
       ENABLE_CPPCHECK
       ENABLE_CLANG_TIDY
       ENABLE_CONAN
+      ENABLE_COVERAGE
       # ENABLE_IPO
       # ENABLE_INCLUDE_WHAT_YOU_USE
-      # ENABLE_COVERAGE
       # ENABLE_PCH
       # PCH_HEADERS
       # ENABLE_DOXYGEN
