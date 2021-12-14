@@ -7,7 +7,7 @@
     },
     "configurePresets": [
         {
-            "name": "windows-msvc-debug",
+            "name": "conf-windows-msvc-debug",
             "displayName": "msvc Debug",
             "description": "Target Windows with the msvc compiler, debug build type",
             "generator": "Ninja",
@@ -31,7 +31,7 @@
             }
         },
         {
-            "name": "windows-msvc-release",
+            "name": "conf-windows-msvc-debug",
             "displayName": "msvc Release",
             "description": "Target Windows with the msvc compiler, release build type",
             "generator": "Ninja",
@@ -55,7 +55,7 @@
             }
         },
         {
-            "name": "windows-clang-debug",
+            "name": "conf-windows-clang-debug",
             "displayName": "clang Debug",
             "description": "Target Windows with the clang compiler, debug build type",
             "generator": "Ninja",
@@ -84,7 +84,7 @@
             }
         },
         {
-            "name": "windows-clang-release",
+            "name": "conf-windows-clang-release",
             "displayName": "clang Release",
             "description": "Target Windows with the clang compiler, release build type",
             "generator": "Ninja",
@@ -113,7 +113,7 @@
             }
         },
         {
-            "name": "linux-gcc-debug",
+            "name": "conf-linux-gcc-debug",
             "displayName": "gcc Debug",
             "description": "Target Linux with the gcc compiler, debug build type",
             "generator": "Ninja",
@@ -136,7 +136,7 @@
             }
         },
         {
-            "name": "linux-gcc-release",
+            "name": "conf-linux-gcc-release",
             "displayName": "gcc Release",
             "description": "Target Linux with the gcc compiler, release build type",
             "generator": "Ninja",
@@ -159,7 +159,7 @@
             }
         },
         {
-            "name": "linux-clang-debug",
+            "name": "conf-linux-clang-debug",
             "displayName": "clang Debug",
             "description": "Target Linux with the clang compiler, debug build type",
             "generator": "Ninja",
@@ -182,7 +182,7 @@
             }
         },
         {
-            "name": "linux-clang-release",
+            "name": "conf-linux-clang-release",
             "displayName": "clang Release",
             "description": "Target Linux with the clang compiler, release build type",
             "generator": "Ninja",
@@ -205,120 +205,70 @@
             }
         }
     ],
-    "buildPresets": [
-        {
-            "name": "build-windows-msvc-debug",
-            "displayName": "Default",
-            "description": "Vanilla build",
-            "configurePreset": "windows-msvc-debug"
-        },
-        {
-            "name": "build-windows-msvc-release",
-            "displayName": "Default",
-            "description": "Vanilla build",
-            "configurePreset": "windows-msvc-release"
-        },
-        {
-            "name": "build-windows-clang-debug",
-            "displayName": "Default",
-            "description": "Vanilla build",
-            "configurePreset": "windows-clang-debug"
-        },
-        {
-            "name": "build-windows-clang-release",
-            "displayName": "Default",
-            "description": "Vanilla build",
-            "configurePreset": "windows-clang-release"
-        },
-        {
-            "name": "build-linux-gcc-debug",
-            "displayName": "Default",
-            "description": "Vanilla build",
-            "configurePreset": "linux-gcc-debug"
-        },
-        {
-            "name": "build-linux-gcc-release",
-            "displayName": "Default",
-            "description": "Vanilla build",
-            "configurePreset": "linux-gcc-release"
-        },
-        {
-            "name": "build-linux-clang-debug",
-            "displayName": "Default",
-            "description": "Vanilla build",
-            "configurePreset": "linux-clang-debug"
-        },
-        {
-            "name": "build-linux-clang-release",
-            "displayName": "Default",
-            "description": "Vanilla build",
-            "configurePreset": "linux-clang-release"
-        }
-    ],
     "testPresets": [
         {
-            "name": "core-test-windows-msvc-debug",
+            "name": "test-windows-msvc-debug",
             "description": "Enable output on failure",
             "output": {
                 "outputOnFailure": true
             },
-            "configurePreset": "windows-msvc-debug"
+            "configurePreset": "conf-windows-msvc-debug"
         },
         {
-            "name": "core-test-windows-msvc-release",
+            "name": "test-windows-msvc-release",
             "description": "Enable output on failure",
             "output": {
                 "outputOnFailure": true
             },
-            "configurePreset": "windows-msvc-release"
+            "configurePreset": "conf-windows-msvc-release"
         },
         {
-            "name": "core-test-windows-clang-debug",
+            "name": "test-windows-clang-debug",
             "description": "Enable output on failure",
             "output": {
                 "outputOnFailure": true
             },
-            "configurePreset": "windows-clang-debug"
+            "configurePreset": "conf-windows-clang-debug"
         },
         {
-            "name": "core-test-windows-clang-release",
+            "name": "test-windows-clang-release",
             "description": "Enable output on failure",
             "output": {
                 "outputOnFailure": true
             },
-            "configurePreset": "windows-clang-release"
+            "configurePreset": "conf-windows-clang-release"
         },
         {
-            "name": "core-test-linux-gcc-debug",
+            "name": "test-linux-gcc-debug",
             "description": "Enable output on failure",
             "output": {
                 "outputOnFailure": true
             },
-            "configurePreset": "linux-gcc-debug"
+            "configurePreset": "conf-linux-gcc-debug"
         },
         {
-            "name": "core-test-linux-gcc-release",
+            "name": "test-linux-gcc-release",
             "description": "Enable output on failure",
             "output": {
                 "outputOnFailure": true
             },
-            "configurePreset": "linux-gcc-release"
+            "configurePreset": "conf-linux-gcc-release"
         },
         {
-            "name": "core-test-linux-clang-debug",
+            "name": "test-linux-clang-debug",
             "description": "Enable output on failure",
             "output": {
                 "outputOnFailure": true
             },
-            "configurePreset": "linux-clang-debug"
+            "configurePreset": "conf-linux-clang-debug"
         },
         {
-            "name": "core-test-linux-clang-release",
+            "name": "test-linux-clang-release",
             "description": "Enable output on failure",
             "output": {
                 "outputOnFailure": true
             },
-            "configurePreset": "linux-clang-release"
+            "configurePreset": "conf-linux-clang-release"
         }
     ]
 }
