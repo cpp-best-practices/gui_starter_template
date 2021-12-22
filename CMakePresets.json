@@ -52,7 +52,7 @@
             }
         },
         {
-            "name": "conf-windows-msvc-debug",
+            "name": "windows-msvc-debug",
             "displayName": "msvc Debug",
             "description": "Target Windows with the msvc compiler, debug build type",
             "inherits": "conf-windows-common",
@@ -63,7 +63,7 @@
             }
         },
         {
-            "name": "conf-windows-msvc-release",
+            "name": "windows-msvc-release",
             "displayName": "msvc Release",
             "description": "Target Windows with the msvc compiler, release build type",
             "inherits": "conf-windows-common",
@@ -74,7 +74,7 @@
             }
         },
         {
-            "name": "conf-windows-clang-debug",
+            "name": "windows-clang-debug",
             "displayName": "clang Debug",
             "description": "Target Windows with the clang compiler, debug build type",
             "inherits": "conf-windows-common",
@@ -93,7 +93,7 @@
             }
         },
         {
-            "name": "conf-windows-clang-release",
+            "name": "windows-clang-release",
             "displayName": "clang Release",
             "description": "Target Windows with the clang compiler, release build type",
             "inherits": "conf-windows-common",
@@ -112,7 +112,7 @@
             }
         },
         {
-            "name": "conf-linux-gcc-debug",
+            "name": "linux-gcc-debug",
             "displayName": "gcc Debug",
             "description": "Target Linux with the gcc compiler, debug build type",
             "inherits": "conf-linux-common",
@@ -123,7 +123,7 @@
             }
         },
         {
-            "name": "conf-linux-gcc-release",
+            "name": "linux-gcc-release",
             "displayName": "gcc Release",
             "description": "Target Linux with the gcc compiler, release build type",
             "inherits": "conf-linux-common",
@@ -134,7 +134,7 @@
             }
         },
         {
-            "name": "conf-linux-clang-debug",
+            "name": "linux-clang-debug",
             "displayName": "clang Debug",
             "description": "Target Linux with the clang compiler, debug build type",
             "inherits": "conf-linux-common",
@@ -145,7 +145,7 @@
             }
         },
         {
-            "name": "conf-linux-clang-release",
+            "name": "linux-clang-release",
             "displayName": "clang Release",
             "description": "Target Linux with the clang compiler, release build type",
             "inherits": "conf-linux-common",
@@ -174,56 +174,56 @@
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "conf-windows-msvc-debug"
+            "configurePreset": "windows-msvc-debug"
         },
         {
             "name": "test-windows-msvc-release",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "conf-windows-msvc-release"
+            "configurePreset": "windows-msvc-release"
         },
         {
             "name": "test-windows-clang-debug",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "conf-windows-clang-debug"
+            "configurePreset": "windows-clang-debug"
         },
         {
             "name": "test-windows-clang-release",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "conf-windows-clang-release"
+            "configurePreset": "windows-clang-release"
         },
         {
             "name": "test-linux-gcc-debug",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "conf-linux-gcc-debug"
+            "configurePreset": "linux-gcc-debug"
         },
         {
             "name": "test-linux-gcc-release",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "conf-linux-gcc-release"
+            "configurePreset": "linux-gcc-release"
         },
         {
             "name": "test-linux-clang-debug",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "conf-linux-clang-debug"
+            "configurePreset": "linux-clang-debug"
         },
         {
             "name": "test-linux-clang-release",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "conf-linux-clang-release"
+            "configurePreset": "linux-clang-release"
         }
     ]
 }
