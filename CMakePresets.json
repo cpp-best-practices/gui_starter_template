@@ -19,6 +19,11 @@
             "description": "Windows settings for MSBuild toolchain that apply to msvc and clang",
             "hidden": true,
             "inherits": "conf-common",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
             "architecture": {
                 "value": "x64",
                 "strategy": "external"
@@ -26,13 +31,6 @@
             "toolset": {
                 "value": "host=x64",
                 "strategy": "external"
-            },
-            "vendor": {
-                "microsoft.com/VisualStudioSettings/CMake/1.0": {
-                    "hostOS": [
-                        "Windows"
-                    ]
-                }
             }
         },
         {
@@ -40,12 +38,12 @@
             "description": "Linux settings for gcc and clang toolchains",
             "hidden": true,
             "inherits": "conf-common",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
             "vendor": {
-                "microsoft.com/VisualStudioSettings/CMake/1.0": {
-                    "hostOS": [
-                        "Linux"
-                    ]
-                },
                 "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
                     "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
                 }
@@ -85,9 +83,6 @@
             },
             "vendor": {
                 "microsoft.com/VisualStudioSettings/CMake/1.0": {
-                    "hostOS": [
-                        "Windows"
-                    ],
                     "intelliSenseMode": "windows-clang-x64"
                 }
             }
@@ -104,9 +99,6 @@
             },
             "vendor": {
                 "microsoft.com/VisualStudioSettings/CMake/1.0": {
-                    "hostOS": [
-                        "Windows"
-                    ],
                     "intelliSenseMode": "windows-clang-x64"
                 }
             }
