@@ -20,7 +20,8 @@ include(${_project_options_SOURCE_DIR}/Index.cmake)
 # Set the project name and language
 project(myproject LANGUAGES CXX)
 
-# Initialize project_options
+# Initialize project_options variable related to this project
+# This overwrites `project_options` and sets `project_warnings`
 # uncomment the options to enable them:
 project_options(
       ENABLE_CACHE
@@ -44,7 +45,6 @@ project_options(
       # ENABLE_SANITIZER_MEMORY
       # CONAN_OPTIONS
 )
-# project_options is defined inside cmakelib
 target_compile_features(project_options INTERFACE cxx_std_17)
 
 # Adding the src:
