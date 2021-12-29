@@ -9,6 +9,8 @@ cmake-build-*/
 .vscode/
 *.swp
 *~
+_ReSharper*
+*.log
 
 # OS Generated Files
 .DS_Store
