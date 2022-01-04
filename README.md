@@ -246,6 +246,7 @@ linked here:
 ## Build Instructions
 
 A full build has different steps:
+1) Specifying the compiler using environment variables
 2) Configuring the project
 3) Building the project
 
