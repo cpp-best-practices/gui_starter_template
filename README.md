@@ -246,7 +246,6 @@ linked here:
 ## Build Instructions
 
 A full build has different steps:
-1) Specifying the compiler using environment variables
 2) Configuring the project
 3) Building the project
 
@@ -304,9 +303,9 @@ CMake will detect which compiler was used to build each of the Conan targets. If
 				[Environment]::SetEnvironmentVariable("CXX", "cl.exe", "User")
 				refreshenv
 
-		  Set the architecture using [vsvarsall](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019#vcvarsall-syntax):
+		  Set the architecture using [vcvarsall](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019#vcvarsall-syntax):
 
-				vsvarsall.bat x64
+				vcvarsall.bat x64
 
 		- clang
 
