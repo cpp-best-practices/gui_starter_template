@@ -9,7 +9,8 @@ cmake_minimum_required(VERSION 3.16)
 # Add project_options v0.12.3
 # https://github.com/cpp-best-practices/project_options
 include(FetchContent)
-FetchContent_Declare(_project_options URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.12.3.zip)
+FetchContent_Declare(_project_options
+                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.12.3.zip)
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
 
@@ -24,26 +25,26 @@ project(myproject LANGUAGES CXX)
 # This overwrites `project_options` and sets `project_warnings`
 # uncomment the options to enable them:
 project_options(
-      ENABLE_CACHE
-      # WARNINGS_AS_ERRORS
-      ENABLE_CPPCHECK
-      ENABLE_CLANG_TIDY
-      ENABLE_CONAN
-      ENABLE_COVERAGE
-      # ENABLE_IPO
-      # ENABLE_INCLUDE_WHAT_YOU_USE
-      # ENABLE_PCH
-      # PCH_HEADERS
-      # ENABLE_DOXYGEN
-      # ENABLE_USER_LINKER
-      # ENABLE_BUILD_WITH_TIME_TRACE
-      # ENABLE_UNITY
-      ENABLE_SANITIZER_ADDRESS
-      # ENABLE_SANITIZER_LEAK
-      ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
-      # ENABLE_SANITIZER_THREAD
-      # ENABLE_SANITIZER_MEMORY
-      # CONAN_OPTIONS
+  ENABLE_CACHE # ccache on Unix, to avoid rebuilding the same file with clean builds
+  WARNINGS_AS_ERRORS # force warnings to be dealt with, by making them hard errors
+  ENABLE_CPPCHECK # cppcheck is a standalone static analysis tool with helpful checks
+  ENABLE_CLANG_TIDY # clang-tidy is a static analysis tool that's part of the llvm toolchain
+  ENABLE_CONAN # package manager for getting dependencies with nice cmake integration
+  ENABLE_COVERAGE # analyze and report coverage of code lines
+  # ENABLE_IPO                     # inter-procedural-optimization, aka whole program optimization aka link-time-optimization (LTO)
+  # ENABLE_INCLUDE_WHAT_YOU_USE    # analysis to make sure #includes are handled properly
+  # ENABLE_PCH                     # pre-compiled headers. Can speed up compilation in some cases
+  # PCH_HEADERS
+  # ENABLE_DOXYGEN                 # build documentation with the doxygen tool
+  # ENABLE_USER_LINKER
+  # ENABLE_BUILD_WITH_TIME_TRACE   # generates report of where compile-time is spent
+  # ENABLE_UNITY                   # merge C++ files into larger C++ files, can speed up compilation sometimes
+  ENABLE_SANITIZER_ADDRESS # make memory errors into hard runtime errors (windows/linux/macos)
+  # ENABLE_SANITIZER_LEAK          # make memory leaks into hard runtime errors
+  ENABLE_SANITIZER_UNDEFINED_BEHAVIOR # make certain types (numeric mostly) of undefined behavior into runtime errors
+  # ENABLE_SANITIZER_THREAD        # make thread race conditions into hard runtime errors
+  # ENABLE_SANITIZER_MEMORY
+  # CONAN_OPTIONS
 )
 target_compile_features(project_options INTERFACE cxx_std_17)
 
