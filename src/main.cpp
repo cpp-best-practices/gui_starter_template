@@ -1,8 +1,8 @@
 #include <functional>
 #include <iostream>
 
-#include <spdlog/spdlog.h>
 #include <docopt/docopt.h>
+#include <spdlog/spdlog.h>
 
 static constexpr auto USAGE =
   R"(Naval Fate.
@@ -29,12 +29,10 @@ int main(int argc, const char **argv)
     true,// show help if requested
     "Naval Fate 2.0");// version string
 
-  for (auto const &arg : args) {
-    std::cout << arg.first << "=" << arg.second << '\n';
-  }
+  for (auto const &arg : args) { std::cout << arg.first << "=" << arg.second << '\n'; }
 
 
-  //Use the default logger (stdout, multi-threaded, colored)
+  // Use the default logger (stdout, multi-threaded, colored)
   spdlog::info("Hello, {}!", "World");
 
   fmt::print("Hello, from {}\n", "{fmt}");
