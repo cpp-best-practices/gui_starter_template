@@ -32,11 +32,23 @@ jobs:
         include:
         - os: ubuntu-latest
           ENABLE_COVERAGE: ON
+          ENABLE_ADDRESS_SANITIZER: ON
+          ENABLE_UNDEFINED_BEHAVIOR_SANITIZER: ON
+          ENABLE_CPPCHECK: ON
+          ENABLE_CLANG_TIDY: ON
         - os: windows-latest
           # Windows works differently
           ENABLE_COVERAGE: OFF
+          ENABLE_ADDRESS_SANITIZER: ON
+          ENABLE_UNDEFINED_BEHAVIOR_SANITIZER: OFF
+          ENABLE_CPPCHECK: OFF
+          ENABLE_CLANG_TIDY: ON
         - os: macos-latest
           ENABLE_COVERAGE: ON
+          ENABLE_ADDRESS_SANITIZER: ON
+          ENABLE_UNDEFINED_BEHAVIOR_SANITIZER: ON
+          ENABLE_CPPCHECK: OFF
+          ENABLE_CLANG_TIDY: ON
 
 
     steps:
@@ -81,7 +93,8 @@ jobs:
 
     - name: Configure CMake
       run: |
-          cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+        cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE -DENABLE_ADDRESS_SANITIZER:BOOL=$ENABLE_ADDRESS_SANITIZER -DENABLE_UNDEFINED_BEHAVIOR_SANITIZER:BOOL=$ENABLE_UNDEFINED_BEHAVIOR_SANITIZER -DENABLE_CPPCHECK:BOOL=$ENABLE_CPPCHECK -DENABLE_CLANG_TIDY:BOOL=$ENABLE_CLANG_TIDY
+
 
     - name: Build
       # Execute the build.  You can specify a specific target with "--target <NAME>"
