@@ -57,6 +57,14 @@ jobs:
         pip3 install wheel setuptools gcovr
         pip3 install conan --upgrade
 
+    - name: Install clang-tidy and cppcheck
+      shell: bash
+      run: |
+        if [ "$RUNNER_OS" == "Linux" ]; then
+          sudo apt-get -y install clang-tidy cppcheck
+        fi;
+
+
     - name: Install / Configure dependencies
       shell: bash
       run: |
