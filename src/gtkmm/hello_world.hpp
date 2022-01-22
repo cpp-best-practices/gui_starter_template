@@ -11,10 +11,10 @@ public:
   HelloWorld();
 
 protected:
-  //Signal handlers:
+  // Signal handlers:
   void on_button_clicked();
 
-  //Member widgets:
+  // Member widgets:
   Gtk::Button m_button;
 };
 

@@ -7,6 +7,6 @@ int main(int argc, char *argv[])
 
   HelloWorld helloworld;
 
-  //Shows the window and returns when it is closed.
+  // Shows the window and returns when it is closed.
   return app->run(helloworld);
 }
