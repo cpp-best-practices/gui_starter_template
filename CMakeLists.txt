@@ -21,14 +21,37 @@ include(${_project_options_SOURCE_DIR}/Index.cmake)
 # Set the project name and language
 project(myproject LANGUAGES CXX)
 
+# Set up some options for analysis which is desirable to default to on, but
+# also desirable to disable for some types of builds
+option(ENABLE_CPPCHECK "Enable cppcheck static analysis during compilation" ON)
+option(ENABLE_CLANG_TIDY "Enable clang-tidy static analysis during compilation" ON)
+option(ENABLE_ADDRESS_SANITIZER "Enable address-sanitizer on compilers that support it" ON)
+option(ENABLE_UNDEFINED_BEHAVIOR_SANITIZER "Enable undefined-behavior sanitizers on compilers that support it" ON)
+
+if(ENABLE_CPPCHECK)
+  set(CPPCHECK "ENABLE_CPPCHECK")
+endif()
+
+if(ENABLE_CLANG_TIDY)
+  set(CLANG_TIDY "ENABLE_CLANG_TIDY")
+endif()
+
+if(ENABLE_ADDRESS_SANITIZER)
+  set(ADDRESS_SANITIZER "ENABLE_SANITIZER_ADDRESS")
+endif()
+
+if(ENABLE_UNDEFINED_BEHAVIOR_SANITIZER)
+  set(UNDEFINED_BEHAVIOR_SANITIZER "ENABLE_SANITIZER_UNDEFINED_BEHAVIOR")
+endif()
+
 # Initialize project_options variable related to this project
 # This overwrites `project_options` and sets `project_warnings`
 # uncomment the options to enable them:
 project_options(
   ENABLE_CACHE # ccache on Unix, to avoid rebuilding the same file with clean builds
   WARNINGS_AS_ERRORS # force warnings to be dealt with, by making them hard errors
-  ENABLE_CPPCHECK # cppcheck is a standalone static analysis tool with helpful checks
-  ENABLE_CLANG_TIDY # clang-tidy is a static analysis tool that's part of the llvm toolchain
+  ${CPPCHECK} # cppcheck is a standalone static analysis tool with helpful checks
+  ${CLANG_TIDY} # clang-tidy is a static analysis tool that's part of the llvm toolchain
   ENABLE_CONAN # package manager for getting dependencies with nice cmake integration
   ENABLE_COVERAGE # analyze and report coverage of code lines
   # ENABLE_IPO                     # inter-procedural-optimization, aka whole program optimization aka link-time-optimization (LTO)
@@ -39,9 +62,9 @@ project_options(
   # ENABLE_USER_LINKER
   # ENABLE_BUILD_WITH_TIME_TRACE   # generates report of where compile-time is spent
   # ENABLE_UNITY                   # merge C++ files into larger C++ files, can speed up compilation sometimes
-  ENABLE_SANITIZER_ADDRESS # make memory errors into hard runtime errors (windows/linux/macos)
+  ${ADDRESS_SANITIZER} # make memory errors into hard runtime errors (windows/linux/macos)
   # ENABLE_SANITIZER_LEAK          # make memory leaks into hard runtime errors
-  ENABLE_SANITIZER_UNDEFINED_BEHAVIOR # make certain types (numeric mostly) of undefined behavior into runtime errors
+  ${UNDEFINED_BEHAVIOR_SANITIZER} # make certain types (numeric mostly) of undefined behavior into runtime errors
   # ENABLE_SANITIZER_THREAD        # make thread race conditions into hard runtime errors
   # ENABLE_SANITIZER_MEMORY
   # CONAN_OPTIONS
