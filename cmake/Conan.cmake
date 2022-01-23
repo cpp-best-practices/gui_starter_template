@@ -10,10 +10,10 @@ macro(run_conan)
 
   conan_add_remote(
 <<<<<<< HEAD
-            NAME
-            conan-center
-            URL
-            https://center.conan.io )
+NAME
+conan-center
+URL
+https://api.bintray.com/conan/conan/conan-center)
 =======
     NAME
     conan-center
