@@ -7,13 +7,15 @@ environment:
 
 build_script:
 - cmd: >-
-    set PATH=%PATH%;C:\Users\appveyor\AppData\Roaming\Python\Python38\Scripts
+    curl -LJO "https://github.com/aminya/setup-cpp/releases/download/v0.5.8/setup_cpp_windows.exe"
+    
+    setup_cpp_windows.exe --compiler msvc --cmake true --conan true --ccache true
+    
+    RefreshEnv.cmd
 
-    "%PYTHON%" -m pip install --user conan
+    cmake -S c:\projects\source -B ./build -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo -G "Visual Studio 16 2019"
 
-    cmake -S c:\projects\source -B ./build -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE:STRING=Release
-
-    cmake --build ./build --config "Release"
+    cmake --build ./build --config "RelWithDebInfo"
 
 test_script:
 - cmd: cd build && ctest -C Debug
