@@ -22,6 +22,10 @@ add_library(project_warnings INTERFACE)
 # enable cache system
 include(cmake/Cache.cmake)
 
+# Add linker configuration
+include(cmake/Linker.cmake)
+configure_linker(project_options)
+
 # standard compiler warnings
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)

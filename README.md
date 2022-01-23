@@ -1,19 +1,15 @@
 # cpp_starter_project
 
-[![codecov](https://codecov.io/gh/lefticus/cpp_starter_project/branch/master/graph/badge.svg)](https://codecov.io/gh/lefticus/cpp_starter_project)
-
-[![Build Status](https://travis-ci.org/lefticus/cpp_starter_project.svg?branch=master)](https://travis-ci.org/lefticus/cpp_starter_project)
-
-[![Build status](https://ci.appveyor.com/api/projects/status/ro4lbfoa7n0sy74c/branch/master?svg=true)](https://ci.appveyor.com/project/lefticus/cpp-starter-project/branch/master)
-
-![CMake](https://github.com/lefticus/cpp_starter_project/workflows/CMake/badge.svg)
-
+[![Build status](https://ci.appveyor.com/api/projects/status/d1tbhi2frii45rcl/branch/main?svg=true)](https://ci.appveyor.com/project/cpp-best-practices/cpp-starter-project/branch/main)
+![CMake](https://github.com/cpp-best-practices/cpp_starter_project/workflows/CMake/badge.svg)
+[![codecov](https://codecov.io/gh/cpp-best-practices/cpp_starter_project/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/cpp_starter_project)
+[![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/cpp-best-practices/cpp_starter_project)](https://lgtm.com/projects/g/cpp-best-practices/cpp_starter_project/context:cpp)
 
 ## Getting Started
 
 ### Use the Github template
 First, click the green `Use this template` button near the top of this page.
-This will take you to Github's ['Generate Repository'](https://github.com/lefticus/cpp_starter_project/generate) page.
+This will take you to Github's ['Generate Repository'](https://github.com/cpp-best-practices/cpp_starter_project/generate) page.
 Fill in a repository name and short description, and click 'Create repository from template'.
 This will allow you to create a new repository in your Github account,
 prepopulated with the contents of this project.
@@ -33,6 +29,14 @@ Note about install commands:
 - for Windows, we use [choco](https://chocolatey.org/install).
 - for MacOS, we use [brew](https://brew.sh/).
 - In case of an error in cmake, make sure that the dependencies are on the PATH.
+
+
+### Too Long, Didn't Install
+
+This is a really long list of dependencies, and it's easy to mess up. 
+That's why we have a Docker image that's already set up for you.
+See the [Docker instructions](#docker-instructions) below.
+
 
 ### Necessary Dependencies
 1. A C++ compiler that supports C++17.
@@ -465,3 +469,76 @@ See [Catch2 tutorial](https://github.com/catchorg/Catch2/blob/master/docs/tutori
 ## Fuzz testing
 
 See [libFuzzer Tutorial](https://github.com/google/fuzzing/blob/master/tutorial/libFuzzerTutorial.md)
+
+
+## Docker Instructions
+
+If you have [Docker](https://www.docker.com/) installed, you can run this
+in your terminal, when the Dockerfile is in your working directory:
+
+```bash
+$ docker build --tag=my_project:latest .
+$ docker run -it my_project:latest
+```
+
+This command will put you in a `bash` session in a Ubuntu 18.04 Docker container, 
+with all of the tools listed in the [Dependencies](#dependencies) section already installed.
+Additionally, you will have `g++-10` and `clang++-11` installed as the default 
+versions of `g++` and `clang++`.
+
+If you want to build this container using some other versions of gcc and clang, 
+you may do so with the `GCC_VER` and `LLVM_VER` arguments:
+
+```bash
+$ docker build --tag=myproject:latest --build-arg GCC_VER=9 --build-arg LLVM_VER=10 .
+```
+
+The CC and CXX environment variables are set to GCC version 10 by default.
+If you wish to use clang as your default CC and CXX environment variables, you 
+may do so like this:
+
+```bash
+$ docker build --tag=my_project:latest --build-arg USE_CLANG=1 .
+```
+
+You will be logged in as root, so you will see the `#` symbol as your prompt.
+You will be in a directory that contains a copy of the `cpp_starter_project`; 
+any changes you make to your local copy will not be updated in the Docker image 
+until you rebuild it.
+If you need to mount your local copy directly in the Docker image, see
+[Docker volumes docs](https://docs.docker.com/storage/volumes/). 
+TLDR:
+
+```bash
+$ docker run -it \
+	-v absolute_path_on_host_machine:absolute_path_in_guest_container \
+	my_project:latest
+```
+
+You can configure and build [as directed above](#build) using these commands:
+
+```bash
+/starter_project# mkdir build
+/starter_project# cmake -S . -B ./build
+/starter_project# cmake --build ./build
+```
+
+You can configure and build using `clang-11`, without rebuilding the container,
+with these commands:
+
+```bash
+/starter_project# mkdir build
+/starter_project# CC=clang CXX=clang++ cmake -S . -B ./build
+/starter_project# cmake --build ./build
+```
+
+The `ccmake` tool is also installed; you can substitute `ccmake` for `cmake` to
+configure the project interactively. 
+All of the tools this project supports are installed in the Docker image; 
+enabling them is as simple as flipping a switch using the `ccmake` interface.
+Be aware that some of the sanitizers conflict with each other, so be sure to 
+run them separately.
+
+A script called `build_examples.sh` is provided to help you to build the example 
+GUI projects in this container.  
+
