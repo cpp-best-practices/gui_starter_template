@@ -33,10 +33,25 @@ Note about install commands:
 
 ### Too Long, Didn't Install
 
-This is a really long list of dependencies, and it's easy to mess up.
-That's why we have a Docker image that's already set up for you.
-See the [Docker instructions](#docker-instructions) below.
+This is a really long list of dependencies, and it's easy to mess up. That's why:
 
+#### Docker
+We have a Docker image that's already set up for you. See the [Docker instructions](#docker-instructions).
+
+#### Setup-cpp
+
+We have [setup-cpp](https://github.com/aminya/setup-cpp) that is a cross-platform tool to install all the compilers and dependencies on the system.
+
+Please check [the setup-cpp documentation](https://github.com/aminya/setup-cpp) for more information.
+
+For example, on Windows, you can run the following to install llvm, cmake, ninja, ccache, conan, and cppcheck.
+```ps1
+# windows example (open shell as admin)
+curl -LJO "https://github.com/aminya/setup-cpp/releases/download/v0.5.7/setup_cpp_windows.exe"
+./setup_cpp_windows --compiler llvm --cmake true --ninja true --ccache true --conan true --cppcheck true
+
+RefreshEnv.cmd # reload the environment
+```
 
 ### Necessary Dependencies
 1. A C++ compiler that supports C++17.
