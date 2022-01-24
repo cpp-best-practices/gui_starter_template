@@ -9,8 +9,4 @@ spdlog/1.9.2
 # sdl2/2.0.1
 
 [generators]
-cmake_find_package
-cmake
-gcc
-txt
-visual_studio
+cmake_find_package_multi
