@@ -18,9 +18,9 @@
 # Nana
 # add_subdirectory(nana)
 
-find_package(fmt)
-find_package(spdlog)
-find_package(docopt)
+find_package(fmt CONFIG)
+find_package(spdlog CONFIG)
+find_package(docopt CONFIG)
 
 # Generic test that uses conan libs
 add_executable(intro main.cpp)
