@@ -6,13 +6,19 @@ cmake_minimum_required(VERSION 3.16)
 # You can later set fine-grained standards for each target using `target_compile_features`
 # Note: linking together projects compiled with different C++ standards may work, but
 # it is not recommended because of possible issues with ABI
-# set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
+
+# strongly encouraged to enable this globally to avoid conflicts between
+# -Wpedantic being enabled and -std=c++20 and -std=gnu++20 for example
+# when compiling with PCH enabled
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Add project_options v0.12.3
 # https://github.com/cpp-best-practices/project_options
 include(FetchContent)
 FetchContent_Declare(_project_options
-                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.12.3.zip)
+                     URL https://github.com/lefticus/project_options/archive/refs/heads/static_analysis_updates.zip)
+                   #                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.12.3.zip)
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
 
@@ -34,65 +40,34 @@ if(MSVC)
       MinSizeRel)
 endif()
 
-# Set defaults for options enabled with the project_options project
-# and the GlobalOptions utility below
-#
-# Note: These defaults represent those suggested by Jason Turner in
-# C++ Best Practices
-set(ENABLE_CPPCHECK
-    ON
-    CACHE BOOL "Enable CppCheck analysis")
-set(ENABLE_CLANG_TIDY
-    ON
-    CACHE BOOL "Enable clang-tidy analysis")
-set(ENABLE_CACHE
-    ON
-    CACHE BOOL "Enable ccache")
-set(ENABLE_COVERAGE
-    ON
-    CACHE BOOL "Enable coverage testing")
-set(ENABLE_CONAN
-    ON
-    CACHE BOOL "Enable conan for dependencies")
-set(ENABLE_SANITIZER_ADDRESS
-    ON
-    CACHE BOOL "Enable address sanitizer for runtime memory checking")
-set(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
-    ON
-    CACHE BOOL "Enable undefined behavior sanitizer for runtime checking")
-set(WARNINGS_AS_ERRORS
-    ON
-    CACHE BOOL "Enable undefined behavior sanitizer for runtime checking")
+include(${_project_options_SOURCE_DIR}/src/DefaultedOptions.cmake)
 
-# Add global CMake options
-include(${_project_options_SOURCE_DIR}/src/GlobalOptions.cmake)
+# defaulted_project_options sets recommended defaults and provides user and developer
+# modes and full GUI support for choosing options at configure time
+
+# for more flexibility, look into project_options() macro
+
+# Any default can be overridden
+# set(<feature_name>_DEFAULT <value>) - set default for both user and developer modes
+# set(<feature_name>_DEVELOPER_DEFAULT <value>) - set default for developer mode
+# set(<feature_name>_USER_DEFAULT <value>) - set default for user mode
 
 # Initialize project_options variable related to this project
 # This overwrites `project_options` and sets `project_warnings`
 # uncomment the options to enable them:
-project_options(
-  ${ENABLE_CACHE} # ccache on Unix, to avoid rebuilding the same file with clean builds
-  ${WARNINGS_AS_ERRORS} # force warnings to be dealt with, by making them hard errors
-  ${ENABLE_CPPCHECK} # cppcheck is a standalone static analysis tool with helpful checks
-  ${ENABLE_CLANG_TIDY} # clang-tidy is a static analysis tool that's part of the llvm toolchain
-  ${ENABLE_CONAN} # package manager for getting dependencies with nice cmake integration
-  ${ENABLE_COVERAGE} # analyze and report coverage of code lines
-  ${ENABLE_IPO} # inter-procedural-optimization, aka whole program optimization aka link-time-optimization (LTO)
-  ${ENABLE_INCLUDE_WHAT_YOU_USE} # analysis to make sure #includes are handled properly
-  ${ENABLE_PCH} # pre-compiled headers. Can speed up compilation in some cases
-  # PCH_HEADERS a_list_of.hpp headers_to_use.hpp  # This is a list of headers to pre-compile
-  ${ENABLE_DOXYGEN} # build documentation with the doxygen tool
-  ${ENABLE_USER_LINKER}
-  ${ENABLE_BUILD_WITH_TIME_TRACE} # generates report of where compile-time is spent
-  ${ENABLE_UNITY} # merge C++ files into larger C++ files, can speed up compilation sometimes
-  ${ENABLE_SANITIZER_ADDRESS} # make memory errors into hard runtime errors (windows/linux/macos)
-  ${ENABLE_SANITIZER_LEAK} # make memory leaks into hard runtime errors
-  ${ENABLE_SANITIZER_UNDEFINED_BEHAVIOR} # make certain types (numeric mostly) of undefined behavior into runtime errors
-  ${ENABLE_SANITIZER_THREAD} # make thread race conditions into hard runtime errors
-  ${ENABLE_SANITIZER_MEMORY}
-  # CONAN_OPTIONS # Extra options to pass to conan
+defaulted_project_options(
+  # Note: PCH is disabled by default in developer mode because these headers become
+  # globally included and they can mask other errors
+  PCH_HEADERS
+  <vector>
+  <string> # This is a list of headers to pre-compile, here are some common ones
+  # CONAN_OPTIONS  # Extra options to pass to conan
+  # MSVC_WARNINGS  # Override the defaults for the MSVC warnings
+  # CLANG_WARNINGS # Override the defaults for the CLANG warnings
+  # GCC_WARNINGS   # Override the defaults for the GCC warnings
 )
-target_compile_features(project_options INTERFACE cxx_std_17)
+
+target_compile_features(project_options INTERFACE cxx_std_20)
 
 # Adding the src:
 add_subdirectory(src)
@@ -114,31 +89,6 @@ endif()
 
 # If MSVC is being used, and ASAN is enabled, we need to set the debugger environment
 # so that it behaves well with MSVC's debugger, and we can run the target from visual studio
-
-function(get_all_targets var)
-  set(targets)
-  get_all_targets_recursive(targets ${CMAKE_CURRENT_SOURCE_DIR})
-  set(${var}
-      ${targets}
-      PARENT_SCOPE)
-endfunction()
-
-macro(get_all_targets_recursive targets dir)
-  get_property(
-    subdirectories
-    DIRECTORY ${dir}
-    PROPERTY SUBDIRECTORIES)
-  foreach(subdir ${subdirectories})
-    get_all_targets_recursive(${targets} ${subdir})
-  endforeach()
-
-  get_property(
-    current_targets
-    DIRECTORY ${dir}
-    PROPERTY BUILDSYSTEM_TARGETS)
-  list(APPEND ${targets} ${current_targets})
-endmacro()
-
 if(MSVC)
   get_all_targets(all_targets)
   set_target_properties(${all_targets} PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=$(VC_ExecutablePath_x64);%PATH%")
