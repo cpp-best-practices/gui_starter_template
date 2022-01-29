@@ -98,7 +98,7 @@ jobs:
 
       - name: Configure CMake
         run: |
-          cmake -S . -B ./build -G ${{matrix.generator}} -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}}
+          cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}}
 
       - name: Build
         # Execute the build.  You can specify a specific target with "--target <NAME>"
