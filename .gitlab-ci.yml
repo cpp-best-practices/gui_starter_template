@@ -1,0 +1,49 @@
+image: ubuntu:latest
+
+stages:
+  - test
+
+.setup_linux: &setup_linux |
+  DEBIAN_FRONTEND=noninteractive
+
+  # set time-zone
+  TZ=Canada/Pacific
+  ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+  # for downloading
+  apt-get update -qq
+  apt-get install -y --no-install-recommends curl gnupg ca-certificates
+
+  # keys used by apt
+  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32
+  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5
+  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1E9377A2BA9EF27F
+
+.setup_cpp: &setup_cpp |
+  curl -LJO "https://github.com/aminya/setup-cpp/releases/download/v0.5.8/setup_cpp_linux"
+  chmod +x setup_cpp_linux
+  ./setup_cpp_linux --compiler $compiler --cmake true --ninja true  --conan true --ccache true
+  source ~/.profile
+
+.test: &test |
+  # Build and Test
+  cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+  cmake --build ./build --config RelWithDebInfo
+
+test_linux_llvm:
+  stage: test
+  variables:
+    compiler: llvm
+  script:
+    - *setup_linux
+    - *setup_cpp
+    - *test
+
+test_linux_gcc:
+  stage: test
+  variables:
+    compiler: gcc
+  script:
+    - *setup_linux
+    - *setup_cpp
+    - *test
