@@ -1,12 +1,16 @@
 cmake_minimum_required(VERSION 3.16)
 
+# Used as a tool to make sure that the standard used by tools
+# and by the projects cannot get out of sync
+set(USER_CXX_STANDARD 20)
+
 # uncomment to set a default CXX standard for the external tools like clang-tidy and cppcheck
 # and the targets that do not specify a standard.
 # If not set, the latest supported standard for your compiler is used
 # You can later set fine-grained standards for each target using `target_compile_features`
 # Note: linking together projects compiled with different C++ standards may work, but
 # it is not recommended because of possible issues with ABI
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD ${USER_CXX_STANDARD})
 
 # strongly encouraged to enable this globally to avoid conflicts between
 # -Wpedantic being enabled and -std=c++20 and -std=gnu++20 for example
@@ -18,7 +22,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 include(FetchContent)
 FetchContent_Declare(_project_options
                      URL https://github.com/lefticus/project_options/archive/refs/heads/static_analysis_updates.zip)
-                   #                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.13.0.zip)
+#                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.13.0.zip)
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
 
@@ -29,10 +33,11 @@ include(${_project_options_SOURCE_DIR}/Index.cmake)
 # Set the project name and language
 project(myproject LANGUAGES CXX)
 
-if(MSVC)
+if(GENERATOR_IS_MULTI_CONFIG AND NOT CMAKE_BUILD_TYPE)
   # Make sure that all supported configuration types have their
   # associated conan packages available. You can reduce this
-  # list to only the configuration types you use
+  # list to only the configuration types you use, but only if one
+  # is not forced-set on the command line for VS
   set(CMAKE_CONFIGURATION_TYPES
       Debug
       Release
@@ -67,7 +72,7 @@ dynamic_project_options(
   # GCC_WARNINGS   # Override the defaults for the GCC warnings
 )
 
-target_compile_features(project_options INTERFACE cxx_std_20)
+target_compile_features(project_options INTERFACE cxx_std_${USER_CXX_STANDARD})
 
 # Adding the src:
 add_subdirectory(src)
