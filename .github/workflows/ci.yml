@@ -27,10 +27,11 @@ jobs:
           # you can specify the version after `-` like "llvm-13.0.0".
           - llvm
           - gcc
+        generator:
+          - "Ninja Multi-Config"
         build_type:
           - Release
           - Debug
-          - RelWithDebInfo
         developer_mode:
           - ON
           - OFF
@@ -39,19 +40,23 @@ jobs:
             compiler: "msvc"
             build_type: Release
             developer_mode: ON
+            generator: "Visual Studio 17 2022"
           - os: "windows-latest"
             compiler: "msvc"
             build_type: Release
             developer_mode: OFF
+            generator: "Visual Studio 17 2022"
           - os: "windows-latest"
             compiler: "msvc"
             build_type: Debug
             developer_mode: ON
+            generator: "Visual Studio 17 2022"
           - os: "windows-latest"
             compiler: "msvc"
             build_type: RelWithDebInfo
             developer_mode: ON
-
+            generator: "Visual Studio 17 2022"
+ 
 
 
     steps:
@@ -84,6 +89,7 @@ jobs:
           conan: true
           vcpkg: false
           ccache: true
+          clangtidy: true
 
           cppcheck: true
 
@@ -92,7 +98,7 @@ jobs:
 
       - name: Configure CMake
         run: |
-          cmake -S . -B ./build -G "Ninja Multi-Config" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}}
+          cmake -S . -B ./build -G ${{matrix.generator}} -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}}
 
       - name: Build
         # Execute the build.  You can specify a specific target with "--target <NAME>"
