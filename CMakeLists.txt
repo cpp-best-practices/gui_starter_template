@@ -40,7 +40,7 @@ if(MSVC)
       MinSizeRel)
 endif()
 
-include(${_project_options_SOURCE_DIR}/src/RecommendedOptions.cmake)
+include(${_project_options_SOURCE_DIR}/src/DynamicProjectOptions.cmake)
 
 # defaulted_project_options sets recommended defaults and provides user and developer
 # modes and full GUI support for choosing options at configure time
@@ -55,7 +55,7 @@ include(${_project_options_SOURCE_DIR}/src/RecommendedOptions.cmake)
 # Initialize project_options variable related to this project
 # This overwrites `project_options` and sets `project_warnings`
 # uncomment the options to enable them:
-recommended_project_options(
+dynamic_project_options(
   # Note: PCH is disabled by default in developer mode because these headers become
   # globally included and they can mask other errors
   PCH_HEADERS
