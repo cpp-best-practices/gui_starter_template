@@ -8,7 +8,6 @@ on:
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: RelWithDebInfo
   # Conan cache environment variables
   CONAN_SYSREQUIRES_MODE: enabled
   CONAN_USER_HOME: "${{ github.workspace }}/conan-cache"
@@ -28,9 +27,23 @@ jobs:
           # you can specify the version after `-` like "llvm-13.0.0".
           - llvm
           - gcc
+        build_type:
+          - Release
+          - Debug
+          - RelWithDebInfo
         include:
           - os: "windows-latest"
             compiler: "msvc"
+            build_type: Release
+          - os: "windows-latest"
+            compiler: "msvc"
+            build_type: Debug
+          - os: "windows-latest"
+            compiler: "msvc"
+            build_type: RelWithDebInfo
+
+
+
     steps:
       - uses: actions/checkout@v2
 
@@ -46,9 +59,9 @@ jobs:
             ${{ env.XDG_CACHE_HOME }}/vcpkg/archives
             ${{ env.LOCALAPPDATA }}\vcpkg\archives
             ${{ env.APPDATA }}\vcpkg\archives
-          key: ${{ runner.os }}-${{ matrix.compiler }}-${{env.BUILD_TYPE}}-${{ hashFiles('**/CMakeLists.txt') }}-${{ hashFiles('./conanfile.txt')}}-${{ hashFiles('./vcpkg.json')}}
+          key: ${{ runner.os }}-${{ matrix.compiler }}-${{matrix.build_type}}-${{ hashFiles('**/CMakeLists.txt') }}-${{ hashFiles('./conanfile.txt')}}-${{ hashFiles('./vcpkg.json')}}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.compiler }}-${{env.BUILD_TYPE}}-
+            ${{ runner.os }}-${{ matrix.compiler }}-${{matrix.build_type}}-
 
       - name: Setup Cpp
         uses: aminya/setup-cpp@v1
@@ -69,12 +82,12 @@ jobs:
 
       - name: Configure CMake
         run: |
-          cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=${{env.BUILD_TYPE}}
+          cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}}
 
       - name: Build
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
-          cmake --build ./build --config ${{env.BUILD_TYPE}}
+          cmake --build ./build --config ${{matrix.build_type}}
 
       - name: Unix - Test and coverage
         if: runner.os != 'Windows'
@@ -82,14 +95,14 @@ jobs:
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
-          ctest -C ${{env.BUILD_TYPE}}
+          ctest -C ${{matrix.build_type}}
           gcovr -j ${{env.nproc}} --delete --root ../ --print-summary --xml-pretty --xml coverage.xml .
 
       - name: Windows - Test and coverage
         if: runner.os == 'Windows'
         working-directory: ./build
         run: |
-          OpenCppCoverage.exe --sources cpp_starter_project --export_type cobertura:coverage.xml --cover_children -- ctest -C ${{env.BUILD_TYPE}}
+          OpenCppCoverage.exe --sources cpp_starter_project --export_type cobertura:coverage.xml --cover_children -- ctest -C ${{matrix.build_type}}
 
       - name: Publish to codecov
         uses: codecov/codecov-action@v2
