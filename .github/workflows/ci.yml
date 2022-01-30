@@ -35,6 +35,11 @@ jobs:
         developer_mode:
           - ON
           - OFF
+        exclude:
+          # mingw has threading, pch, and static library issues
+          # you can attempt to use it in your own project if you desire.
+          - os: "windows-latest"
+          - compiler: gcc
         include:
           - os: "windows-latest"
             compiler: "msvc"
