@@ -31,7 +31,7 @@ include(${_project_options_SOURCE_DIR}/Index.cmake)
 # run_vcpkg()
 
 # Set the project name and language
-project(myproject LANGUAGES CXX)
+project(myproject LANGUAGES CXX C)
 
 if(GENERATOR_IS_MULTI_CONFIG AND NOT CMAKE_BUILD_TYPE)
   # Make sure that all supported configuration types have their
