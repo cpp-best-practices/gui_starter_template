@@ -40,22 +40,22 @@ jobs:
             compiler: "msvc"
             build_type: Release
             developer_mode: ON
-            generator: "Visual Studio 17 2022"
+            generator: "Visual Studio 16 2019"
           - os: "windows-latest"
             compiler: "msvc"
             build_type: Release
             developer_mode: OFF
-            generator: "Visual Studio 17 2022"
+            generator: "Visual Studio 16 2019"
           - os: "windows-latest"
             compiler: "msvc"
             build_type: Debug
             developer_mode: ON
-            generator: "Visual Studio 17 2022"
+            generator: "Visual Studio 16 2019"
           - os: "windows-latest"
             compiler: "msvc"
             build_type: RelWithDebInfo
             developer_mode: ON
-            generator: "Visual Studio 17 2022"
+            generator: "Visual Studio 16 2019"
  
 
 
