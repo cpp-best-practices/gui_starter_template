@@ -39,7 +39,7 @@ jobs:
           # mingw has threading, pch, and static library issues
           # you can attempt to use it in your own project if you desire.
           - os: "windows-2019"
-          - compiler: gcc
+            compiler: gcc
         include:
           - os: "windows-2019"
             compiler: "msvc"
@@ -51,7 +51,7 @@ jobs:
             build_type: Release
             developer_mode: OFF
             generator: "Visual Studio 16 2019"
-          - os: "windows-latest"
+          - os: "windows-2019"
             compiler: "msvc"
             build_type: Debug
             developer_mode: ON
