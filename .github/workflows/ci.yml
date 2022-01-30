@@ -76,7 +76,7 @@ jobs:
             ${{ env.APPDATA }}\vcpkg\archives
           key: ${{ runner.os }}-${{ matrix.compiler }}-${{matrix.build_type}}-${{matrix.generator}}-${{matrix.developer_mode}}-${{ hashFiles('**/CMakeLists.txt') }}-${{ hashFiles('./conanfile.txt')}}-${{ hashFiles('./vcpkg.json')}}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.compiler }}-${{matrix.build_type}}-${{matrix.developer_mode}}
+            ${{ runner.os }}-${{ matrix.compiler }}-${{matrix.build_type}}-${{matrix.generator}}-${{matrix.developer_mode}}
 
       - name: Setup Cpp
         uses: aminya/setup-cpp@v1
