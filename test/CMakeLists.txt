@@ -3,7 +3,7 @@ find_package(Catch2 REQUIRED)
 include(CTest)
 include(Catch)
 
-add_library(catch_main STATIC catch_main.cpp)
+add_library(catch_main OBJECT catch_main.cpp)
 target_link_libraries(catch_main PUBLIC Catch2::Catch2)
 target_link_libraries(catch_main PRIVATE project_options)
 
