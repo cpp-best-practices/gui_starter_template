@@ -21,14 +21,19 @@ jobs:
       matrix:
         os:
           - windows-2019
+          - windows-2022
           - ubuntu-20.04
           - macos-10.15
         compiler:
           # you can specify the version after `-` like "llvm-13.0.0".
           - llvm
           - gcc
+          - msvc
         generator:
           - "Ninja Multi-Config"
+          - "Unix Makefiles"
+          - "Visual Studio 16 2019"
+          - "Visual Studio 17 2022"
         build_type:
           - Release
           - Debug
@@ -40,28 +45,13 @@ jobs:
           # you can attempt to use it in your own project if you desire.
           - os: "windows-2019"
             compiler: gcc
-        include:
-          - os: "windows-2019"
-            compiler: "msvc"
-            build_type: Release
-            developer_mode: ON
-            generator: "Visual Studio 16 2019"
-          - os: "windows-2019"
-            compiler: "msvc"
-            build_type: Release
-            developer_mode: OFF
-            generator: "Visual Studio 16 2019"
-          - os: "windows-2019"
-            compiler: "msvc"
-            build_type: Debug
-            developer_mode: ON
-            generator: "Visual Studio 16 2019"
-          - os: "windows-2019"
-            compiler: "msvc"
-            build_type: RelWithDebInfo
-            developer_mode: ON
-            generator: "Visual Studio 16 2019"
- 
+          - os: "windows-2022"
+            compiler: gcc
+          - generator: "Ninja Multi-Config"
+            compiler: msvc
+          - generator: "Unix Makefiles"
+            compiler: msvc
+
 
 
     steps:
