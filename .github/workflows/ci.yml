@@ -18,22 +18,38 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
+
       matrix:
         os:
           - windows-2019
+        compiler:
+          - msvc
+        generator:
+          - "Visual Studio 16 2019"
+        build_type: [Release,Debug]
+        developer_mode: [On,Off]
+      matrix:
+        os:
           - windows-2022
+        compiler:
+          - msvc
+        generator:
+          - "Visual Studio 17 2022"
+        build_type: [Release,Debug]
+        developer_mode: [On,Off]
+
+
+      matrix:
+        os:
           - ubuntu-20.04
           - macos-10.15
         compiler:
           # you can specify the version after `-` like "llvm-13.0.0".
           - llvm
           - gcc
-          - msvc
         generator:
           - "Ninja Multi-Config"
           - "Unix Makefiles"
-          - "Visual Studio 16 2019"
-          - "Visual Studio 17 2022"
         build_type:
           - Release
           - Debug
@@ -41,21 +57,8 @@ jobs:
           - ON
           - OFF
         exclude:
-          # mingw has threading, pch, and static library issues
-          # you can attempt to use it in your own project if you desire.
-          - os: "windows-2019"
-            compiler: gcc
-          - os: "windows-2022"
-            compiler: gcc
-          - generator: "Ninja Multi-Config"
-            compiler: msvc
-          - generator: "Unix Makefiles"
-            compiler: msvc
-          - generator: "Visual Studio 16 2019"
-            compiler: llvm
-          - generator: "Visual Studio 17 2022"
-            compiler: llvm
-
+          - compiler: llvm
+            generator: "Unix Makefiles"
 
 
 
