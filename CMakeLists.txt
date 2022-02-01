@@ -16,7 +16,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Add project_options v0.14.1
 # https://github.com/cpp-best-practices/project_options
 include(FetchContent)
-FetchContent_Declare(_project_options 
+FetchContent_Declare(_project_options
                      URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.14.1.zip)
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
@@ -33,11 +33,15 @@ if(GENERATOR_IS_MULTI_CONFIG AND NOT CMAKE_BUILD_TYPE)
   # associated conan packages available. You can reduce this
   # list to only the configuration types you use, but only if one
   # is not forced-set on the command line for VS
+  message(TRACE "Setting up multi-config build types")
   set(CMAKE_CONFIGURATION_TYPES
       Debug
       Release
       RelWithDebInfo
       MinSizeRel)
+else()
+  message(TRACE "User chose a specific build-option, so we are using that")
+  set(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE})
 endif()
 
 include(${_project_options_SOURCE_DIR}/src/DynamicProjectOptions.cmake)
