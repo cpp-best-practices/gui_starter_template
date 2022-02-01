@@ -19,11 +19,18 @@ jobs:
     strategy:
       fail-fast: false
 
+      # Recommendations:
+      #   * support at least 2 operating systems
+      #   * support at least 2 compilers
+      #   * make sure all supported configurations for your project are built
+      #
+      # Disable/enable builds in this list to meet the above recommendations
+      # and your own projects needs
       matrix:
         os:
           - ubuntu-20.04
           - macos-10.15
-          - windows-2022
+          - windows-2019
         compiler:
           # you can specify the version after `-` like "llvm-13.0.0".
           - llvm
@@ -39,10 +46,11 @@ jobs:
 
         exclude:
           # mingw is determined by this author to be too buggy to support
-          - os: windows-2022
+          - os: windows-2019
             compiler: gcc
 
         include:
+          # This exists solely to make sure a non-multiconfig build works
           - os: ubuntu-20.04
             compiler: gcc
             generator: "Unix Makefiles"
