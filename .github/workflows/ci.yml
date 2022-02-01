@@ -21,26 +21,6 @@ jobs:
 
       matrix:
         os:
-          - windows-2019
-        compiler:
-          - msvc
-        generator:
-          - "Visual Studio 16 2019"
-        build_type: [Release,Debug]
-        developer_mode: [On,Off]
-      matrix:
-        os:
-          - windows-2022
-        compiler:
-          - msvc
-        generator:
-          - "Visual Studio 17 2022"
-        build_type: [Release,Debug]
-        developer_mode: [On,Off]
-
-
-      matrix:
-        os:
           - ubuntu-20.04
           - macos-10.15
         compiler:
@@ -49,16 +29,62 @@ jobs:
           - gcc
         generator:
           - "Ninja Multi-Config"
-          - "Unix Makefiles"
         build_type:
           - Release
           - Debug
         developer_mode:
           - ON
           - OFF
-        exclude:
-          - compiler: llvm
+
+        include:
+          - os: ubuntu-20.04
+            compiler: gcc
             generator: "Unix Makefiles"
+            build_type: Debug
+            developer_mode: On
+
+          - os: windows-2019
+            compiler: msvc
+            generator: "Visual Studio 16 2019"
+            build_type: Debug
+            developer_mode: On
+          - os: windows-2019
+            compiler: msvc
+            generator: "Visual Studio 16 2019"
+            build_type: Release
+            developer_mode: On
+          - os: windows-2019
+            compiler: msvc
+            generator: "Visual Studio 16 2019"
+            build_type: Debug
+            developer_mode: Off
+          - os: windows-2019
+            compiler: msvc
+            generator: "Visual Studio 16 2019"
+            build_type: Release
+            developer_mode: Off
+          - os: windows-2022
+            compiler: msvc
+            generator: "Visual Studio 17 2022"
+            build_type: Debug
+            developer_mode: On
+          - os: windows-2022
+            compiler: msvc
+            generator: "Visual Studio 17 2022"
+            build_type: Release
+            developer_mode: On
+          - os: windows-2022
+            compiler: msvc
+            generator: "Visual Studio 17 2022"
+            build_type: Debug
+            developer_mode: Off
+          - os: windows-2022
+            compiler: msvc
+            generator: "Visual Studio 17 2022"
+            build_type: Release
+            developer_mode: Off
+
+
 
 
 
