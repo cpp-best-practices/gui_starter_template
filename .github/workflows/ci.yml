@@ -64,22 +64,22 @@ jobs:
             build_type: Release
             developer_mode: Off
           - os: windows-2022
-            compiler: msvc
+            compiler: msvc-2022
             generator: "Visual Studio 17 2022"
             build_type: Debug
             developer_mode: On
           - os: windows-2022
-            compiler: msvc
+            compiler: msvc-2022
             generator: "Visual Studio 17 2022"
             build_type: Release
             developer_mode: On
           - os: windows-2022
-            compiler: msvc
+            compiler: msvc-2022
             generator: "Visual Studio 17 2022"
             build_type: Debug
             developer_mode: Off
           - os: windows-2022
-            compiler: msvc
+            compiler: msvc-2022
             generator: "Visual Studio 17 2022"
             build_type: Release
             developer_mode: Off
