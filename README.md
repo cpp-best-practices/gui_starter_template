@@ -1,7 +1,7 @@
 # cpp_starter_project
 
 [![Build status](https://ci.appveyor.com/api/projects/status/d1tbhi2frii45rcl/branch/main?svg=true)](https://ci.appveyor.com/project/cpp-best-practices/cpp-starter-project/branch/main)
-![CMake](https://github.com/cpp-best-practices/cpp_starter_project/workflows/CMake/badge.svg)
+![CI](https://github.com/cpp-best-practices/cpp_starter_project/workflows/ci/badge.svg)
 [![codecov](https://codecov.io/gh/cpp-best-practices/cpp_starter_project/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/cpp_starter_project)
 [![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/cpp-best-practices/cpp_starter_project)](https://lgtm.com/projects/g/cpp-best-practices/cpp_starter_project/context:cpp)
 
@@ -33,10 +33,25 @@ Note about install commands:
 
 ### Too Long, Didn't Install
 
-This is a really long list of dependencies, and it's easy to mess up.
-That's why we have a Docker image that's already set up for you.
-See the [Docker instructions](#docker-instructions) below.
+This is a really long list of dependencies, and it's easy to mess up. That's why:
 
+#### Docker
+We have a Docker image that's already set up for you. See the [Docker instructions](#docker-instructions).
+
+#### Setup-cpp
+
+We have [setup-cpp](https://github.com/aminya/setup-cpp) that is a cross-platform tool to install all the compilers and dependencies on the system.
+
+Please check [the setup-cpp documentation](https://github.com/aminya/setup-cpp) for more information.
+
+For example, on Windows, you can run the following to install llvm, cmake, ninja, ccache, conan, and cppcheck.
+```ps1
+# windows example (open shell as admin)
+curl -LJO "https://github.com/aminya/setup-cpp/releases/download/v0.5.7/setup_cpp_windows.exe"
+./setup_cpp_windows --compiler llvm --cmake true --ninja true --ccache true --conan true --cppcheck true
+
+RefreshEnv.cmd # reload the environment
+```
 
 ### Necessary Dependencies
 1. A C++ compiler that supports C++17.
@@ -304,9 +319,9 @@ CMake will detect which compiler was used to build each of the Conan targets. If
 				[Environment]::SetEnvironmentVariable("CXX", "cl.exe", "User")
 				refreshenv
 
-		  Set the architecture using [vsvarsall](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019#vcvarsall-syntax):
+		  Set the architecture using [vcvarsall](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019#vcvarsall-syntax):
 
-				vsvarsall.bat x64
+				vcvarsall.bat x64
 
 		- clang
 

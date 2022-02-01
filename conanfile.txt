@@ -1,0 +1,16 @@
+# Docs at https://docs.conan.io/en/latest/reference/conanfile_txt.html
+
+[requires]
+catch2/2.13.8
+docopt.cpp/0.6.3
+fmt/8.1.1
+spdlog/1.9.2
+# imgui-sfml/2.5@bincrafters/stable
+# sdl2/2.0.1
+
+[generators]
+cmake_find_package
+cmake
+gcc
+txt
+visual_studio
