@@ -51,6 +51,11 @@ jobs:
             compiler: msvc
           - generator: "Unix Makefiles"
             compiler: msvc
+          - generator: "Visual Studio 16 2019"
+            compiler: clang
+          - generator: "Visual Studio 17 2022"
+            compiler: clang
+
 
 
 
