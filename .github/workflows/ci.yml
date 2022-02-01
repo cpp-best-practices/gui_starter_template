@@ -52,9 +52,9 @@ jobs:
           - generator: "Unix Makefiles"
             compiler: msvc
           - generator: "Visual Studio 16 2019"
-            compiler: clang
+            compiler: llvm
           - generator: "Visual Studio 17 2022"
-            compiler: clang
+            compiler: llvm
 
 
 
