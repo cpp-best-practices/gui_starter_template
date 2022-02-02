@@ -77,26 +77,29 @@ jobs:
             generator: "Visual Studio 16 2019"
             build_type: Release
             developer_mode: Off
-          - os: windows-2022
-            compiler: msvc-2022
-            generator: "Visual Studio 17 2022"
-            build_type: Debug
-            developer_mode: On
-          - os: windows-2022
-            compiler: msvc-2022
-            generator: "Visual Studio 17 2022"
-            build_type: Release
-            developer_mode: On
-          - os: windows-2022
-            compiler: msvc-2022
-            generator: "Visual Studio 17 2022"
-            build_type: Debug
-            developer_mode: Off
-          - os: windows-2022
-            compiler: msvc-2022
-            generator: "Visual Studio 17 2022"
-            build_type: Release
-            developer_mode: Off
+
+              # MSVC 2022 support is in process
+              
+              # - os: windows-2022
+              #   compiler: msvc-2022
+              #   generator: "Visual Studio 17 2022"
+              #   build_type: Debug
+              #   developer_mode: On
+              # - os: windows-2022
+              #   compiler: msvc-2022
+              #   generator: "Visual Studio 17 2022"
+              #   build_type: Release
+              #   developer_mode: On
+              # - os: windows-2022
+              #   compiler: msvc-2022
+              #   generator: "Visual Studio 17 2022"
+              #   build_type: Debug
+              #   developer_mode: Off
+              # - os: windows-2022
+              #   compiler: msvc-2022
+              #   generator: "Visual Studio 17 2022"
+              #   build_type: Release
+              #   developer_mode: Off
 
 
 
