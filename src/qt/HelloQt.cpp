@@ -1,9 +1,9 @@
 #include "HelloQt.hpp"
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QPushButton>
-#include <QLabel>
 #include <QDebug>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 HelloQt::HelloQt(QWidget *parent) : QWidget(parent)
 {
@@ -37,7 +37,4 @@ HelloQt::HelloQt(QWidget *parent) : QWidget(parent)
   connect(fatal, &QPushButton::clicked, this, &HelloQt::close);// could just use close
 }
 
-void HelloQt::writeToDebug(void)
-{
-  qDebug() << tr("I don't know what I was supposed to debug here...");
-}
+void HelloQt::writeToDebug(void) { qDebug() << tr("I don't know what I was supposed to debug here..."); }

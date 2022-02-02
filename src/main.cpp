@@ -1,8 +1,8 @@
 #include <functional>
 #include <iostream>
 
-#include <spdlog/spdlog.h>
 #include <docopt/docopt.h>
+#include <spdlog/spdlog.h>
 
 static constexpr auto USAGE =
   R"(Naval Fate.
@@ -24,18 +24,20 @@ static constexpr auto USAGE =
 
 int main(int argc, const char **argv)
 {
-  std::map<std::string, docopt::value> args = docopt::docopt(USAGE,
-    { std::next(argv), std::next(argv, argc) },
-    true,// show help if requested
-    "Naval Fate 2.0");// version string
+  try {
+    std::map<std::string, docopt::value> args = docopt::docopt(USAGE,
+      { std::next(argv), std::next(argv, argc) },
+      true,// show help if requested
+      "Naval Fate 2.0");// version string
 
-  for (auto const &arg : args) {
-    std::cout << arg.first << "=" << arg.second << std::endl;
+    for (auto const &arg : args) { std::cout << arg.first << "=" << arg.second << '\n'; }
+
+
+    // Use the default logger (stdout, multi-threaded, colored)
+    spdlog::info("Hello, {}!", "World");
+
+    fmt::print("Hello, from {}\n", "{fmt}");
+  } catch (const std::exception &e) {
+    fmt::print("Unhandled exception in main: {}", e.what());
   }
-
-
-  //Use the default logger (stdout, multi-threaded, colored)
-  spdlog::info("Hello, {}!", "World");
-
-  fmt::print("Hello, from {}\n", "{fmt}");
 }
