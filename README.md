@@ -353,6 +353,11 @@ With Cmake directly:
 
 Cmake will automatically create the `./build` folder if it does not exist, and it wil configure the project.
 
+Instead, if you have CMake version 3.21+, you can use one of the configuration presets that are listed in the CmakePresets.json file.
+
+    cmake . --preset <configure-preset>
+    cmake --build
+
 #### (2.b) Configuring via ccmake:
 
 With the Cmake Curses Dialog Command Line tool:
@@ -511,26 +516,26 @@ See [libFuzzer Tutorial](https://github.com/google/fuzzing/blob/master/tutorial/
 ## Docker Instructions
 
 If you have [Docker](https://www.docker.com/) installed, you can run this
-in your terminal, when the Dockerfile is in your working directory:
+in your terminal, when the Dockerfile is inside the .devconatiner directory:
 
 ```bash
-docker build --tag=my_project:latest .
+docker build -f ./.devcontainer/Dockerfile --tag=my_project:latest .
 docker run -it my_project:latest
 ```
 
-This command will put you in a `bash` session in a Ubuntu 18.04 Docker container,
+This command will put you in a `bash` session in a Ubuntu 20.04 Docker container,
 with all of the tools listed in the [Dependencies](#dependencies) section already installed.
-Additionally, you will have `g++-10` and `clang++-11` installed as the default
+Additionally, you will have `g++-11` and `clang++-13` installed as the default
 versions of `g++` and `clang++`.
 
 If you want to build this container using some other versions of gcc and clang,
 you may do so with the `GCC_VER` and `LLVM_VER` arguments:
 
 ```bash
-docker build --tag=myproject:latest --build-arg GCC_VER=9 --build-arg LLVM_VER=10 .
+docker build --tag=myproject:latest --build-arg GCC_VER=10 --build-arg LLVM_VER=11 .
 ```
 
-The CC and CXX environment variables are set to GCC version 10 by default.
+The CC and CXX environment variables are set to GCC version 11 by default.
 If you wish to use clang as your default CC and CXX environment variables, you
 may do so like this:
 
@@ -560,7 +565,7 @@ You can configure and build [as directed above](#build) using these commands:
 /starter_project# cmake --build ./build
 ```
 
-You can configure and build using `clang-11`, without rebuilding the container,
+You can configure and build using `clang-13`, without rebuilding the container,
 with these commands:
 
 ```bash
