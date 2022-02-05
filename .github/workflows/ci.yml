@@ -101,22 +101,26 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.compiler }}-${{matrix.build_type}}-${{matrix.generator}}-${{matrix.developer_mode}}
 
+      - uses: actions/setup-python@v2
+
+      - run: pip3 install cmake ninja conan gcovr
+
       - name: Setup Cpp
         uses: aminya/setup-cpp@v1
         with:
           compiler: ${{ matrix.compiler }}
           vcvarsall: ${{ contains(matrix.os, 'windows' )}}
 
-          cmake: true
-          ninja: true
-          conan: true
+          cmake: false
+          ninja: false
+          conan: false
           vcpkg: false
           ccache: true
           clangtidy: true
 
           cppcheck: true
 
-          gcovr: true
+          gcovr: false
           opencppcoverage: true
 
       - name: Configure CMake
