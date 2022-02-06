@@ -62,6 +62,7 @@ jobs:
             compiler: gcc
             generator: "Unix Makefiles"
             build_type: Debug
+            gcov: gcov
             developer_mode: On
 
           - os: windows-2022
