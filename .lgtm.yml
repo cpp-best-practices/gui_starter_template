@@ -19,6 +19,6 @@ extraction:
     configure:
       command:
         - mkdir build
-        - cmake -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
+        - cmake -D OPT_ENABLE_COVERAGE:BOOL=TRUE -D CMAKE_BUILD_TYPE:STRING=Debug  -S . -B build
     index:
       build_command: cmake --build ./build -- -j2
