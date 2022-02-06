@@ -50,6 +50,13 @@ jobs:
             compiler: gcc
 
         include:
+          # Add appropriate variables for gcov version required. This will intentionally break
+          # if you try to use a compiler that does not have gcov set
+          - compiler: gcc
+            gcov: gcov
+          - compiler: llvm
+            gcov: "llvm-cov gcov"
+
           # This exists solely to make sure a non-multiconfig build works
           - os: ubuntu-20.04
             compiler: gcc
@@ -119,9 +126,11 @@ jobs:
           gcovr: true
           opencppcoverage: true
 
+        # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
+        # has meaningful results
       - name: Configure CMake
         run: |
-          cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}}
+          cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }}
 
       - name: Build
         # Execute the build.  You can specify a specific target with "--target <NAME>"
@@ -135,13 +144,13 @@ jobs:
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
           ctest -C ${{matrix.build_type}}
-          gcovr -j ${{env.nproc}} --delete --root ../ --print-summary --xml-pretty --xml coverage.xml .
+          gcovr -j ${{env.nproc}} --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '${{matrix.gcov}}'
 
       - name: Windows - Test and coverage
         if: runner.os == 'Windows'
         working-directory: ./build
         run: |
-          OpenCppCoverage.exe --sources cpp_starter_project --export_type cobertura:coverage.xml --cover_children -- ctest -C ${{matrix.build_type}}
+          OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest -C ${{matrix.build_type}}
 
       - name: Publish to codecov
         uses: codecov/codecov-action@v2
