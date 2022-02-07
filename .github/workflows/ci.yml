@@ -53,16 +53,16 @@ jobs:
           # Add appropriate variables for gcov version required. This will intentionally break
           # if you try to use a compiler that does not have gcov set
           - compiler: gcc
-            gcov: gcov
+            gcov_executable: gcov
           - compiler: llvm
-            gcov: "llvm-cov gcov"
+            gcov_executable: "llvm-cov gcov"
 
           # This exists solely to make sure a non-multiconfig build works
           - os: ubuntu-20.04
             compiler: gcc
             generator: "Unix Makefiles"
             build_type: Debug
-            gcov: gcov
+            gcov_executable: gcov
             developer_mode: On
 
           - os: windows-2022
@@ -145,7 +145,7 @@ jobs:
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: |
           ctest -C ${{matrix.build_type}}
-          gcovr -j ${{env.nproc}} --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '${{matrix.gcov}}'
+          gcovr -j ${{env.nproc}} --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '${{ matrix.gcov_executable }}'
 
       - name: Windows - Test and coverage
         if: runner.os == 'Windows'
