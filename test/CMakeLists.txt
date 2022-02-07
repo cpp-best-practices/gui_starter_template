@@ -7,6 +7,9 @@ add_library(catch_main OBJECT catch_main.cpp)
 target_link_libraries(catch_main PUBLIC Catch2::Catch2)
 target_link_libraries(catch_main PRIVATE project_options)
 
+# Provide a simple smoke test to make sure that the CLI works and can display a --help message
+add_test(NAME cli.has_help COMMAND intro --help)
+
 add_executable(tests tests.cpp)
 target_link_libraries(tests PRIVATE project_warnings project_options catch_main)
 
