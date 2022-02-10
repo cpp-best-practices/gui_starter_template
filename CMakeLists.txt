@@ -13,11 +13,11 @@ set(CMAKE_CXX_STANDARD 20)
 # when compiling with PCH enabled
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Add project_options v0.15.0
+# Add project_options v0.15.1
 # https://github.com/cpp-best-practices/project_options
 include(FetchContent)
 FetchContent_Declare(_project_options
-                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.15.0.zip)
+                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.15.1.zip)
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
 
