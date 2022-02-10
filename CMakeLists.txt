@@ -1,95 +1,108 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.16)
 
-# Set the project name to your project name, my project isn't very descriptive
-project(myproject CXX)
-include(cmake/StandardProjectSettings.cmake)
-include(cmake/PreventInSourceBuilds.cmake)
+# uncomment to set a default CXX standard for the external tools like clang-tidy and cppcheck
+# and the targets that do not specify a standard.
+# If not set, the latest supported standard for your compiler is used
+# You can later set fine-grained standards for each target using `target_compile_features`
+# Note: linking together projects compiled with different C++ standards may work, but
+# it is not recommended because of possible issues with ABI
+set(CMAKE_CXX_STANDARD 20)
 
-# Link this 'library' to set the c++ standard / compile-time options requested
-add_library(project_options INTERFACE)
-target_compile_features(project_options INTERFACE cxx_std_17)
+# strongly encouraged to enable this globally to avoid conflicts between
+# -Wpedantic being enabled and -std=c++20 and -std=gnu++20 for example
+# when compiling with PCH enabled
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-  option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
-  if(ENABLE_BUILD_WITH_TIME_TRACE)
-    target_compile_options(project_options INTERFACE -ftime-trace)
+# Add project_options v0.15.1
+# https://github.com/cpp-best-practices/project_options
+include(FetchContent)
+FetchContent_Declare(_project_options
+                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.15.1.zip)
+FetchContent_MakeAvailable(_project_options)
+include(${_project_options_SOURCE_DIR}/Index.cmake)
+
+# uncomment to enable vcpkg:
+# # Setup vcpkg - should be called before defining project()
+# run_vcpkg()
+
+# Set the project name and language
+project(myproject LANGUAGES CXX C)
+
+get_property(BUILDING_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(BUILDING_MULTI_CONFIG)
+  if(NOT CMAKE_BUILD_TYPE)
+    # Make sure that all supported configuration types have their
+    # associated conan packages available. You can reduce this
+    # list to only the configuration types you use, but only if one
+    # is not forced-set on the command line for VS
+    message(TRACE "Setting up multi-config build types")
+    set(CMAKE_CONFIGURATION_TYPES
+        Debug
+        Release
+        RelWithDebInfo
+        MinSizeRel
+        CACHE STRING "Enabled build types" FORCE)
+  else()
+    message(TRACE "User chose a specific build type, so we are using that")
+    set(CMAKE_CONFIGURATION_TYPES
+        ${CMAKE_BUILD_TYPE}
+        CACHE STRING "Enabled build types" FORCE)
   endif()
 endif()
 
-# Link this 'library' to use the warnings specified in CompilerWarnings.cmake
-add_library(project_warnings INTERFACE)
+include(${_project_options_SOURCE_DIR}/src/DynamicProjectOptions.cmake)
 
-# enable cache system
-include(cmake/Cache.cmake)
+# defaulted_project_options sets recommended defaults and provides user and developer
+# modes and full GUI support for choosing options at configure time
 
-# standard compiler warnings
-include(cmake/CompilerWarnings.cmake)
-set_project_warnings(project_warnings)
+# for more flexibility, look into project_options() macro
 
-# sanitizer options if supported by compiler
-include(cmake/Sanitizers.cmake)
-enable_sanitizers(project_options)
+# Any default can be overridden
+# set(<feature_name>_DEFAULT <value>) - set default for both user and developer modes
+# set(<feature_name>_DEVELOPER_DEFAULT <value>) - set default for developer mode
+# set(<feature_name>_USER_DEFAULT <value>) - set default for user mode
 
-# enable doxygen
-include(cmake/Doxygen.cmake)
-enable_doxygen()
+# Initialize project_options variable related to this project
+# This overwrites `project_options` and sets `project_warnings`
+# uncomment the options to enable them:
+dynamic_project_options(
+  # Note: PCH is disabled by default in developer mode because these headers become
+  # globally included and they can mask other errors
+  PCH_HEADERS
+  <vector>
+  <string> # This is a list of headers to pre-compile, here are some common ones
+  # CONAN_OPTIONS  # Extra options to pass to conan
+  # MSVC_WARNINGS  # Override the defaults for the MSVC warnings
+  # CLANG_WARNINGS # Override the defaults for the CLANG warnings
+  # GCC_WARNINGS   # Override the defaults for the GCC warnings
+)
 
-# allow for static analysis options
-include(cmake/StaticAnalyzers.cmake)
+target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
 
-option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
-option(ENABLE_TESTING "Enable Test Builds" ON)
-option(ENABLE_FUZZING "Enable Fuzzing Builds" OFF)
+# Adding the src:
+add_subdirectory(src)
 
-# Very basic PCH example
-option(ENABLE_PCH "Enable Precompiled Headers" OFF)
-if(ENABLE_PCH)
-  # This sets a global PCH parameter, each project will build its own PCH, which is a good idea if any #define's change
-  #
-  # consider breaking this out per project as necessary
-  target_precompile_headers(
-    project_options
-    INTERFACE
-    <vector>
-    <string>
-    <map>
-    <utility>)
-endif()
-
-# Set up some extra Conan dependencies based on our needs before loading Conan
-set(CONAN_EXTRA_REQUIRES "")
-set(CONAN_EXTRA_OPTIONS "")
-
-if(CPP_STARTER_USE_IMGUI)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} imgui-sfml/2.1@bincrafters/stable)
-
-  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sfml:shared=False sfml:graphics=True sfml:audio=False
-  # sfml:window=True libalsa:disable_python=True)
-endif()
-
-if(CPP_STARTER_USE_SDL)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} sdl2/2.0.10@bincrafters/stable)
-  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sdl2:wayland=True)
-endif()
-
-include(cmake/Conan.cmake)
-run_conan()
-
+# Adding the tests:
+option(ENABLE_TESTING "Enable the tests" ON)
 if(ENABLE_TESTING)
   enable_testing()
-  message("Building Tests. Be sure to check out test/constexpr_tests for constexpr testing")
+  message("Building Tests. Be sure to check out test/constexpr_tests for constexpr
+testing")
   add_subdirectory(test)
 endif()
 
+option(ENABLE_FUZZING "Enable the fuzz tests" OFF)
 if(ENABLE_FUZZING)
   message("Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
   add_subdirectory(fuzz_test)
 endif()
 
-add_subdirectory(src)
-
-option(ENABLE_UNITY "Enable Unity builds of projects" OFF)
-if(ENABLE_UNITY)
-  # Add for any project you want to apply unity builds for
-  set_target_properties(intro PROPERTIES UNITY_BUILD ON)
+# If MSVC is being used, and ASAN is enabled, we need to set the debugger environment
+# so that it behaves well with MSVC's debugger, and we can run the target from visual studio
+if(MSVC)
+  get_all_targets(all_targets)
+  set_target_properties(${all_targets} PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=$(VC_ExecutablePath_x64);%PATH%")
 endif()
+
+# set the startup project for the "play" button in MSVC
+set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT intro)

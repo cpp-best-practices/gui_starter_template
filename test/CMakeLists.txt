@@ -1,13 +1,14 @@
-# Automatically enable catch2 to generate ctest targets
-if(CONAN_CATCH2_ROOT_DEBUG)
-  include(${CONAN_CATCH2_ROOT_DEBUG}/lib/cmake/Catch2/Catch.cmake)
-else()
-  include(${CONAN_CATCH2_ROOT}/lib/cmake/Catch2/Catch.cmake)
-endif()
+find_package(Catch2 REQUIRED)
 
-add_library(catch_main STATIC catch_main.cpp)
-target_link_libraries(catch_main PUBLIC CONAN_PKG::catch2)
+include(CTest)
+include(Catch)
+
+add_library(catch_main OBJECT catch_main.cpp)
+target_link_libraries(catch_main PUBLIC Catch2::Catch2)
 target_link_libraries(catch_main PRIVATE project_options)
+
+# Provide a simple smoke test to make sure that the CLI works and can display a --help message
+add_test(NAME cli.has_help COMMAND intro --help)
 
 add_executable(tests tests.cpp)
 target_link_libraries(tests PRIVATE project_warnings project_options catch_main)

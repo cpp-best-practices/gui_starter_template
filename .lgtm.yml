@@ -1,0 +1,24 @@
+# for full syntax documentation see:  https://lgtm.com/help/lgtm/lgtm.yml-configuration-file
+path_classifiers:
+  test:
+    - "*/fuzz_test/**/*"
+    - "*/test/**/*"
+extraction:
+  cpp:
+    prepare:
+      packages:
+        - g++-10
+        - ccache
+      script:
+        - mkdir ~/.conan
+        - cat /usr/local/share/ca-certificates/semmle-cache-ca/semmle-cache-ca.crt >> ~/.conan/cacert.pem
+        - python3 -m pip install --upgrade pip setuptools
+        - python3 -m pip install conan
+        - python3 -m pip install cmake
+        - source ~/.profile
+    configure:
+      command:
+        - mkdir build
+        - cmake -D OPT_ENABLE_COVERAGE:BOOL=TRUE -D CMAKE_BUILD_TYPE:STRING=Debug -D ENABLE_DEVELOPER_MODE:BOOL=FALSE  -S . -B build
+    index:
+      build_command: cmake --build ./build -- -j2

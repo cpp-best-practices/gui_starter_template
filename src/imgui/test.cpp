@@ -1,10 +1,10 @@
-#include <imgui.h>
 #include <imgui-SFML.h>
+#include <imgui.h>
 
+#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
 
 int main()
 {
@@ -21,14 +21,12 @@ int main()
     while (window.pollEvent(event)) {
       ImGui::SFML::ProcessEvent(event);
 
-      if (event.type == sf::Event::Closed) {
-        window.close();
-      }
+      if (event.type == sf::Event::Closed) { window.close(); }
     }
 
     ImGui::SFML::Update(window, deltaClock.restart());
 
-//    ImGui::ShowDemoWindow();
+    //    ImGui::ShowDemoWindow();
 
     ImGui::Begin("Hello, world!");
     ImGui::Button("Look at this pretty button");

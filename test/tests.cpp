@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
 
-unsigned int Factorial(unsigned int number)
+unsigned int Factorial(unsigned int number)// NOLINT(misc-no-recursion)
 {
   return number <= 1 ? number : Factorial(number - 1) * number;
 }

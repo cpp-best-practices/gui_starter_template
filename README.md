@@ -1,31 +1,26 @@
 # cpp_starter_project
 
-[![codecov](https://codecov.io/gh/lefticus/cpp_starter_project/branch/master/graph/badge.svg)](https://codecov.io/gh/lefticus/cpp_starter_project)
-
-[![Build Status](https://travis-ci.org/lefticus/cpp_starter_project.svg?branch=master)](https://travis-ci.org/lefticus/cpp_starter_project)
-
-[![Build status](https://ci.appveyor.com/api/projects/status/ro4lbfoa7n0sy74c/branch/master?svg=true)](https://ci.appveyor.com/project/lefticus/cpp-starter-project/branch/master)
-
-![CMake](https://github.com/lefticus/cpp_starter_project/workflows/CMake/badge.svg)
-
+![CI](https://github.com/cpp-best-practices/cpp_starter_project/workflows/ci/badge.svg)
+[![codecov](https://codecov.io/gh/cpp-best-practices/cpp_starter_project/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/cpp_starter_project)
+[![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/cpp-best-practices/cpp_starter_project)](https://lgtm.com/projects/g/cpp-best-practices/cpp_starter_project/context:cpp)
 
 ## Getting Started
 
 ### Use the Github template
 First, click the green `Use this template` button near the top of this page.
-This will take you to Github's ['Generate Repository'](https://github.com/lefticus/cpp_starter_project/generate) page.
+This will take you to Github's ['Generate Repository'](https://github.com/cpp-best-practices/cpp_starter_project/generate) page.
 Fill in a repository name and short description, and click 'Create repository from template'.
 This will allow you to create a new repository in your Github account,
 prepopulated with the contents of this project.
 Now you can clone the project locally and get to work!
 
-    $ git clone https://github.com/<user>/<your_new_repo>.git
+    git clone https://github.com/<user>/<your_new_repo>.git
 
 ### Remove frameworks you're not going to use
 If you know you're not going to use one or more of the optional gui/graphics
 frameworks (fltk, gtkmm, imgui, etc.), you can remove them with `git rm`:
 
-    $ git rm -r src/<unnecessary_framework>
+    git rm -r src/<unnecessary_framework>
 
 ## Dependencies
 
@@ -33,6 +28,29 @@ Note about install commands:
 - for Windows, we use [choco](https://chocolatey.org/install).
 - for MacOS, we use [brew](https://brew.sh/).
 - In case of an error in cmake, make sure that the dependencies are on the PATH.
+
+
+### Too Long, Didn't Install
+
+This is a really long list of dependencies, and it's easy to mess up. That's why:
+
+#### Docker
+We have a Docker image that's already set up for you. See the [Docker instructions](#docker-instructions).
+
+#### Setup-cpp
+
+We have [setup-cpp](https://github.com/aminya/setup-cpp) that is a cross-platform tool to install all the compilers and dependencies on the system.
+
+Please check [the setup-cpp documentation](https://github.com/aminya/setup-cpp) for more information.
+
+For example, on Windows, you can run the following to install llvm, cmake, ninja, ccache, conan, and cppcheck.
+```ps1
+# windows example (open shell as admin)
+curl -LJO "https://github.com/aminya/setup-cpp/releases/download/v0.5.7/setup_cpp_windows.exe"
+./setup_cpp_windows --compiler llvm --cmake true --ninja true --ccache true --conan true --cppcheck true
+
+RefreshEnv.cmd # reload the environment
+```
 
 ### Necessary Dependencies
 1. A C++ compiler that supports C++17.
@@ -241,12 +259,14 @@ linked here:
 
 ## Build Instructions
 
-### Build directory
-Make a build directory:
-```
-mkdir build
-```
-### Specify the compiler using environment variables
+A full build has different steps:
+1) Specifying the compiler using environment variables
+2) Configuring the project
+3) Building the project
+
+For the subsequent builds, in case you change the source code, you only need to repeat the last step.
+
+### (1) Specify the compiler using environment variables
 
 By default (if you don't set environment variables `CC` and `CXX`), the system default compiler will be used.
 
@@ -298,9 +318,9 @@ CMake will detect which compiler was used to build each of the Conan targets. If
 				[Environment]::SetEnvironmentVariable("CXX", "cl.exe", "User")
 				refreshenv
 
-		  Set the architecture using [vsvarsall](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019#vcvarsall-syntax):
+		  Set the architecture using [vcvarsall](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019#vcvarsall-syntax):
 
-				vsvarsall.bat x64
+				vcvarsall.bat x64
 
 		- clang
 
@@ -322,22 +342,44 @@ CMake will detect which compiler was used to build each of the Conan targets. If
 
 </details>
 
-### Configure your build
+### (2) Configure your build
 
-To configure the project and write makefiles, you could use `cmake` with a bunch of command line options.
-The easier option is to run cmake interactively:
+To configure the project, you could use `cmake`, or `ccmake` or `cmake-gui`. Each of them are explained in the following:
 
-#### **Configure via cmake-gui**:
+#### (2.a) Configuring via cmake:
+With Cmake directly:
 
-1) Open cmake-gui from the project directory:
+    cmake -S . -B ./build
+
+Cmake will automatically create the `./build` folder if it does not exist, and it wil configure the project.
+
+Instead, if you have CMake version 3.21+, you can use one of the configuration presets that are listed in the CmakePresets.json file.
+
+    cmake . --preset <configure-preset>
+    cmake --build
+
+#### (2.b) Configuring via ccmake:
+
+With the Cmake Curses Dialog Command Line tool:
+
+    ccmake -S . -B ./build
+
+Once `ccmake` has finished setting up, press 'c' to configure the project,
+press 'g' to generate, and 'q' to quit.
+
+#### (2.c) Configuring via cmake-gui:
+
+To use the GUI of the cmake:
+
+2.c.1) Open cmake-gui from the project directory:
 ```
 cmake-gui .
 ```
-2) Set the build directory:
+2.c.2) Set the build directory:
 
 ![build_dir](https://user-images.githubusercontent.com/16418197/82524586-fa48e380-9af4-11ea-8514-4e18a063d8eb.jpg)
 
-3) Configure the generator:
+2.c.3) Configure the generator:
 
 In cmake-gui, from the upper menu select `Tools/Configure`.
 
@@ -382,19 +424,11 @@ Choose "Visual Studio 16 2019" as the generator. To tell Visual studio to use `c
 </details>
 <br/>
 
-4) Choose the Cmake options and then generate:
+2.c.4) Choose the Cmake options and then generate:
 
 ![generate](https://user-images.githubusercontent.com/16418197/82781591-c97feb80-9e1f-11ea-86c8-f2748b96f516.png)
 
-#### **Configure via ccmake**:
-with the Cmake Curses Dialog Command Line tool:
-
-    ccmake -S . -B ./build
-
-Once `ccmake` has finished setting up, press 'c' to configure the project,
-press 'g' to generate, and 'q' to quit.
-
-### Build
+### (3) Build the project
 Once you have selected all the options you would like to use, you can build the
 project (all targets):
 
@@ -404,6 +438,17 @@ For Visual Studio, give the build configuration (Release, RelWithDeb, Debug, etc
 
     cmake --build ./build -- /p:configuration=Release
 
+
+### Running the tests
+
+You can use the `ctest` command run the tests.
+
+```shell
+cd ./build
+ctest -C Debug
+cd ../
+```
+
 ## Troubleshooting
 
 ### Update Conan
@@ -412,7 +457,7 @@ having any trouble with this project, you should start by doing that.
 
 To update conan:
 
-    $ pip install --user --upgrade conan
+    pip install --user --upgrade conan
 
 You may need to use `pip3` instead of `pip` in this command, depending on your
 platform.
@@ -421,7 +466,7 @@ platform.
 If you continue to have trouble with your Conan dependencies, you can try
 clearing your Conan cache:
 
-    $ conan remove -f '*'
+    conan remove -f '*'
 
 The next time you run `cmake` or `cmake --build`, your Conan dependencies will
 be rebuilt. If you aren't using your system's default compiler, don't forget to
@@ -440,21 +485,22 @@ If your project has a Conan configuration error, you can use `conan info` to
 find it. `conan info` displays information about the dependency graph of your
 project, with colorized output in some terminals.
 
-    $ cd build
-    $ conan info .
+    cd build
+    conan info .
 
 In my terminal, the first couple lines of `conan info`'s output show all of the
 project's configuration warnings in a bright yellow font.
 
 For example, the package `spdlog/1.5.0` depends on the package `fmt/6.1.2`.
-If you were to modify the file `cmake/Conan.cmake` so that it requires an
+If you were to modify the file `conanfile.py` so that it requires an
 earlier version of `fmt`, such as `fmt/6.0.0`, and then run:
 
-    $ conan remove -f '*'       # clear Conan cache
-    $ rm -rf build              # clear previous CMake build
-    $ mkdir build && cd build
-    $ cmake ..                  # rebuild Conan dependencies
-    $ conan info .
+```bash
+conan remove -f '*'       # clear Conan cache
+rm -rf build              # clear previous CMake build
+cmake -S . -B ./build     # rebuild Conan dependencies
+conan info ./build
+```
 
 ...the first line of output would be a warning that `spdlog` needs a more recent
 version of `fmt`.
@@ -465,3 +511,76 @@ See [Catch2 tutorial](https://github.com/catchorg/Catch2/blob/master/docs/tutori
 ## Fuzz testing
 
 See [libFuzzer Tutorial](https://github.com/google/fuzzing/blob/master/tutorial/libFuzzerTutorial.md)
+
+
+## Docker Instructions
+
+If you have [Docker](https://www.docker.com/) installed, you can run this
+in your terminal, when the Dockerfile is inside the .devconatiner directory:
+
+```bash
+docker build -f ./.devcontainer/Dockerfile --tag=my_project:latest .
+docker run -it my_project:latest
+```
+
+This command will put you in a `bash` session in a Ubuntu 20.04 Docker container,
+with all of the tools listed in the [Dependencies](#dependencies) section already installed.
+Additionally, you will have `g++-11` and `clang++-13` installed as the default
+versions of `g++` and `clang++`.
+
+If you want to build this container using some other versions of gcc and clang,
+you may do so with the `GCC_VER` and `LLVM_VER` arguments:
+
+```bash
+docker build --tag=myproject:latest --build-arg GCC_VER=10 --build-arg LLVM_VER=11 .
+```
+
+The CC and CXX environment variables are set to GCC version 11 by default.
+If you wish to use clang as your default CC and CXX environment variables, you
+may do so like this:
+
+```bash
+docker build --tag=my_project:latest --build-arg USE_CLANG=1 .
+```
+
+You will be logged in as root, so you will see the `#` symbol as your prompt.
+You will be in a directory that contains a copy of the `cpp_starter_project`;
+any changes you make to your local copy will not be updated in the Docker image
+until you rebuild it.
+If you need to mount your local copy directly in the Docker image, see
+[Docker volumes docs](https://docs.docker.com/storage/volumes/).
+TLDR:
+
+```bash
+docker run -it \
+	-v absolute_path_on_host_machine:absolute_path_in_guest_container \
+	my_project:latest
+```
+
+You can configure and build [as directed above](#build) using these commands:
+
+```bash
+/starter_project# mkdir build
+/starter_project# cmake -S . -B ./build
+/starter_project# cmake --build ./build
+```
+
+You can configure and build using `clang-13`, without rebuilding the container,
+with these commands:
+
+```bash
+/starter_project# mkdir build
+/starter_project# CC=clang CXX=clang++ cmake -S . -B ./build
+/starter_project# cmake --build ./build
+```
+
+The `ccmake` tool is also installed; you can substitute `ccmake` for `cmake` to
+configure the project interactively.
+All of the tools this project supports are installed in the Docker image;
+enabling them is as simple as flipping a switch using the `ccmake` interface.
+Be aware that some of the sanitizers conflict with each other, so be sure to
+run them separately.
+
+A script called `build_examples.sh` is provided to help you to build the example
+GUI projects in this container.
+
