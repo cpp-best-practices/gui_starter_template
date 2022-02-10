@@ -26,7 +26,12 @@ include(${_project_options_SOURCE_DIR}/Index.cmake)
 # run_vcpkg()
 
 # Set the project name and language
-project(myproject LANGUAGES CXX C)
+project(
+  myproject
+  VERSION 0.0.1
+  DESCRIPTION "Starter Project With Best Practices for C++"
+  HOMEPAGE_URL "https://github.com/cpp-best-practices/cpp_starter_project"
+  LANGUAGES CXX C)
 
 get_property(BUILDING_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 if(BUILDING_MULTI_CONFIG)
