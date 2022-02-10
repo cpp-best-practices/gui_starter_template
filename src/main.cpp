@@ -28,7 +28,7 @@ int main(int argc, const char **argv)
     std::map<std::string, docopt::value> args = docopt::docopt(USAGE,
       { std::next(argv), std::next(argv, argc) },
       true,// show help if requested
-      "Naval Fate 2.0");// version string
+      "Naval Fate 0.0.1");// version string
 
     for (auto const &arg : args) { std::cout << arg.first << "=" << arg.second << '\n'; }
 
