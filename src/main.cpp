@@ -37,6 +37,17 @@ int main(int argc, const char **argv)
     spdlog::info("Hello, {}!", "World");
 
     fmt::print("Hello, from {}\n", "{fmt}");
+
+    // this line exists solely to check the problem matchers
+    int *i = nullptr;
+    *i = 42;
+
+    int j;
+    int k;
+    int l = j + k;
+
+    fmt::print("Test printing values {} {} {} {}", i, j, k, l);
+
   } catch (const std::exception &e) {
     fmt::print("Unhandled exception in main: {}", e.what());
   }
