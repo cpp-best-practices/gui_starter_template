@@ -31,8 +31,8 @@ int main(int argc, const char **argv)
       { std::next(argv), std::next(argv, argc) },
       true,// show help if requested
       fmt::format("{} {}",
-        myproject::project_name,
-        myproject::project_version));// version string, acquired from config.hpp via CMake
+        myproject::name,
+        myproject::version));// version string, acquired from config.hpp via CMake
 
     for (auto const &arg : args) { std::cout << arg.first << "=" << arg.second << '\n'; }
 
