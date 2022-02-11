@@ -133,13 +133,15 @@ jobs:
         run: |
           cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }}
 
+      - name: GCC Problem Matcher
+        uses: ammaraskar/gcc-problem-matcher@0.1
+      - name: MSVC Problem Matcher
+        uses: ammaraskar/msvc-problem-matcher@0.1
+
       - name: Build
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
           cmake --build ./build --config ${{matrix.build_type}}
-
-      - name: GCC Problem Matcher
-        uses: ammaraskar/gcc-problem-matcher@0.1
 
       - name: Unix - Test and coverage
         if: runner.os != 'Windows'
@@ -149,9 +151,6 @@ jobs:
         run: |
           ctest -C ${{matrix.build_type}}
           gcovr -j ${{env.nproc}} --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '${{ matrix.gcov_executable }}'
-
-      - name: MSVC Problem Matcher
-        uses: ammaraskar/msvc-problem-matcher@0.1
 
       - name: Windows - Test and coverage
         if: runner.os == 'Windows'

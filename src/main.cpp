@@ -46,7 +46,7 @@ int main(int argc, const char **argv)
     int k;
     int l = j + k;
 
-    fmt::print("Test printing values {} {} {} {}", i, j, k, l);
+    fmt::print("Test printing values {} {} {} {}\n", *i, j, k, l);
 
   } catch (const std::exception &e) {
     fmt::print("Unhandled exception in main: {}", e.what());
