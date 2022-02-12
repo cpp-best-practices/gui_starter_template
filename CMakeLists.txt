@@ -17,7 +17,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # https://github.com/cpp-best-practices/project_options
 include(FetchContent)
 FetchContent_Declare(_project_options
-                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.15.1.zip)
+                     URL https://github.com/lefticus/project_options/archive/refs/heads/set_cppcheck_template.zip)
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
 
@@ -50,9 +50,18 @@ if(BUILDING_MULTI_CONFIG)
   endif()
 endif()
 
+
+# Note: by default ENABLE_DEVELOPER_MODE is True
+# This means that all analysis (sanitizers, static analysis)
+# is enabled and all warnings are treated as errors
+# if you want to switch this behavior, uncomment this line:
+# set(ENABLE_DEVELOPER_MODE FALSE CACHE BOOL "Enable 'developer mode'")
+
+
 include(${_project_options_SOURCE_DIR}/src/DynamicProjectOptions.cmake)
 
-# defaulted_project_options sets recommended defaults and provides user and developer
+
+# dynamic_project_options sets recommended defaults and provides user and developer
 # modes and full GUI support for choosing options at configure time
 
 # for more flexibility, look into project_options() macro
