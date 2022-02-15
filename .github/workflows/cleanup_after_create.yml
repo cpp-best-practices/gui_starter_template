@@ -1,0 +1,39 @@
+# This workflow should cleanup everything unneeded from the template project
+
+name: Cleanup after create
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  template-cleanup:
+    name: Cleanup after create
+    runs-on: ubuntu-latest
+    # if a project was created from the cpp_starter_project template the github repository name should differ
+    if: github.event.repository.name != 'cpp_starter_project'
+    steps:
+
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v2.4.0
+
+      # Rename all cpp_starter_project occurences to current repository and remove this workflow
+      - name: Cleanup
+        run: |
+          # rename the CMake project to match the github project
+          sed -i "s/project(myproject/project(${{  github.event.repository.name }}/g" CMakeLists.txt
+          # make links for build badges point to the newly created repository
+          sed -i "s/cpp-best-practices\/cpp_starter_project/${{ github.actor }}\/${{ github.event.repository.name }}/g" README.md
+          
+          # Remove this workflow as it has fulfilled its purpose
+          rm .github/workflows/cleanup_after_create.yml
+          
+      - uses: EndBug/add-and-commit@v4
+        with:
+          author_name: Cleanup Robot
+          author_email: template.cleanup@example.com
+          message: 'Cleanup template and initialize repository'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
