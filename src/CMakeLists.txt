@@ -2,7 +2,7 @@
 add_subdirectory(imgui-sfml)
 
 # Nana example
-add_subdirectory(nana)
+# add_subdirectory(nana)
 
 # find_package(fmt CONFIG)
 find_package(spdlog CONFIG)
