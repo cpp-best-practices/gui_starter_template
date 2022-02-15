@@ -8,16 +8,20 @@
 
 int main()
 {
-  sf::RenderWindow window(sf::VideoMode(640, 480), "ImGui + SFML = <3");
-  window.setFramerateLimit(60);
+  static constexpr auto screen_width = 640;
+  static constexpr auto screen_height = 480;
+  static constexpr auto fps_limit = 60;
+
+  sf::RenderWindow window(sf::VideoMode(screen_width, screen_height), "ImGui + SFML = <3");
+  window.setFramerateLimit(fps_limit);
   ImGui::SFML::Init(window);
 
-  sf::CircleShape shape(100.f);
+  sf::CircleShape shape(100.F);
   shape.setFillColor(sf::Color::Green);
 
   sf::Clock deltaClock;
   while (window.isOpen()) {
-    sf::Event event;
+    sf::Event event{};
     while (window.pollEvent(event)) {
       ImGui::SFML::ProcessEvent(event);
 
