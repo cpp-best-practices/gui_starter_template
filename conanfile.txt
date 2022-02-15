@@ -14,3 +14,4 @@ sfml:network=False
 
 [generators]
 cmake_find_package_multi
+

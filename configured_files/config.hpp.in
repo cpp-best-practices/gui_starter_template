@@ -3,13 +3,13 @@
 
 // this is a basic example of how a CMake configured file might look
 // in this particular case, we are using it to set the version number of our executable
-namespace myproject {
-static constexpr std::string_view name = "@PROJECT_NAME@";
-static constexpr std::string_view version = "@PROJECT_VERSION@";
-static constexpr int version_major { @PROJECT_VERSION_MAJOR@ };
-static constexpr int version_minor { @PROJECT_VERSION_MINOR@ };
-static constexpr int version_patch { @PROJECT_VERSION_PATCH@ };
-static constexpr int version_tweak { @PROJECT_VERSION_TWEAK@ };
-}// namespace myproject
+namespace myproject::cmake {
+static constexpr std::string_view project_name = "@PROJECT_NAME@";
+static constexpr std::string_view project_version = "@PROJECT_VERSION@";
+static constexpr int project_version_major { @PROJECT_VERSION_MAJOR@ };
+static constexpr int project_version_minor { @PROJECT_VERSION_MINOR@ };
+static constexpr int project_version_patch { @PROJECT_VERSION_PATCH@ };
+static constexpr int project_version_tweak { @PROJECT_VERSION_TWEAK@ };
+}// namespace myproject::cmake
 
 #endif
