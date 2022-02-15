@@ -1,7 +1,7 @@
 # cpp_boilerplate_project
 
-![CI](cpp_boilerplate_project/workflows/ci/badge.svg)
-[![codecov](https://codecov.io/gh/cpp-best-practices/cpp_boilerplate_project/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/cpp_starter_project)
+[![ci](https://github.com/cpp-best-practices/cpp_boilerplate_project/actions/workflows/ci.yml/badge.svg)](https://github.com/cpp-best-practices/cpp_boilerplate_project/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/cpp-best-practices/cpp_boilerplate_project/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/cpp_boilerplate_project)
 [![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/cpp-best-practices/cpp_boilerplate_project)](https://lgtm.com/projects/g/cpp-best-practices/cpp_starter_project/context:cpp)
 
 
@@ -43,13 +43,6 @@ prepopulated with the contents of this project.
 Now you can clone the project locally and get to work!
 
     git clone https://github.com/<user>/<your_new_repo>.git
-
-### Remove frameworks you're not going to use
-If you know you're not going to use one or more of the optional gui/graphics
-frameworks (fltk, gtkmm, imgui, etc.), you can remove them with `git rm`:
-
-    git rm -r src/<unnecessary_framework>
-
 
 ## More Details
 
