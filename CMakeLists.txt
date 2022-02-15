@@ -36,7 +36,7 @@ project(
   myproject
   VERSION 0.0.1
   DESCRIPTION "Starter Project With Best Practices for C++"
-  HOMEPAGE_URL "https://github.com/cpp-best-practices/cpp_starter_project"
+  HOMEPAGE_URL "https://github.com/cpp-best-practices/cpp_boilerplate_project"
   LANGUAGES CXX C)
 
 get_property(BUILDING_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)

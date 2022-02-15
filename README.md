@@ -1,11 +1,11 @@
-# cpp_starter_project
+# cpp_boilerplate_project
 
-![CI](cpp_starter_project/workflows/ci/badge.svg)
-[![codecov](https://codecov.io/gh/cpp-best-practices/cpp_starter_project/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/cpp_starter_project)
-[![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/cpp-best-practices/cpp_starter_project)](https://lgtm.com/projects/g/cpp-best-practices/cpp_starter_project/context:cpp)
+![CI](cpp_boilerplate_project/workflows/ci/badge.svg)
+[![codecov](https://codecov.io/gh/cpp-best-practices/cpp_boilerplate_project/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/cpp_starter_project)
+[![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/cpp-best-practices/cpp_boilerplate_project)](https://lgtm.com/projects/g/cpp-best-practices/cpp_starter_project/context:cpp)
 
 
-## About cpp_starter_project
+## About cpp_boilerplate_project
 
 This is a C++ Best Practices GitHub template for getting up and running with C++ quickly.
 
@@ -18,8 +18,6 @@ By default (collectively known as `ENABLE_DEVELOPER_MODE`)
 
 It includes
 
- * a [nana](http://nanapro.org/en-us/) example
- * a [Dear ImGui](https://github.com/ocornut/imgui) example
  * a basic CLI example
  * examples for fuzz, unit, and constexpr testing
  * large github action testing matrix
@@ -30,15 +28,15 @@ It requires
  * conan
  * a compiler
 
-If you want a simplified starter template project without these examples, check out the [cpp_boilerplate_project](https://github.com/cpp-best-practices/boilerplate).
+If you want a more complex example project, check out the [cpp_starter_project](https://github.com/cpp-best-practices/cpp_starter_project).
 
-The Boilerplate project will merge new features first, then they will be merged (as appropriate) into this project.
+Ths Boilerplate project will merge new features first, then they will be merged (as appropriate) into cpp_starter_project.
 
 ## Getting Started
 
 ### Use the Github template
 First, click the green `Use this template` button near the top of this page.
-This will take you to Github's ['Generate Repository'](https://github.com/cpp-best-practices/cpp_starter_project/generate) page.
+This will take you to Github's ['Generate Repository'](https://github.com/cpp-best-practices/cpp_boilerplate_project/generate) page.
 Fill in a repository name and short description, and click 'Create repository from template'.
 This will allow you to create a new repository in your Github account,
 prepopulated with the contents of this project.
