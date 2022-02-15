@@ -4,6 +4,9 @@
 #include <docopt/docopt.h>
 #include <spdlog/spdlog.h>
 
+// This file will be generated automatically when you run the CMake configuration step.
+// It creates a namespace called `myproject`.
+// You can modify the source template at `configured_files/config.hpp.in`.
 #include <configured_files/config.hpp>
 
 static constexpr auto USAGE =
