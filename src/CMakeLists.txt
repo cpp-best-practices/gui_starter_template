@@ -1,24 +1,10 @@
-# uncomment to enable the gui examples
-
-# sdl
-# add_subdirectory(sdl)
-
-# qt
-# add_subdirectory(qt)
-
-# fltk test
-# add_subdirectory(fltk)
-
-# gtkmm test
-# add_subdirectory(gtkmm)
-
 # imgui example
-# add_subdirectory(imgui)
+add_subdirectory(imgui-sfml)
 
-# Nana
-# add_subdirectory(nana)
+# Nana example
+add_subdirectory(nana)
 
-find_package(fmt CONFIG)
+# find_package(fmt CONFIG)
 find_package(spdlog CONFIG)
 find_package(docopt CONFIG)
 
@@ -29,5 +15,5 @@ target_link_libraries(
   PRIVATE project_options
           project_warnings
           docopt::docopt
-          fmt::fmt
+          #         fmt::fmt
           spdlog::spdlog)

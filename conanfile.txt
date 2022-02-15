@@ -3,10 +3,14 @@
 [requires]
 catch2/2.13.8
 docopt.cpp/0.6.3
-fmt/8.1.1
+#fmt/8.1.1
 spdlog/1.9.2
-# imgui-sfml/2.5@bincrafters/stable
-# sdl2/2.0.1
+imgui-sfml/2.5@bincrafters/stable
+#sdl/2.0.20
+
+[options]
+sfml:audio=False
+sfml:network=False
 
 [generators]
 cmake_find_package_multi
