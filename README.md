@@ -1,6 +1,6 @@
 # cpp_boilerplate_project
 
-![CI](cpp_boilerplate_project/workflows/ci/badge.svg)
+[![ci](https://github.com/cpp-best-practices/cpp_starter_project/actions/workflows/ci.yml/badge.svg)](https://github.com/cpp-best-practices/cpp_starter_project/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/cpp-best-practices/cpp_boilerplate_project/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/cpp_starter_project)
 [![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/cpp-best-practices/cpp_boilerplate_project)](https://lgtm.com/projects/g/cpp-best-practices/cpp_starter_project/context:cpp)
 
