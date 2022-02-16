@@ -47,6 +47,8 @@ jobs:
           # mingw is determined by this author to be too buggy to support
           - os: macos-11
             compiler: gcc
+          - os: ubuntu-20.04
+            compiler: llvm
 
         include:
           - os: windows-2022
@@ -63,12 +65,12 @@ jobs:
             compiler: msvc
             generator: "Visual Studio 17 2022"
             build_type: Debug
-            developer_mode: Off
+            developer_mode: OFF
           - os: windows-2022
             compiler: msvc
             generator: "Visual Studio 17 2022"
             build_type: Release
-            developer_mode: Off
+            developer_mode: OFF
 
 
 
@@ -120,7 +122,7 @@ jobs:
         # has meaningful results
       - name: Configure CMake
         run: |
-          cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }}
+          cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' && matrix.developer_mode == 'OFF' }}
 
       - name: Build
         # Execute the build.  You can specify a specific target with "--target <NAME>"

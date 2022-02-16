@@ -1,5 +1,5 @@
-# imgui example
-# add_subdirectory(imgui-sfml)
+# sdl example
+add_subdirectory(sdl)
 
 find_package(fmt CONFIG)
 find_package(spdlog CONFIG)
