@@ -114,7 +114,7 @@ jobs:
       - name: Install Linux Packages Needed By SDL
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get -y install libx11-xcb-dev libfontenc-dev libxaw7-dev libxcomposite-dev libxcursor-dev libxdamage-dev libxi-dev
+          sudo apt-get -y install libx11-xcb-dev libfontenc-dev libxaw7-dev libxcomposite-dev libxcursor-dev libxdamage-dev libxi-dev libxinerama-dev
 
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
