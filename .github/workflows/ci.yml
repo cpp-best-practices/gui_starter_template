@@ -30,7 +30,6 @@ jobs:
         os:
           - ubuntu-20.04
           - macos-11
-          - windows-2019
         compiler:
           # you can specify the version after `-` like "llvm-13.0.0".
           - llvm
@@ -44,11 +43,6 @@ jobs:
           - ON
           - OFF
 
-        exclude:
-          # mingw is determined by this author to be too buggy to support
-          - os: windows-2019
-            compiler: gcc
-
         include:
           # Add appropriate variables for gcov version required. This will intentionally break
           # if you try to use a compiler that does not have gcov set
@@ -56,14 +50,6 @@ jobs:
             gcov_executable: gcov
           - compiler: llvm
             gcov_executable: "llvm-cov gcov"
-
-          # This exists solely to make sure a non-multiconfig build works
-          - os: ubuntu-20.04
-            compiler: gcc
-            generator: "Unix Makefiles"
-            build_type: Debug
-            gcov_executable: gcov
-            developer_mode: On
 
           - os: windows-2022
             compiler: msvc
@@ -127,9 +113,10 @@ jobs:
           gcovr: true
           opencppcoverage: true
 
-      - if: runner.os == 'Linux'
+      - name: Install Linux Packages Needed By SDL
+        if: runner.os == 'Linux'
         run: |
-          sudo apt-get -y install libx11-xcb-dev libfontenc-dev libxaw7-dev
+          sudo apt-get -y install libx11-xcb-dev libfontenc-dev libxaw7-dev libxcomposite-dev
 
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
