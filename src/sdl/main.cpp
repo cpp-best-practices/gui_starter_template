@@ -40,7 +40,8 @@ static void check_video_driver(const char *name)
 }
 
 
-int main()
+// required to give full function signature for linking on Windows
+int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {
   SDL_version v;
   SDL_GetVersion(&v);
