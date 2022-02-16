@@ -127,6 +127,10 @@ jobs:
           gcovr: true
           opencppcoverage: true
 
+      - if: runner.os == 'Linux'
+        run: |
+          sudo apt-get -y install libx11-xcb-dev
+
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
       - name: Configure CMake
