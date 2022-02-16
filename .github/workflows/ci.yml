@@ -29,7 +29,7 @@ jobs:
       matrix:
         os:
           - ubuntu-20.04
-          - macos-10.15
+          - macos-11
           - windows-2019
         compiler:
           # you can specify the version after `-` like "llvm-13.0.0".
@@ -129,7 +129,7 @@ jobs:
 
       - if: runner.os == 'Linux'
         run: |
-          sudo apt-get -y install libx11-xcb-dev libfontenc-dev
+          sudo apt-get -y install libx11-xcb-dev libfontenc-dev libxaw7-dev
 
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
