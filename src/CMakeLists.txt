@@ -1,22 +1,5 @@
-# uncomment to enable the gui examples
-
-# sdl
-# add_subdirectory(sdl)
-
-# qt
-# add_subdirectory(qt)
-
-# fltk test
-# add_subdirectory(fltk)
-
-# gtkmm test
-# add_subdirectory(gtkmm)
-
-# imgui example
-# add_subdirectory(imgui)
-
-# Nana
-# add_subdirectory(nana)
+# sdl example
+add_subdirectory(sdl)
 
 find_package(fmt CONFIG)
 find_package(spdlog CONFIG)

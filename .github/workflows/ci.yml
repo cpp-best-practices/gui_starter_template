@@ -29,8 +29,7 @@ jobs:
       matrix:
         os:
           - ubuntu-20.04
-          - macos-10.15
-          - windows-2019
+          - macos-11
         compiler:
           # you can specify the version after `-` like "llvm-13.0.0".
           - llvm
@@ -46,25 +45,12 @@ jobs:
 
         exclude:
           # mingw is determined by this author to be too buggy to support
-          - os: windows-2019
+          - os: macos-11
             compiler: gcc
+          - os: ubuntu-20.04
+            compiler: llvm
 
         include:
-          # Add appropriate variables for gcov version required. This will intentionally break
-          # if you try to use a compiler that does not have gcov set
-          - compiler: gcc
-            gcov_executable: gcov
-          - compiler: llvm
-            gcov_executable: "llvm-cov gcov"
-
-          # This exists solely to make sure a non-multiconfig build works
-          - os: ubuntu-20.04
-            compiler: gcc
-            generator: "Unix Makefiles"
-            build_type: Debug
-            gcov_executable: gcov
-            developer_mode: On
-
           - os: windows-2022
             compiler: msvc
             generator: "Visual Studio 17 2022"
@@ -79,12 +65,12 @@ jobs:
             compiler: msvc
             generator: "Visual Studio 17 2022"
             build_type: Debug
-            developer_mode: Off
+            developer_mode: OFF
           - os: windows-2022
             compiler: msvc
             generator: "Visual Studio 17 2022"
             build_type: Release
-            developer_mode: Off
+            developer_mode: OFF
 
 
 
@@ -127,11 +113,16 @@ jobs:
           gcovr: true
           opencppcoverage: true
 
+      - name: Install Linux Packages Needed By SDL
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get -y install libx11-dev libx11-xcb-dev libfontenc-dev libice-dev libsm-dev libxau-dev libxaw7-dev libxcomposite-dev libxcursor-dev libxdamage-dev libxdmcp-dev libxext-dev libxfixes-dev libxft-dev libxi-dev libxinerama-dev libxkbfile-dev libxmu-dev libxmuu-dev libxpm-dev libxrandr-dev libxrender-dev libxres-dev libxss-dev libxt-dev libxtst-dev libxv-dev libxvmc-dev libxxf86vm-dev xtrans-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-xkb-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-randr0-dev libxcb-shape0-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-xinerama0-dev xkb-data libxcb-dri3-dev libxcb-util-dev libegl-dev
+
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
       - name: Configure CMake
         run: |
-          cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }}
+          cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' && matrix.developer_mode == 'OFF' }}
 
       - name: Build
         # Execute the build.  You can specify a specific target with "--target <NAME>"
