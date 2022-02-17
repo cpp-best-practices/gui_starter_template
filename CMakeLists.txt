@@ -122,3 +122,6 @@ endif()
 
 # set the startup project for the "play" button in MSVC
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT intro)
+
+include(CPack)
+

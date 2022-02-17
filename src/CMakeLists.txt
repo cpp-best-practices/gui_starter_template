@@ -12,3 +12,6 @@ target_link_libraries(
           docopt::docopt
           fmt::fmt
           spdlog::spdlog)
+
+install(TARGETS intro)
+
