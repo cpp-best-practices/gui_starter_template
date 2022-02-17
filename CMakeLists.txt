@@ -117,4 +117,4 @@ endif()
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT intro)
 
 # package the project
-package_project(TARGETS main)
+package_project()
