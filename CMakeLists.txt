@@ -4,6 +4,15 @@ cmake_minimum_required(VERSION 3.16)
 # If commented, the latest supported standard for your compiler is automatically set.
 set(CMAKE_CXX_STANDARD 20)
 
+# Note: by default ENABLE_DEVELOPER_MODE is True
+# This means that all analysis (sanitizers, static analysis)
+# is enabled and all warnings are treated as errors
+# if you want to switch this behavior, change TRUE to FALSE
+set(ENABLE_DEVELOPER_MODE TRUE CACHE BOOL "Enable 'developer mode'")
+
+# Change this to false if you want to disable warnings_as_errors in developer mode
+set(OPT_WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT TRUE)
+
 # Add project_options v0.17.0
 # https://github.com/cpp-best-practices/project_options
 include(FetchContent)
@@ -16,7 +25,12 @@ include(${_project_options_SOURCE_DIR}/Index.cmake)
 # run_vcpkg()
 
 # Set the project name and language
-project(myproject LANGUAGES CXX C)
+project(
+  myproject
+  VERSION 0.0.1
+  DESCRIPTION "Starter Project With Best Practices for C++"
+  HOMEPAGE_URL "https://github.com/cpp-best-practices/cpp_boilerplate_project"
+  LANGUAGES CXX C)
 
 get_property(BUILDING_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 if(BUILDING_MULTI_CONFIG)
@@ -68,6 +82,11 @@ dynamic_project_options(
 )
 
 target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
+
+# configure files based on CMake configuration options
+add_subdirectory(configured_files)
+target_include_directories(project_options INTERFACE "${CMAKE_BINARY_DIR}")
+
 
 # Adding the src:
 add_subdirectory(src)

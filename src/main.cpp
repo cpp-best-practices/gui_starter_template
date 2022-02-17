@@ -4,6 +4,11 @@
 #include <docopt/docopt.h>
 #include <spdlog/spdlog.h>
 
+// This file will be generated automatically when you run the CMake configuration step.
+// It creates a namespace called `myproject`.
+// You can modify the source template at `configured_files/config.hpp.in`.
+#include <configured_files/config.hpp>
+
 static constexpr auto USAGE =
   R"(Naval Fate.
 
@@ -28,7 +33,9 @@ int main(int argc, const char **argv)
     std::map<std::string, docopt::value> args = docopt::docopt(USAGE,
       { std::next(argv), std::next(argv, argc) },
       true,// show help if requested
-      "Naval Fate 2.0");// version string
+      fmt::format("{} {}",
+        myproject::cmake::project_name,
+        myproject::cmake::project_version));// version string, acquired from config.hpp via CMake
 
     for (auto const &arg : args) { std::cout << arg.first << "=" << arg.second << '\n'; }
 
