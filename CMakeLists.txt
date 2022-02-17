@@ -1,28 +1,18 @@
 cmake_minimum_required(VERSION 3.16)
 
-# uncomment to set a default CXX standard for the external tools like clang-tidy and cppcheck
-# and the targets that do not specify a standard.
-# If not set, the latest supported standard for your compiler is used
-# You can later set fine-grained standards for each target using `target_compile_features`
-# Note: linking together projects compiled with different C++ standards may work, but
-# it is not recommended because of possible issues with ABI
+# set a default CXX standard for the tools and targets that do not specify them. 
+# If commented, the latest supported standard for your compiler is automatically set.
 set(CMAKE_CXX_STANDARD 20)
 
-# strongly encouraged to enable this globally to avoid conflicts between
-# -Wpedantic being enabled and -std=c++20 and -std=gnu++20 for example
-# when compiling with PCH enabled
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-# Add project_options v0.15.1
+# Add project_options v0.17.0
 # https://github.com/cpp-best-practices/project_options
 include(FetchContent)
 FetchContent_Declare(_project_options
-                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.15.1.zip)
+                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.17.0.zip)
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
 
-# uncomment to enable vcpkg:
-# # Setup vcpkg - should be called before defining project()
+# install vcpkg dependencies: - should be called before defining project()
 # run_vcpkg()
 
 # Set the project name and language
@@ -64,7 +54,7 @@ include(${_project_options_SOURCE_DIR}/src/DynamicProjectOptions.cmake)
 
 # Initialize project_options variable related to this project
 # This overwrites `project_options` and sets `project_warnings`
-# uncomment the options to enable them:
+# This also accepts the same arguments as `project_options`.
 dynamic_project_options(
   # Note: PCH is disabled by default in developer mode because these headers become
   # globally included and they can mask other errors
@@ -106,3 +96,6 @@ endif()
 
 # set the startup project for the "play" button in MSVC
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT intro)
+
+# package the project
+package_project(TARGETS main)

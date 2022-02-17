@@ -18,12 +18,17 @@
 # Nana
 # add_subdirectory(nana)
 
-find_package(fmt CONFIG)
-find_package(spdlog CONFIG)
-find_package(docopt CONFIG)
-
-# Generic test that uses conan libs
+# Add executable
 add_executable(intro main.cpp)
+
+# Find dependencies:
+set(DEPENDENCIES_CONFIGURED fmt spdlog docopt)
+
+foreach(DEPENDENCY ${DEPENDENCIES_CONFIGURED})
+  find_package(${DEPENDENCY} CONFIG REQUIRED)
+endforeach()
+
+# Link dependencies
 target_link_libraries(
   intro
   PRIVATE project_options
