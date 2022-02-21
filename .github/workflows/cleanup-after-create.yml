@@ -38,9 +38,6 @@ jobs:
           sed -i "s/%%description%%/This project does stuff/g" ${{ env.TEMPLATES_PATH }}/README.md
           mv ${{ env.TEMPLATES_PATH }}/README.md README.md
           
-          # Remove this workflow as it has fulfilled its purpose
-          rm .github/workflows/cleanup_after_create.yml
-          
       - name: Just print touched files
         run: |
           cat README.md
@@ -48,7 +45,9 @@ jobs:
       - name: Clean up before commit and push
         run: |
           rm -rf ${{ env.TEMPLATES_PATH }}
+
           # Can we get that from a variabl?
+          # Remove this workflow as it has fulfilled its purpose
           rm -rf .github/workflows/cleanup-after-create.yml
 
       - uses: EndBug/add-and-commit@v4
