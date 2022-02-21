@@ -4,33 +4,56 @@ name: Cleanup after create
 on:
   push:
     branches:
-      - main
+      - main # maybe all to run "tests" on every change?
 
+env:
+  TEMPLATE_NAME: "cpp_starter_project"
+  TEMPLATES_PATH: ".github/template"
+  
 jobs:
 
   template-cleanup:
     name: Cleanup after create
     runs-on: ubuntu-latest
     # if a project was created from the cpp_starter_project template the github repository name should differ
-    if: github.event.repository.name != 'cpp_starter_project'
     steps:
-
       # Check out current repository
       - name: Fetch Sources
         uses: actions/checkout@v2.4.0
 
+      - name: Get organization and project name 
+        run: |
+          echo "NEW_ORG=${{ github.actor }}" >> $GITHUB_ENV
+          echo "NEW_PROJECT=${{ github.event.repository.name }}" >> $GITHUB_ENV
+
       # Rename all cpp_starter_project occurences to current repository and remove this workflow
-      - name: Cleanup
+      - name: Insert new org and project
         run: |
           # rename the CMake project to match the github project
-          sed -i "s/project(myproject/project(${{  github.event.repository.name }}/g" CMakeLists.txt
-          # make links for build badges point to the newly created repository
-          sed -i "s/cpp-best-practices\/cpp_starter_project/${{ github.actor }}\/${{ github.event.repository.name }}/g" README.md
+          sed -i "s/myproject/${{ github.event.repository.name }}/g" CMakeLists.txt
+          
+          # fill in placeholders of readme and move it into place
+          sed -i "s/%%myorg%%/${{ env.NeW_ORG }}/g" ${{ env.TEMPLATES_PATH }}/README.md
+          sed -i "s/%%myproject%%/${{ env.NeW_PROJECT }}/g" ${{ env.TEMPLATES_PATH }}/README.md
+          sed -i "s/%%description%%/This project does stuff/g" ${{ env.TEMPLATES_PATH }}/README.md
+          mv ${{ env.TEMPLATES_PATH }}/README.md README.md
           
           # Remove this workflow as it has fulfilled its purpose
           rm .github/workflows/cleanup_after_create.yml
           
+      - name: Just print touched files
+        run: |
+          cat README.md
+
+      - name: Clean up before commit and push
+        run: |
+          rm -rf ${{ env.TEMPLATES_PATH }}
+          # Can we get that from a variabl?
+          rm -rf .github/workflows/cleanup-after-create.yml
+
       - uses: EndBug/add-and-commit@v4
+        # only commit and push if we are not the template project anymore!
+        if: github.event.repository.name != env.TEMPLATE_NAME
         with:
           author_name: Cleanup Robot
           author_email: template.cleanup@example.com
