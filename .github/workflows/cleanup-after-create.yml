@@ -39,12 +39,16 @@ jobs:
           # fill in placeholders of readme and move it into place
           sed -i "s/%%myorg%%/${{ env.NEW_ORG }}/g" ${{ env.TEMPLATES_PATH }}/README.md
           sed -i "s/%%myproject%%/${{ env.NEW_PROJECT }}/g" ${{ env.TEMPLATES_PATH }}/README.md
+          # ToDo get this info from the repo description
           sed -i "s/%%description%%/This project does stuff/g" ${{ env.TEMPLATES_PATH }}/README.md
-          mv ${{ env.TEMPLATES_PATH }}/README.md README.md
+          cp ${{ env.TEMPLATES_PATH }}/README.md README.md
           
       - name: Just print touched files
         run: |
-          cat README.md
+          # ToDo maybe check if the diff is like we expected?
+          git diff CMakeLists.txt
+          # diffing the template is more readable then the real readme
+          git diff ${{ env.TEMPLATES_PATH }}/README.md
 
       - name: Clean up before commit and push
         run: |
