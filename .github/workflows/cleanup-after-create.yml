@@ -41,7 +41,7 @@ jobs:
           sed -i "s/%%myproject%%/${{ env.NEW_PROJECT }}/g" ${{ env.TEMPLATES_PATH }}/README.md
           # ToDo get this info from the repo description
           sed -i "s/%%description%%/This project does stuff/g" ${{ env.TEMPLATES_PATH }}/README.md
-          mv ${{ env.TEMPLATES_PATH }}/README.md README.md
+          cp ${{ env.TEMPLATES_PATH }}/README.md README.md
           
       - name: Remove unwanted files
         run: |
@@ -52,7 +52,8 @@ jobs:
         run: |
           # ToDo maybe check if the diff is like we expected?
           git diff CMakeLists.txt
-          diff {{ env.TEMPLATES_PATH }}/README.md README.md
+          # diffing the template is more readable then the real readme
+          git diff ${{ env.TEMPLATES_PATH }}/README.md
 
       - name: Clean up before commit and push
         run: |
