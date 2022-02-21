@@ -21,6 +21,10 @@ jobs:
       - name: Fetch Sources
         uses: actions/checkout@v2.4.0
 
+      # ToDo use this to check if repo is template
+      #- name: Github Repository Metadata
+       # uses: varunsridharan/action-repository-meta@2.0
+
       - name: Get organization and project name 
         run: |
           echo "NEW_ORG=${{ github.actor }}" >> $GITHUB_ENV
@@ -33,8 +37,8 @@ jobs:
           sed -i "s/myproject/${{ github.event.repository.name }}/g" CMakeLists.txt
           
           # fill in placeholders of readme and move it into place
-          sed -i "s/%%myorg%%/${{ env.NeW_ORG }}/g" ${{ env.TEMPLATES_PATH }}/README.md
-          sed -i "s/%%myproject%%/${{ env.NeW_PROJECT }}/g" ${{ env.TEMPLATES_PATH }}/README.md
+          sed -i "s/%%myorg%%/${{ env.NEW_ORG }}/g" ${{ env.TEMPLATES_PATH }}/README.md
+          sed -i "s/%%myproject%%/${{ env.NEW_PROJECT }}/g" ${{ env.TEMPLATES_PATH }}/README.md
           sed -i "s/%%description%%/This project does stuff/g" ${{ env.TEMPLATES_PATH }}/README.md
           mv ${{ env.TEMPLATES_PATH }}/README.md README.md
           
