@@ -43,6 +43,11 @@ jobs:
           sed -i "s/%%description%%/This project does stuff/g" ${{ env.TEMPLATES_PATH }}/README.md
           cp ${{ env.TEMPLATES_PATH }}/README.md README.md
           
+      - name: Remove unwanted files
+        run: |
+          xargs rm -r < ${{ env.TEMPLATES_PATH }}/removal-list
+          xargs ls < ${{ env.TEMPLATES_PATH }}/removal-list || echo "ls failed"
+        
       - name: Just print touched files
         run: |
           # ToDo maybe check if the diff is like we expected?
