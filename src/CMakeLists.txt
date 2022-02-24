@@ -1,4 +1,3 @@
-
 find_package(fmt CONFIG)
 find_package(spdlog CONFIG)
 find_package(docopt CONFIG)
@@ -13,5 +12,5 @@ target_link_libraries(
           fmt::fmt
           spdlog::spdlog)
 
-install(TARGETS intro)
+target_include_directories(intro PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include")
 

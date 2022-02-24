@@ -2,9 +2,9 @@ name: ci
 on:
   pull_request:
   push:
+    tags:
     branches:
       - main
-      - master
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -57,6 +57,11 @@ jobs:
           - compiler: llvm
             gcov_executable: "llvm-cov gcov"
 
+          # Set up preferred package generators, for given build configurations
+          - build_type: Release
+            developer_mode: OFF
+            package_generator: TBZ2
+
           # This exists solely to make sure a non-multiconfig build works
           - os: ubuntu-20.04
             compiler: gcc
@@ -85,6 +90,7 @@ jobs:
             generator: "Visual Studio 17 2022"
             build_type: Release
             developer_mode: Off
+            package_generator: ZIP
 
 
 
@@ -131,7 +137,7 @@ jobs:
         # has meaningful results
       - name: Configure CMake
         run: |
-          cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }}
+          cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }} -DGIT_SHA:STRING=${{ gitub.sha }}
 
       - name: Build
         # Execute the build.  You can specify a specific target with "--target <NAME>"
@@ -154,9 +160,18 @@ jobs:
           OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest -C ${{matrix.build_type}}
 
       - name: CPack
+        if: matrix.package_generator != ''
         working-directory: ./build
         run: |
-          cpack -C ${{matrix.build_type}}
+          cpack -C ${{matrix.build_type}} -G ${{matrix.package_generator}}
+
+      - name: Publish Tagged Release
+        uses: softprops/action-gh-release@v1
+        if: ${{ startsWith(github.ref, 'refs/tags/') && matrix.package_generator != '' }}
+        with:
+          files: |
+            build/*-*${{ matrix.build_type }}*-*.*
+
 
       - name: Publish to codecov
         uses: codecov/codecov-action@v2

@@ -9,21 +9,22 @@ set(CMAKE_CXX_STANDARD 20)
 # when compiling with PCH enabled
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-
 # Note: by default ENABLE_DEVELOPER_MODE is True
 # This means that all analysis (sanitizers, static analysis)
 # is enabled and all warnings are treated as errors
 # if you want to switch this behavior, change TRUE to FALSE
-set(ENABLE_DEVELOPER_MODE TRUE CACHE BOOL "Enable 'developer mode'")
+set(ENABLE_DEVELOPER_MODE
+    TRUE
+    CACHE BOOL "Enable 'developer mode'")
 
 # Change this to false if you want to disable warnings_as_errors in developer mode
 set(OPT_WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT TRUE)
 
-# Add project_options v0.15.1
+# Add project_options v0.17.0
 # https://github.com/cpp-best-practices/project_options
 include(FetchContent)
 FetchContent_Declare(_project_options
-                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.15.1.zip)
+                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.17.0.zip)
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
 
@@ -38,6 +39,15 @@ project(
   DESCRIPTION "Starter Project With Best Practices for C++"
   HOMEPAGE_URL "https://github.com/cpp-best-practices/cpp_boilerplate_project"
   LANGUAGES CXX C)
+
+set(GIT_SHA
+    "Unknown"
+    CACHE STRING "SHA this build was generated from")
+string(
+  SUBSTRING "${GIT_SHA}"
+            0
+            8
+            GIT_SHORT_SHA)
 
 get_property(BUILDING_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 if(BUILDING_MULTI_CONFIG)
@@ -82,18 +92,17 @@ dynamic_project_options(
   PCH_HEADERS
   <vector>
   <string> # This is a list of headers to pre-compile, here are some common ones
-  # CONAN_OPTIONS  # Extra options to pass to conan
-  # MSVC_WARNINGS  # Override the defaults for the MSVC warnings
-  # CLANG_WARNINGS # Override the defaults for the CLANG warnings
-  # GCC_WARNINGS   # Override the defaults for the GCC warnings
+  # CONAN_OPTIONS    # Extra options to pass to conan
+  # MSVC_WARNINGS    # Override the defaults for the MSVC warnings
+  # CLANG_WARNINGS   # Override the defaults for the CLANG warnings
+  # GCC_WARNINGS     # Override the defaults for the GCC warnings
+  # CPPCHECK_OPTIONS # Override the defaults for CppCheck
 )
 
 target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
 
 # configure files based on CMake configuration options
 add_subdirectory(configured_files)
-target_include_directories(project_options INTERFACE "${CMAKE_BINARY_DIR}")
-
 
 # Adding the src:
 add_subdirectory(src)
@@ -123,5 +132,14 @@ endif()
 # set the startup project for the "play" button in MSVC
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT intro)
 
-include(CPack)
+# Add other targets that you want installed here, also
+package_project(TARGETS intro)
 
+# Experience shows that explicit package naming can help make it easier to sort
+# out potential ABI related issues before they start, while helping you
+# track a build to a specific GIT SHA
+set(CPACK_PACKAGE_FILE_NAME
+    "${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-${GIT_SHORT_SHA}-${CMAKE_SYSTEM_NAME}-${CMAKE_BUILD_TYPE}-${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}"
+)
+
+include(CPack)
