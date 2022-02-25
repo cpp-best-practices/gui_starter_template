@@ -40,6 +40,10 @@ This will take you to Github's ['Generate Repository'](https://github.com/cpp-be
 Fill in a repository name and short description, and click 'Create repository from template'.
 This will allow you to create a new repository in your Github account,
 prepopulated with the contents of this project.
+
+After creating the project please wait until the cleanup workflow has finished 
+setting up your project and commited the changes.
+
 Now you can clone the project locally and get to work!
 
     git clone https://github.com/<user>/<your_new_repo>.git
