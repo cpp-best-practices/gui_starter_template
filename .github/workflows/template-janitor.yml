@@ -1,6 +1,6 @@
 # This workflow should cleanup everything unneeded from the template project
 
-name: Cleanup after create
+name: Template Janitor
 on:
   push:
     branches:
@@ -44,19 +44,17 @@ jobs:
           sed -i "s/%%description%%/${{ fromJson(steps.get_repo_meta.outputs.data).description }}/g" ${{ env.TEMPLATES_PATH }}/README.md
           cp ${{ env.TEMPLATES_PATH }}/README.md README.md
           
-      - name: Remove unwanted files
+      - name: Print diff after replacement
         run: |
-          xargs rm -r < ${{ env.TEMPLATES_PATH }}/removal-list
-          xargs ls < ${{ env.TEMPLATES_PATH }}/removal-list || echo "ls failed"
-        
-      - name: Just print touched files
-        run: |
-          # ToDo maybe check if the diff is like we expected?
-          git diff CMakeLists.txt
-          # diffing the template is more readable then the real readme
-          git diff ${{ env.TEMPLATES_PATH }}/README.md
+          # Exclude the README as that is checked seperatly!
+          git diff ':!README.md'
           # following should not have any diffs
           diff ${{ env.TEMPLATES_PATH }}/README.md README.md
+
+      - name: Remove unwanted files
+        run: |
+          # No tests needed as this will fail if any file from the list is missing/misspelled
+          xargs rm -r < ${{ env.TEMPLATES_PATH }}/removal-list
 
       - name: Clean up before commit and push
         run: |
@@ -64,14 +62,14 @@ jobs:
 
           # Can we get that from a variabl?
           # Remove this workflow as it has fulfilled its purpose
-          rm -rf .github/workflows/cleanup-after-create.yml
+          rm -rf .github/workflows/template-janitor.yml
 
       - uses: EndBug/add-and-commit@v4
         # only commit and push if we are not a template project anymore!
         if: fromJson(steps.get_repo_meta.outputs.data).is_template != true
         with:
-          author_name: Cleanup Robot
-          author_email: template.cleanup@example.com
+          author_name: Template Janitor
+          author_email: template.janitor@example.com
           message: 'Cleanup template and initialize repository'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
