@@ -7,7 +7,6 @@ on:
       - main # maybe all to run "tests" on every change?
 
 env:
-  TEMPLATE_NAME: "cpp_boilerplate_project"
   TEMPLATES_PATH: ".github/template"
   
 jobs:
