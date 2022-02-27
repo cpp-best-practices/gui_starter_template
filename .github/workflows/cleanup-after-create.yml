@@ -15,21 +15,24 @@ jobs:
   template-cleanup:
     name: Cleanup after create
     runs-on: ubuntu-latest
-    # if a project was created from the cpp_starter_project template the github repository name should differ
     steps:
-      # Check out current repository
       - name: Fetch Sources
         uses: actions/checkout@v2.4.0
-
-      # ToDo use this to check if repo is template
-      #- name: Github Repository Metadata
-       # uses: varunsridharan/action-repository-meta@2.0
 
       - name: Get organization and project name 
         run: |
           echo "NEW_ORG=${{ github.actor }}" >> $GITHUB_ENV
           echo "NEW_PROJECT=${{ github.event.repository.name }}" >> $GITHUB_ENV
 
+      - uses: octokit/request-action@v2.x
+        id: get_repo_meta
+        with:
+          route: GET /repos/{owner}/{repo}
+          owner: ${{ env.NEW_ORG }}
+          repo: ${{ env.NEW_PROJECT }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
       # Rename all cpp_starter_project occurences to current repository and remove this workflow
       - name: Insert new org and project
         run: |
@@ -64,8 +67,8 @@ jobs:
           rm -rf .github/workflows/cleanup-after-create.yml
 
       - uses: EndBug/add-and-commit@v4
-        # only commit and push if we are not the template project anymore!
-        if: github.event.repository.name != env.TEMPLATE_NAME
+        # only commit and push if we are not a template project anymore!
+        if: fromJson(steps.get_repo_meta.outputs.data).is_template != true
         with:
           author_name: Cleanup Robot
           author_email: template.cleanup@example.com
