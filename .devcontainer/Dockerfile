@@ -32,7 +32,7 @@ RUN python3 -m pip install --upgrade pip setuptools && \
 # By default, anything you run in Docker is done as superuser.
 # Conan runs some install commands as superuser, and will prepend `sudo` to
 # these commands, unless `CONAN_SYSREQUIRES_SUDO=0` is in your env variables.
-ENV CONAN_SYSREQUIRES_SUDO 0
+ENV CONAN_SYSREQUIRES_SUDO 1
 # Some packages request that Conan use the system package manager to install
 # a few dependencies. This flag allows Conan to proceed with these installations;
 # leaving this flag undefined can cause some installation failures.
@@ -129,6 +129,8 @@ ENV CXX=${USE_CLANG:+"clang++"}
 # if CC is null, set it to 'gcc' (or leave as is otherwise).
 ENV CC=${CC:-"gcc"}
 ENV CXX=${CXX:-"g++"}
+
+USER $USERNAME
 
 # Include project
 #ADD . /workspaces/cpp_starter_project
