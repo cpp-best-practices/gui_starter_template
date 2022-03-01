@@ -30,6 +30,7 @@
 		"twxs.cmake",
 		"ms-vscode.cpptools-themes",
 		"cschlosser.doxdocgen",
+		"gitkraken.gitkraken-authentication",
 		"eamodio.gitlens",
 		"ms-python.python",
 		"ms-python.vscode-pylance",
