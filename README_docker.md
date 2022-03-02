@@ -1,7 +1,7 @@
 ## Docker Instructions
 
 If you have [Docker](https://www.docker.com/) installed, you can run this
-in your terminal, when the Dockerfile is inside the .devconatiner directory:
+in your terminal, when the Dockerfile is inside the `.devcontainer` directory:
 
 ```bash
 docker build -f ./.devcontainer/Dockerfile --tag=my_project:latest .
