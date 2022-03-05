@@ -36,7 +36,7 @@ include(${_project_options_SOURCE_DIR}/Index.cmake)
 project(
   myproject
   VERSION 0.0.1
-  DESCRIPTION "%%description%%"
+  DESCRIPTION ""
   HOMEPAGE_URL "https://github.com/%%myorg%%/%%myproject%%"
   LANGUAGES CXX C)
 
