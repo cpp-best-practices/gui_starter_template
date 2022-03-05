@@ -36,8 +36,8 @@ include(${_project_options_SOURCE_DIR}/Index.cmake)
 project(
   myproject
   VERSION 0.0.1
-  DESCRIPTION "Starter Project With Best Practices for C++"
-  HOMEPAGE_URL "https://github.com/cpp-best-practices/cpp_boilerplate_project"
+  DESCRIPTION "%%description%%"
+  HOMEPAGE_URL "https://github.com/%%myorg%%/%%myproject%%"
   LANGUAGES CXX C)
 
 set(GIT_SHA
@@ -132,7 +132,8 @@ endif()
 # set the startup project for the "play" button in MSVC
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT intro)
 
-# Add other targets that you want installed here, also
+# Add other targets that you want installed here, be default we just package the one executable
+# we know we want to ship
 package_project(TARGETS intro)
 
 # Experience shows that explicit package naming can help make it easier to sort
