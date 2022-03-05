@@ -39,7 +39,9 @@ jobs:
         run: |
           # rename the CMake project to match the github project
           sed -i "s/myproject/${{ github.event.repository.name }}/gi" CMakeLists.txt configured_files/config.hpp.in
-          sed -i "s/%%myurl%%/${{ github.event.repositoryUrl }}/gi" CMakeLists.txt configured_files/config.hpp.in
+
+          # Update URL placeholders for project
+          sed -i "s/%%myurl%%/${{ github.event.repositoryUrl }}/gi" CMakeLists.txt
 
           # fill in placeholders of readme and move it into place
           sed -i "s/%%myorg%%/${{ env.NEW_ORG }}/g" ${{ env.TEMPLATES_PATH }}/README.md
