@@ -1,10 +1,10 @@
 name: ci
 on:
   pull_request:
+  release:
+    types: [published]
   push:
     tags:
-    release:
-      types: [published]
     branches:
       - main
       - develop
