@@ -23,6 +23,7 @@ jobs:
         run: |
           echo "NEW_ORG=${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "NEW_PROJECT=${{ github.event.repository.name }}" >> $GITHUB_ENV
+          echo "NEW_URL=${{ github.repositoryUrl}}" >> $GITHUB_ENV
 
       - uses: octokit/request-action@v2.x
         id: get_repo_meta
@@ -38,6 +39,7 @@ jobs:
         run: |
           # rename the CMake project to match the github project
           sed -i "s/myproject/${{ github.event.repository.name }}/gi" CMakeLists.txt configured_files/config.hpp.in
+          sed -i "s/%%myurl%%/${{ github.event.repositoryUrl }}/gi" CMakeLists.txt configured_files/config.hpp.in
 
           # fill in placeholders of readme and move it into place
           sed -i "s/%%myorg%%/${{ env.NEW_ORG }}/g" ${{ env.TEMPLATES_PATH }}/README.md
