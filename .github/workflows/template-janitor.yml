@@ -32,9 +32,6 @@ jobs:
           repo: ${{ env.NEW_PROJECT }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "Release found: ${{ steps.get_repo_meta.outputs.data }}"
-      - name: "Release could not be found. Request failed with status ${{ steps.get_repo_meta.outputs.status }}"
-        if: ${{ failure() }}
 
       # Rename all cpp_starter_project occurences to current repository and remove this workflow
       - name: Insert new org and project
