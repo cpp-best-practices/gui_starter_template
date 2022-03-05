@@ -10,6 +10,7 @@ static constexpr int project_version_major { @PROJECT_VERSION_MAJOR@ };
 static constexpr int project_version_minor { @PROJECT_VERSION_MINOR@ };
 static constexpr int project_version_patch { @PROJECT_VERSION_PATCH@ };
 static constexpr int project_version_tweak { @PROJECT_VERSION_TWEAK@ };
+static constexpr std::string_view git_sha = "@GIT_SHA@";
 }// namespace myproject::cmake
 
 #endif
