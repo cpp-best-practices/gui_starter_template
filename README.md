@@ -2,7 +2,7 @@
 
 [![ci](https://github.com/cpp-best-practices/cpp_boilerplate_project/actions/workflows/ci.yml/badge.svg)](https://github.com/cpp-best-practices/cpp_boilerplate_project/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/cpp-best-practices/cpp_boilerplate_project/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/cpp_boilerplate_project)
-[![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/cpp-best-practices/cpp_boilerplate_project)](https://lgtm.com/projects/g/cpp-best-practices/cpp_starter_project/context:cpp)
+[![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/cpp-best-practices/cpp_boilerplate_project)](https://lgtm.com/projects/g/cpp-best-practices/cpp_boilerplate_project/context:cpp)
 [![CodeQL](https://github.com/cpp-best-practices/cpp_boilerplate_project/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/cpp-best-practices/cpp_boilerplate_project/actions/workflows/codeql-analysis.yml)
 
 ## About cpp_boilerplate_project

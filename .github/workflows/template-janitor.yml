@@ -1,11 +1,16 @@
 # This workflow should cleanup everything unneeded from the template project
 
 name: Template Janitor
+
 on:
+  pull_request:
+  release:
+    types: [published]
   push:
+    tags:
     branches:
-      - develop 
-      - main # maybe all to run "tests" on every change?
+      - main
+      - develop
 
 env:
   TEMPLATES_PATH: ".github/template"
@@ -23,7 +28,7 @@ jobs:
         run: |
           echo "NEW_ORG=${{ github.repository_owner }}" >> $GITHUB_ENV
           echo "NEW_PROJECT=${{ github.event.repository.name }}" >> $GITHUB_ENV
-          echo "NEW_URL=${{ github.repositoryUrl}}" >> $GITHUB_ENV
+          echo "NEW_URL=${{ github.repositoryUrl }}" >> $GITHUB_ENV
 
       - uses: octokit/request-action@v2.x
         id: get_repo_meta
@@ -41,17 +46,17 @@ jobs:
           sed -i "s/myproject/${{ github.event.repository.name }}/gi" CMakeLists.txt configured_files/config.hpp.in
 
           # Update URL placeholders for project
-          sed -i "s/%%myurl%%/${{ github.event.repositoryUrl }}/gi" CMakeLists.txt
+          sed -i "s|%%myurl%%|${{ fromJson(steps.get_repo_meta.outputs.data).html_url }}|gi" CMakeLists.txt
 
           # fill in placeholders of readme and move it into place
           sed -i "s/%%myorg%%/${{ env.NEW_ORG }}/g" ${{ env.TEMPLATES_PATH }}/README.md
           sed -i "s/%%myproject%%/${{ env.NEW_PROJECT }}/g" ${{ env.TEMPLATES_PATH }}/README.md
-          sed -i "s/%%description%%/${{ fromJson(steps.get_repo_meta.outputs.data).description }}/g" ${{ env.TEMPLATES_PATH }}/README.md
+          sed -i "s|%%description%%|${{ fromJson(steps.get_repo_meta.outputs.data).description }}|g" ${{ env.TEMPLATES_PATH }}/README.md
           cp ${{ env.TEMPLATES_PATH }}/README.md README.md
 
       - name: Print diff after replacement
         run: |
-          # Exclude the README as that is checked seperatly!
+          # Exclude the README as that is checked separately!
           git diff ':!README.md'
           # following should not have any diffs
           diff ${{ env.TEMPLATES_PATH }}/README.md README.md
@@ -63,11 +68,35 @@ jobs:
 
       - name: Clean up before commit and push
         run: |
-          rm -rf ${{ env.TEMPLATES_PATH }}
+          rm -r ${{ env.TEMPLATES_PATH }}
 
-          # Can we get that from a variabl?
+          # Can we get that from a variable?
           # Remove this workflow as it has fulfilled its purpose
-          rm -rf .github/workflows/template-janitor.yml
+          rm .github/workflows/template-janitor.yml
+          rm .github/workflows/template-renamer.yml
+
+      - name: Setup Cpp
+        uses: aminya/setup-cpp@v1
+        with:
+          compiler: gcc
+
+          cmake: true
+          ninja: false
+          conan: true
+          vcpkg: false
+          ccache: false
+          clangtidy: false
+
+          cppcheck: false
+
+          gcovr: false
+          opencppcoverage: false
+
+
+      - name: Test simple configuration to make sure nothing broke (default compiler,cmake,developer_mode OFF)
+        run: |
+          cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=DEBUG -DENABLE_DEVELOPER_MODE:BOOL=OFF -DOPT_ENABLE_COVERAGE:BOOL=OFF
+
 
       - uses: EndBug/add-and-commit@v4
         # only commit and push if we are not a template project anymore!
