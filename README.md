@@ -18,7 +18,7 @@ By default (collectively known as `ENABLE_DEVELOPER_MODE`)
 
 It includes
 
- * a basic CLI example
+ * a basic SDL example
  * examples for fuzz, unit, and constexpr testing
  * large github action testing matrix
 
@@ -28,7 +28,7 @@ It requires
  * conan
  * a compiler
 
-If you want a more complex example project, check out the [cpp_starter_project](https://github.com/cpp-best-practices/cpp_starter_project).
+For a simplified project, check out the [cpp_boilerplate_project](https://github.com/cpp-best-practices/cpp_boilerplate_project).
 
 Ths Boilerplate project will merge new features first, then they will be merged (as appropriate) into cpp_starter_project.
 
