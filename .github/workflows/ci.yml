@@ -1,10 +1,13 @@
 name: ci
 on:
   pull_request:
+  release:
+    types: [published]
   push:
+    tags:
     branches:
       - main
-      - master
+      - develop
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -51,16 +54,28 @@ jobs:
             compiler: llvm
 
         include:
+          # Add appropriate variables for gcov version required. This will intentionally break
+          # if you try to use a compiler that does not have gcov set
+          - compiler: gcc
+            gcov_executable: gcov
+          - compiler: llvm
+            gcov_executable: "llvm-cov gcov"
+
+          # Set up preferred package generators, for given build configurations
+          - build_type: Release
+            developer_mode: OFF
+            package_generator: TBZ2
+
           - os: windows-2022
             compiler: msvc
             generator: "Visual Studio 17 2022"
             build_type: Debug
-            developer_mode: On
+            developer_mode: ON
           - os: windows-2022
             compiler: msvc
             generator: "Visual Studio 17 2022"
             build_type: Release
-            developer_mode: On
+            developer_mode: ON
           - os: windows-2022
             compiler: msvc
             generator: "Visual Studio 17 2022"
@@ -71,8 +86,7 @@ jobs:
             generator: "Visual Studio 17 2022"
             build_type: Release
             developer_mode: OFF
-
-
+            package_generator: ZIP
 
 
 
@@ -122,7 +136,7 @@ jobs:
         # has meaningful results
       - name: Configure CMake
         run: |
-          cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' && matrix.developer_mode == 'OFF' }}
+          cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' && matrix.developer_mode == 'OFF' }} -DGIT_SHA:STRING=${{ github.sha }}
 
       - name: Build
         # Execute the build.  You can specify a specific target with "--target <NAME>"
@@ -143,6 +157,20 @@ jobs:
         working-directory: ./build
         run: |
           OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest -C ${{matrix.build_type}}
+
+      - name: CPack
+        if: matrix.package_generator != ''
+        working-directory: ./build
+        run: |
+          cpack -C ${{matrix.build_type}} -G ${{matrix.package_generator}}
+
+      - name: Publish Tagged Release
+        uses: softprops/action-gh-release@v1
+        if: ${{ startsWith(github.ref, 'refs/tags/') && matrix.package_generator != '' }}
+        with:
+          files: |
+            build/*-*${{ matrix.build_type }}*-*.*
+
 
       - name: Publish to codecov
         uses: codecov/codecov-action@v2
