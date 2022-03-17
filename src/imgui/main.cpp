@@ -1,11 +1,11 @@
-#include <imgui.h>
 #include <imgui-SFML.h>
+#include <imgui.h>
 
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Sprite.hpp>
 
 int main()
 {
@@ -20,9 +20,7 @@ int main()
   sprite.setScale(2.0, 2.0);
 
   std::vector<std::uint8_t> screen_ram(320 * 200 * 4, 0);
-  for (std::uint8_t value; auto &pixel : screen_ram) {
-    pixel = (value += 13);
-  }
+  for (std::uint8_t value; auto &pixel : screen_ram) { pixel = (value += 13); }
   texture.update(screen_ram.data());
 
   sf::Clock deltaClock;
@@ -31,9 +29,7 @@ int main()
     while (window.pollEvent(event)) {
       ImGui::SFML::ProcessEvent(event);
 
-      if (event.type == sf::Event::Closed) {
-        window.close();
-      }
+      if (event.type == sf::Event::Closed) { window.close(); }
     }
 
     ImGui::SFML::Update(window, deltaClock.restart());
