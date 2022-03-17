@@ -31,7 +31,13 @@
             "toolset": {
                 "value": "host=x64",
                 "strategy": "external"
+            },
+            "cacheVariables": {
+                "ENABLE_CLANG_TIDY_DEFAULT": "FALSE",
+                "ENABLE_CPPCHECK_DEFAULT": "FALSE"
             }
+
+
         },
         {
             "name": "conf-linux-common",
