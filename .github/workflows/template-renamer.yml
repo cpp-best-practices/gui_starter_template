@@ -1,0 +1,100 @@
+# This workflow should cleanup everything unneeded from the template project
+
+name: Template Renamer
+
+on:
+  pull_request:
+  release:
+    types: [published]
+  push:
+    tags:
+    branches:
+      - main
+      - develop
+
+env:
+  TEMPLATES_PATH: ".github/template"
+
+jobs:
+
+  template-rename:
+    name: Renames template when a new name is detected
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v2.4.0
+
+      - name: Get organization and project name 
+        run: |
+          echo "TEST_RUN=false" >> $GITHUB_ENV
+          echo "NEW_ORG=${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "NEW_PROJECT=${{ github.event.repository.name }}" >> $GITHUB_ENV
+          echo "NEW_REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
+          echo "TEMPLATE_NAME=`cat ${{ env.TEMPLATES_PATH }}/template_name`" >> $GITHUB_ENV
+          echo "TEMPLATE_REPOSITORY=`cat ${{ env.TEMPLATES_PATH }}/template_repository`" >> $GITHUB_ENV
+
+      - uses: octokit/request-action@v2.x
+        id: get_repo_meta
+        with:
+          route: GET /repos/{owner}/{repo}
+          owner: ${{ env.NEW_ORG }}
+          repo: ${{ env.NEW_PROJECT }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup fake test org/project names if project didn't change
+        if: env.TEMPLATE_NAME == env.NEW_PROJECT
+        run: |
+          echo "TEST_RUN=true" >> $GITHUB_ENV
+          echo "NEW_ORG=${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "NEW_PROJECT=TEST_PROJECT" >> $GITHUB_ENV
+          echo "NEW_REPOSITORY=TEST_REPOSITORY" >> $GITHUB_ENV
+
+
+      # Rename all cpp_starter_project occurrences to current repository and remove this workflow
+      - name: Update repository to match new template information
+        run: |
+          # Update the README and template files to match the new org / repository names 
+          sed -i "s|${{ env.TEMPLATE_REPOSITORY }}|${{ env.NEW_REPOSITORY }}|g" README.md ${{ env.TEMPLATES_PATH }}/template_repository
+          sed -i "s|${{ env.TEMPLATE_NAME }}|${{ env.NEW_PROJECT }}|g" README.md ${{ env.TEMPLATES_PATH }}/template_name
+
+      - name: Print diff after template name replacement
+        run: |
+          git diff
+
+      - name: Setup Cpp
+        uses: aminya/setup-cpp@v1
+        with:
+          compiler: gcc
+
+          cmake: true
+          ninja: false
+          conan: true
+          vcpkg: false
+          ccache: false
+          clangtidy: false
+
+          cppcheck: false
+
+          gcovr: false
+          opencppcoverage: false
+
+      - name: Install Linux Packages Needed By SDL
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get -y install libx11-dev libx11-xcb-dev libfontenc-dev libice-dev libsm-dev libxau-dev libxaw7-dev libxcomposite-dev libxcursor-dev libxdamage-dev libxdmcp-dev libxext-dev libxfixes-dev libxft-dev libxi-dev libxinerama-dev libxkbfile-dev libxmu-dev libxmuu-dev libxpm-dev libxrandr-dev libxrender-dev libxres-dev libxss-dev libxt-dev libxtst-dev libxv-dev libxvmc-dev libxxf86vm-dev xtrans-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-xkb-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-randr0-dev libxcb-shape0-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-xinerama0-dev xkb-data libxcb-dri3-dev libxcb-util-dev libegl-dev
+
+
+      - name: Test simple configuration to make sure nothing broke (default compiler,cmake,developer_mode OFF)
+        run: |
+          cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=DEBUG -DENABLE_DEVELOPER_MODE:BOOL=OFF -DOPT_ENABLE_COVERAGE:BOOL=OFF
+
+      - uses: EndBug/add-and-commit@v4
+        # only commit and push if we are a template and project name has changed
+        if: fromJson(steps.get_repo_meta.outputs.data).is_template == true && env.TEST_RUN == 'false'
+        with:
+          author_name: Template Janitor
+          author_email: template.janitor@example.com
+          message: 'Change Template Name'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,114 @@
+# This workflow should cleanup everything unneeded from the template project
+
+name: Template Janitor
+
+on:
+  pull_request:
+  release:
+    types: [published]
+  push:
+    tags:
+    branches:
+      - main
+      - develop
+
+env:
+  TEMPLATES_PATH: ".github/template"
+  
+jobs:
+
+  template-cleanup:
+    name: Cleanup after create
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v2.4.0
+
+      - name: Get organization and project name 
+        run: |
+          echo "NEW_ORG=${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "NEW_PROJECT=${{ github.event.repository.name }}" >> $GITHUB_ENV
+          echo "NEW_URL=${{ github.repositoryUrl }}" >> $GITHUB_ENV
+
+      - uses: octokit/request-action@v2.x
+        id: get_repo_meta
+        with:
+          route: GET /repos/{owner}/{repo}
+          owner: ${{ env.NEW_ORG }}
+          repo: ${{ env.NEW_PROJECT }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Rename all cpp_starter_project occurences to current repository and remove this workflow
+      - name: Insert new org and project
+        run: |
+          # rename the CMake project to match the github project
+          sed -i "s/myproject/${{ github.event.repository.name }}/gi" CMakeLists.txt configured_files/config.hpp.in
+
+          # Update URL placeholders for project
+          sed -i "s|%%myurl%%|${{ fromJson(steps.get_repo_meta.outputs.data).html_url }}|gi" CMakeLists.txt
+
+          # fill in placeholders of readme and move it into place
+          sed -i "s/%%myorg%%/${{ env.NEW_ORG }}/g" ${{ env.TEMPLATES_PATH }}/README.md
+          sed -i "s/%%myproject%%/${{ env.NEW_PROJECT }}/g" ${{ env.TEMPLATES_PATH }}/README.md
+          sed -i "s|%%description%%|${{ fromJson(steps.get_repo_meta.outputs.data).description }}|g" ${{ env.TEMPLATES_PATH }}/README.md
+          cp ${{ env.TEMPLATES_PATH }}/README.md README.md
+
+      - name: Print diff after replacement
+        run: |
+          # Exclude the README as that is checked separately!
+          git diff ':!README.md'
+          # following should not have any diffs
+          diff ${{ env.TEMPLATES_PATH }}/README.md README.md
+
+      - name: Remove unwanted files
+        run: |
+          # No tests needed as this will fail if any file from the list is missing/misspelled
+          xargs rm -r < ${{ env.TEMPLATES_PATH }}/removal-list
+
+      - name: Clean up before commit and push
+        run: |
+          rm -r ${{ env.TEMPLATES_PATH }}
+
+          # Can we get that from a variable?
+          # Remove this workflow as it has fulfilled its purpose
+          rm .github/workflows/template-janitor.yml
+          rm .github/workflows/template-renamer.yml
+
+      - name: Setup Cpp
+        uses: aminya/setup-cpp@v1
+        with:
+          compiler: gcc
+
+          cmake: true
+          ninja: false
+          conan: true
+          vcpkg: false
+          ccache: false
+          clangtidy: false
+
+          cppcheck: false
+
+          gcovr: false
+          opencppcoverage: false
+
+      - name: Install Linux Packages Needed By SDL
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get -y install libx11-dev libx11-xcb-dev libfontenc-dev libice-dev libsm-dev libxau-dev libxaw7-dev libxcomposite-dev libxcursor-dev libxdamage-dev libxdmcp-dev libxext-dev libxfixes-dev libxft-dev libxi-dev libxinerama-dev libxkbfile-dev libxmu-dev libxmuu-dev libxpm-dev libxrandr-dev libxrender-dev libxres-dev libxss-dev libxt-dev libxtst-dev libxv-dev libxvmc-dev libxxf86vm-dev xtrans-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-xkb-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-randr0-dev libxcb-shape0-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-xinerama0-dev xkb-data libxcb-dri3-dev libxcb-util-dev libegl-dev
+
+
+      - name: Test simple configuration to make sure nothing broke (default compiler,cmake,developer_mode OFF)
+        run: |
+          cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=DEBUG -DENABLE_DEVELOPER_MODE:BOOL=OFF -DOPT_ENABLE_COVERAGE:BOOL=OFF
+
+
+      - uses: EndBug/add-and-commit@v4
+        # only commit and push if we are not a template project anymore!
+        if: fromJson(steps.get_repo_meta.outputs.data).is_template != true
+        with:
+          author_name: Template Janitor
+          author_email: template.janitor@example.com
+          message: 'Cleanup template and initialize repository'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -14,3 +14,6 @@ target_link_libraries(
           docopt::docopt
           fmt::fmt
           spdlog::spdlog)
+
+target_include_directories(intro PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include")
+
