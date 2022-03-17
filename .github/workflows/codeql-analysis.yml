@@ -20,6 +20,12 @@ on:
   schedule:
     - cron: '38 0 * * 5'
 
+env:
+  # Conan cache environment variables
+  CONAN_SYSREQUIRES_MODE: enabled
+  CONAN_USER_HOME: "${{ github.workspace }}/conan-cache"
+  CONAN_USER_HOME_SHORT: "${{ github.workspace }}/conan-cache/short"
+
 jobs:
   analyze:
     name: Analyze
