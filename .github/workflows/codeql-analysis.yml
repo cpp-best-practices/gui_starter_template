@@ -56,23 +56,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Cache
-      uses: actions/cache@v2
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
       with:
-        path: |
-          ~/vcpkg
-          ./build/vcpkg_installed
-          ${{ env.CONAN_USER_HOME }}
-          ~/.cache/pip
-          ${{ env.HOME }}/.cache/vcpkg/archives
-          ${{ env.XDG_CACHE_HOME }}/vcpkg/archives
-          ${{ env.LOCALAPPDATA }}\vcpkg\archives
-          ${{ env.APPDATA }}\vcpkg\archives
-        key: ${{ runner.os }}-${{ matrix.compiler }}-${{matrix.build_type}}-${{matrix.generator}}-${{matrix.developer_mode}}-${{ hashFiles('**/CMakeLists.txt') }}-${{ hashFiles('./conanfile.txt')}}-${{ hashFiles('./vcpkg.json')}}
-        restore-keys: |
-          ${{ runner.os }}-${{ matrix.compiler }}-${{matrix.build_type}}-${{matrix.generator}}-${{matrix.developer_mode}}
-          ${{ runner.os }}-${{ matrix.compiler }}-${{matrix.build_type}}-${{matrix.generator}}
-          ${{ runner.os }}-${{ matrix.compiler }}-${{matrix.build_type}}
+        languages: ${{ matrix.language }}
+        # If you wish to specify custom queries, you can do so here or in a config file.
+        # By default, queries listed here will override any specified in a config file.
+        # Prefix the list here with "+" to use these queries and those in the config file.
+        # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
 
     - name: Setup Cpp
@@ -104,16 +96,6 @@ jobs:
     - name: Configure CMake
       run: |
         cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }}
-
-    # Initializes the CodeQL tools for scanning.
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      with:
-        languages: ${{ matrix.language }}
-        # If you wish to specify custom queries, you can do so here or in a config file.
-        # By default, queries listed here will override any specified in a config file.
-        # Prefix the list here with "+" to use these queries and those in the config file.
-        # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
     - name: Build
       # Execute the build.  You can specify a specific target with "--target <NAME>"
