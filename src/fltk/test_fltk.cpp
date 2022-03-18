@@ -1,12 +1,15 @@
 
+#ifdef _MSC_VER
 // FLTK has warnings in Level 4 that we cannot work around
 // so we force those headers to be included with /W3
 #pragma warning(push, 3)
+#endif
 #include <FL/Fl.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Window.H>
+#ifdef _MSC_VER
 #pragma warning(pop)
-
+#endif
 
 #include <iostream>
 
