@@ -24,9 +24,14 @@ int main()
   // FLTK application, or if ASAN suppressions should be added
   // https://clang.llvm.org/docs/AddressSanitizer.html#suppressing-reports-in-external-libraries
 
-  auto window = std::make_unique<Fl_Window>(640, 480, "Hello, World!");// NOLINT (magic numbers)
-  // This creates a box, but never updates it, so we need to make it maybe_unused
-  [[maybe_unused]] auto box = std::make_unique<Fl_Box>(20, 40, 300, 100, "A box!");// NOLINT (magic numbers)
+  auto window = std::make_unique<Fl_Window>(340, 180, "Hello, World!");// NOLINT (magic numbers)
+  auto box = std::make_unique<Fl_Box>(20, 40, 300, 100, "Hello, World!");// NOLINT (magic numbers)
+
+  box->box(FL_UP_BOX);
+  box->labelfont(FL_BOLD + FL_ITALIC);
+  box->labelsize(36); // NOLINT (magic numbers)
+  box->labeltype(FL_SHADOW_LABEL);
+
   window->end();
   window->show();
   return Fl::run();
