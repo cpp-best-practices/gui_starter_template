@@ -29,7 +29,7 @@ int main()
 
   box->box(FL_UP_BOX);
   box->labelfont(FL_BOLD + FL_ITALIC);
-  box->labelsize(36); // NOLINT (magic numbers)
+  box->labelsize(36);// NOLINT (magic numbers)
   box->labeltype(FL_SHADOW_LABEL);
 
   window->end();
