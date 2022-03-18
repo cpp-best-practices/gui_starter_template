@@ -11,6 +11,7 @@
 #pragma warning(pop)
 #endif
 
+#include <memory>
 #include <iostream>
 
 int main()
@@ -24,7 +25,8 @@ int main()
   // https://clang.llvm.org/docs/AddressSanitizer.html#suppressing-reports-in-external-libraries
 
   auto window = std::make_unique<Fl_Window>(640, 480, "Hello, World!");// NOLINT (magic numbers)
-  auto box = std::make_unique<Fl_Box>(20, 40, 300, 100, "A box!");// NOLINT (magic numbers)
+  // This creates a box, but never updates it, so we need to make it maybe_unused
+  [[maybe_unused]] auto box = std::make_unique<Fl_Box>(20, 40, 300, 100, "A box!");// NOLINT (magic numbers)
   window->end();
   window->show();
   return Fl::run();
