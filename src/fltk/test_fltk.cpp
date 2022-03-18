@@ -11,8 +11,8 @@
 #pragma warning(pop)
 #endif
 
-#include <memory>
 #include <iostream>
+#include <memory>
 
 int main()
 {
