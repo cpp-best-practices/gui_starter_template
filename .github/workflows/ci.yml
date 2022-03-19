@@ -125,6 +125,7 @@ jobs:
 
 
       - name: Cleanup Conan system packages
+        run: |
           conan remove -f '*/system'
 
 
