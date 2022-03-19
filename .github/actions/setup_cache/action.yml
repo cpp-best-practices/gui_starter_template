@@ -35,4 +35,12 @@ runs:
         key: ${{ runner.os }}-${{ inputs.compiler }}-${{ inputs.build_type }}-${{ hashFiles('./conanfile.txt')}}-${{ inputs.generator }}-${{ inputs.developer_mode }}-${{ hashFiles('**/CMakeLists.txt') }}-${{ hashFiles('./vcpkg.json')}}
         restore-keys: |
           ${{ runner.os }}-${{ inputs.compiler }}-${{ inputs.build_type }}-${{ hashFiles('./conanfile.txt') }}
+    - name: Check conan files existence
+      id: check_conan_files
+      uses: andstor/file-existence-action@v1
+      with:
+        files: "${{ env.CONAN_USER_NAME }}"
+    - name: Cleanup Conan 'system' packages
+      if: steps.check_conan_files.outputs.files_exist == 'true'
+      run: conan remove -f '*/system'
 
