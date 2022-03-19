@@ -83,6 +83,10 @@ jobs:
         gcovr: false
         opencppcoverage: false
 
+    - name: Cleanup Conan system packages (they are not properly cached)
+      run: |
+        conan remove -f '*/system'
+
       # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
       # has meaningful results
     - name: Configure CMake

@@ -113,6 +113,9 @@ jobs:
           gcovr: false
           opencppcoverage: false
 
+      - name: Cleanup Conan system packages (they are not properly cached)
+        run: |
+          conan remove -f '*/system'
 
       - name: Test simple configuration to make sure nothing broke
         run: |
@@ -210,6 +213,10 @@ jobs:
 
           gcovr: false
           opencppcoverage: false
+
+      - name: Cleanup Conan system packages (they are not properly cached)
+        run: |
+          conan remove -f '*/system'
 
       - name: Test simple configuration to make sure nothing broke (default compiler,cmake,developer_mode OFF)
         run: |
