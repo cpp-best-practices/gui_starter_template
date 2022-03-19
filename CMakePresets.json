@@ -31,6 +31,10 @@
             "toolset": {
                 "value": "host=x64",
                 "strategy": "external"
+            },
+            "cacheVariables": {
+                "ENABLE_CPPCHECK_DEFAULT": "FALSE",
+                "ENABLE_CLANG_TIDY_DEFAULT": "FALSE"
             }
         },
         {
@@ -50,26 +54,52 @@
             }
         },
         {
-            "name": "windows-msvc-debug",
-            "displayName": "msvc Debug",
+            "name": "windows-msvc-debug-developer-mode",
+            "displayName": "msvc Debug (Developer Mode)",
             "description": "Target Windows with the msvc compiler, debug build type",
             "inherits": "conf-windows-common",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "cl",
                 "CMAKE_CXX_COMPILER": "cl",
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_BUILD_TYPE": "Debug",
+                "ENABLE_DEVELOPER_MODE": "ON"
             }
         },
         {
-            "name": "windows-msvc-release",
-            "displayName": "msvc Release",
+            "name": "windows-msvc-release-developer-mode",
+            "displayName": "msvc Release (Developer Mode)",
             "description": "Target Windows with the msvc compiler, release build type",
             "inherits": "conf-windows-common",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "cl",
                 "CMAKE_CXX_COMPILER": "cl",
-                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-            }
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "ENABLE_DEVELOPER_MODE": "ON"
+             }
+        },
+        {
+            "name": "windows-msvc-debug-user-mode",
+            "displayName": "msvc Debug (User Mode)",
+            "description": "Target Windows with the msvc compiler, debug build type",
+            "inherits": "conf-windows-common",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl",
+                "CMAKE_CXX_COMPILER": "cl",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "ENABLE_DEVELOPER_MODE": "OFF"
+             }
+        },
+        {
+            "name": "windows-msvc-release-user-mode",
+            "displayName": "msvc Release (User Mode)",
+            "description": "Target Windows with the msvc compiler, release build type",
+            "inherits": "conf-windows-common",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl",
+                "CMAKE_CXX_COMPILER": "cl",
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "ENABLE_DEVELOPER_MODE": "OFF"
+             }
         },
         {
             "name": "windows-clang-debug",
@@ -162,18 +192,18 @@
             }
         },
         {
-            "name": "test-windows-msvc-debug",
+            "name": "test-windows-msvc-debug-developer-mode",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "windows-msvc-debug"
+            "configurePreset": "windows-msvc-debug-developer-mode"
         },
         {
-            "name": "test-windows-msvc-release",
+            "name": "test-windows-msvc-release-developer-mode",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "windows-msvc-release"
+            "configurePreset": "windows-msvc-release-developer-mode"
         },
         {
             "name": "test-windows-clang-debug",
