@@ -40,8 +40,10 @@ runs:
       uses: andstor/file-existence-action@v1
       with:
         files: "${{ env.CONAN_USER_HOME }}"
-    - name: Cleanup Conan 'system' packages
-      if: steps.check_conan_files.outputs.files_exist == 'true'
+    - name: Cleanup Conan system packages
+      if: steps.check_conan_files.outputs.files_exists == 'true'
       shell: bash
-      run: conan remove -f '*/system'
+      run: |
+        conan remove -f '*/system'
+        echo "System packages removed"
 
