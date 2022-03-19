@@ -39,7 +39,7 @@ runs:
       id: check_conan_files
       uses: andstor/file-existence-action@v1
       with:
-        files: "${{ env.CONAN_USER_NAME }}"
+        files: "${{ env.CONAN_USER_HOME }}"
     - name: Cleanup Conan 'system' packages
       if: steps.check_conan_files.outputs.files_exist == 'true'
       shell: bash
