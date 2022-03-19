@@ -42,5 +42,6 @@ runs:
         files: "${{ env.CONAN_USER_NAME }}"
     - name: Cleanup Conan 'system' packages
       if: steps.check_conan_files.outputs.files_exist == 'true'
+      shell: bash
       run: conan remove -f '*/system'
 
