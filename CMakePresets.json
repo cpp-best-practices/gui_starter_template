@@ -54,6 +54,17 @@
             }
         },
         {
+            "name": "conf-darwin-common",
+            "description": "Darwin (macOS) settings for AppleClang tooolchain",
+            "hidden": true,
+            "inherits": "conf-common",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            }
+        },
+        {
             "name": "windows-msvc-debug-developer-mode",
             "displayName": "msvc Debug (Developer Mode)",
             "description": "Target Windows with the msvc compiler, debug build type",
@@ -75,7 +86,7 @@
                 "CMAKE_CXX_COMPILER": "cl",
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo",
                 "ENABLE_DEVELOPER_MODE": "ON"
-             }
+            }
         },
         {
             "name": "windows-msvc-debug-user-mode",
@@ -87,7 +98,7 @@
                 "CMAKE_CXX_COMPILER": "cl",
                 "CMAKE_BUILD_TYPE": "Debug",
                 "ENABLE_DEVELOPER_MODE": "OFF"
-             }
+            }
         },
         {
             "name": "windows-msvc-release-user-mode",
@@ -99,7 +110,7 @@
                 "CMAKE_CXX_COMPILER": "cl",
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo",
                 "ENABLE_DEVELOPER_MODE": "OFF"
-             }
+            }
         },
         {
             "name": "windows-clang-debug",
@@ -176,6 +187,28 @@
                 "CMAKE_CXX_COMPILER": "clang++",
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo"
             }
+        },
+        {
+            "name": "darwin-clang-debug",
+            "displayName": "AppleClang Debug",
+            "description": "Target Darwin (macOS) with the AppleCalng compiler, debug build type",
+            "inherits": "conf-darwin-common",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "darwin-clang-release",
+            "displayName": "AppleClang Release",
+            "description": "Target Darwin (macOS) with the AppleCalng compiler, release build type",
+            "inherits": "conf-darwin-common",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            }
         }
     ],
     "testPresets": [
@@ -246,6 +279,20 @@
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
             "configurePreset": "linux-clang-release"
+        },
+        {
+            "name": "test-darwin-clang-debug",
+            "displayName": "Strict",
+            "description": "Enable output and stop on failure",
+            "inherits": "test-common",
+            "configurePreset": "darwin-clang-debug"
+        },
+        {
+            "name": "test-darwin-clang-release",
+            "displayName": "Strict",
+            "description": "Enable output and stop on failure",
+            "inherits": "test-common",
+            "configurePreset": "darwin-clang-release"
         }
     ]
 }
