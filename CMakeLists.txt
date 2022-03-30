@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.16...3.23)
 
 # Not ideal to use this global variable, but necessary to make sure
 # that tooling and projects use the same version
@@ -22,11 +22,20 @@ set(OPT_WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT TRUE)
 
 # Add project_options v0.17.0
 # https://github.com/cpp-best-practices/project_options
-include(FetchContent)
-FetchContent_Declare(_project_options
-                     URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.17.0.zip)
-FetchContent_MakeAvailable(_project_options)
-include(${_project_options_SOURCE_DIR}/Index.cmake)
+# include(FetchContent)
+# FetchContent_Declare(_project_options
+#                      URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.17.0.zip)
+# FetchContent_MakeAvailable(_project_options)
+# include(${_project_options_SOURCE_DIR}/Index.cmake)
+
+# ---- Add dependencies via CPM ----
+# see https://github.com/cpm-cmake/CPM.cmake for more info
+include(cmake/CPM.cmake)
+
+# Add project_options v0.18.0, but my version! CK
+# https://github.com/cpp-best-practices/project_options
+CPMAddPackage("gh:ClausKlein/cmakelib#865af7a1339c03cc8b3cab0d3dcd01ec789f456c")
+list(APPEND CMAKE_MODULE_PATH ${ProjectOptions_SRC_DIR})
 
 # uncomment to enable vcpkg:
 # # Setup vcpkg - should be called before defining project()
@@ -71,7 +80,7 @@ if(BUILDING_MULTI_CONFIG)
   endif()
 endif()
 
-include(${_project_options_SOURCE_DIR}/src/DynamicProjectOptions.cmake)
+include(DynamicProjectOptions)
 
 # defaulted_project_options sets recommended defaults and provides user and developer
 # modes and full GUI support for choosing options at configure time
@@ -92,6 +101,7 @@ dynamic_project_options(
   PCH_HEADERS
   <vector>
   <string> # This is a list of headers to pre-compile, here are some common ones
+  ENABLE_CONAN
   # CONAN_OPTIONS    # Extra options to pass to conan
   # MSVC_WARNINGS    # Override the defaults for the MSVC warnings
   # CLANG_WARNINGS   # Override the defaults for the CLANG warnings
