@@ -38,14 +38,17 @@
             }
         },
         {
-            "name": "conf-linux-common",
-            "description": "Linux settings for gcc and clang toolchains",
+            "name": "conf-unixlike-common",
+            "description": "Unix-like OS settings for gcc and clang toolchains",
             "hidden": true,
             "inherits": "conf-common",
             "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Linux"
+                "type": "inList",
+                "string": "${hostSystemName}",
+                "list": [
+                    "Linux",
+                    "Darwin"
+                ]
             },
             "vendor": {
                 "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
@@ -75,7 +78,7 @@
                 "CMAKE_CXX_COMPILER": "cl",
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo",
                 "ENABLE_DEVELOPER_MODE": "ON"
-             }
+            }
         },
         {
             "name": "windows-msvc-debug-user-mode",
@@ -87,7 +90,7 @@
                 "CMAKE_CXX_COMPILER": "cl",
                 "CMAKE_BUILD_TYPE": "Debug",
                 "ENABLE_DEVELOPER_MODE": "OFF"
-             }
+            }
         },
         {
             "name": "windows-msvc-release-user-mode",
@@ -99,7 +102,7 @@
                 "CMAKE_CXX_COMPILER": "cl",
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo",
                 "ENABLE_DEVELOPER_MODE": "OFF"
-             }
+            }
         },
         {
             "name": "windows-clang-debug",
@@ -134,10 +137,10 @@
             }
         },
         {
-            "name": "linux-gcc-debug",
+            "name": "unixlike-gcc-debug",
             "displayName": "gcc Debug",
-            "description": "Target Linux with the gcc compiler, debug build type",
-            "inherits": "conf-linux-common",
+            "description": "Target Unix-like OS with the gcc compiler, debug build type",
+            "inherits": "conf-unixlike-common",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "gcc",
                 "CMAKE_CXX_COMPILER": "g++",
@@ -145,10 +148,10 @@
             }
         },
         {
-            "name": "linux-gcc-release",
+            "name": "unixlike-gcc-release",
             "displayName": "gcc Release",
-            "description": "Target Linux with the gcc compiler, release build type",
-            "inherits": "conf-linux-common",
+            "description": "Target Unix-like OS with the gcc compiler, release build type",
+            "inherits": "conf-unixlike-common",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "gcc",
                 "CMAKE_CXX_COMPILER": "g++",
@@ -156,10 +159,10 @@
             }
         },
         {
-            "name": "linux-clang-debug",
+            "name": "unixlike-clang-debug",
             "displayName": "clang Debug",
-            "description": "Target Linux with the clang compiler, debug build type",
-            "inherits": "conf-linux-common",
+            "description": "Target Unix-like OS with the clang compiler, debug build type",
+            "inherits": "conf-unixlike-common",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++",
@@ -167,10 +170,10 @@
             }
         },
         {
-            "name": "linux-clang-release",
+            "name": "unixlike-clang-release",
             "displayName": "clang Release",
-            "description": "Target Linux with the clang compiler, release build type",
-            "inherits": "conf-linux-common",
+            "description": "Target Unix-like OS with the clang compiler, release build type",
+            "inherits": "conf-unixlike-common",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++",
@@ -220,32 +223,32 @@
             "configurePreset": "windows-clang-release"
         },
         {
-            "name": "test-linux-gcc-debug",
+            "name": "test-unixlike-gcc-debug",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "linux-gcc-debug"
+            "configurePreset": "unixlike-gcc-debug"
         },
         {
-            "name": "test-linux-gcc-release",
+            "name": "test-unixlike-gcc-release",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "linux-gcc-release"
+            "configurePreset": "unixlike-gcc-release"
         },
         {
-            "name": "test-linux-clang-debug",
+            "name": "test-unixlike-clang-debug",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "linux-clang-debug"
+            "configurePreset": "unixlike-clang-debug"
         },
         {
-            "name": "test-linux-clang-release",
+            "name": "test-unixlike-clang-release",
             "displayName": "Strict",
             "description": "Enable output and stop on failure",
             "inherits": "test-common",
-            "configurePreset": "linux-clang-release"
+            "configurePreset": "unixlike-clang-release"
         }
     ]
 }
