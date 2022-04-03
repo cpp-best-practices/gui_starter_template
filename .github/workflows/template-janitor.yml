@@ -132,7 +132,8 @@ jobs:
       - name: Test simple configuration to make sure nothing broke
         run: |
           cmake -S . -B ./build -G "${{ matrix.generator }}" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DENABLE_DEVELOPER_MODE:BOOL=${{ matrix.developer_mode }} -DOPT_ENABLE_COVERAGE:BOOL=OFF
-
+          # Build it because we may have broken something in the cpp/hpp files
+          cmake --build build
 
       - uses: EndBug/add-and-commit@v4
         # only commit and push if we are not a template project anymore!
