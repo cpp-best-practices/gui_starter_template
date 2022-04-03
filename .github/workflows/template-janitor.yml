@@ -77,7 +77,7 @@ jobs:
         run: |
           # rename the CMake project to match the github project
           # ToDo use safe version here
-          sed -i "s/myproject/${{ github.event.repository.name }}/gi" CMakeLists.txt configured_files/config.hpp.in src/main.cpp
+          sed -i "s/myproject/${{ env.NEW_PROJECT }}/gi" CMakeLists.txt configured_files/config.hpp.in src/main.cpp
 
           # Update URL placeholders for project
           sed -i "s|%%myurl%%|${{ fromJson(steps.get_repo_meta.outputs.data).html_url }}|gi" CMakeLists.txt
