@@ -1,3 +1,6 @@
+project(myproject_sdl)
+
+clangformat_setup(main.cpp)
 add_executable(sdl-example main.cpp)
 
 find_package(SDL2 CONFIG)

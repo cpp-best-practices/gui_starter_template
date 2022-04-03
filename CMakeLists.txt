@@ -99,6 +99,11 @@ dynamic_project_options(
   # CPPCHECK_OPTIONS # Override the defaults for CppCheck
 )
 
+# clang-format
+# See https://github.com/zemasoft/clangformat-cmake
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/clangformat-cmake/cmake)
+include(ClangFormat)
+
 target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
 
 # configure files based on CMake configuration options

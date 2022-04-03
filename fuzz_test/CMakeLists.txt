@@ -3,6 +3,7 @@
 
 find_package(fmt)
 
+clangformat_setup(fuzz_tester.cpp)
 add_executable(fuzz_tester fuzz_tester.cpp)
 target_link_libraries(
   fuzz_tester
