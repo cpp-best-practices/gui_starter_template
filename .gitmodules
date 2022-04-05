@@ -1,3 +1,0 @@
-[submodule "clangformat-cmake"]
-	path = clangformat-cmake
-	url = https://github.com/zemasoft/clangformat-cmake
