@@ -1,3 +1,5 @@
+project(myproject_test)
+
 find_package(Catch2 REQUIRED)
 
 include(CTest)
@@ -18,6 +20,8 @@ add_test(NAME cli.version_matches COMMAND intro --version)
 set_tests_properties(cli.version_matches PROPERTIES PASS_REGULAR_EXPRESSION "${PROJECT_VERSION}")
 
 
+
+clangformat_setup(tests.cpp)
 add_executable(tests tests.cpp)
 target_link_libraries(tests PRIVATE project_warnings project_options catch_main)
 

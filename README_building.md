@@ -190,4 +190,14 @@ ctest -C Debug
 cd ../
 ```
 
+### clang-format
 
+You can have the source code formatted.
+
+
+```shell
+cmake --build ./build --target clangformat
+```
+
+clang-format code has been integrated from
+https://github.com/zemasoft/clangformat-cmake
