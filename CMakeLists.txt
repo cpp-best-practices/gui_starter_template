@@ -13,9 +13,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # This means that all analysis (sanitizers, static analysis)
 # is enabled and all warnings are treated as errors
 # if you want to switch this behavior, change TRUE to FALSE
-set(ENABLE_DEVELOPER_MODE
-    TRUE
-    CACHE BOOL "Enable 'developer mode'")
+option (ENABLE_DEVELOPER_MODE "Enable 'developer mode'" ON)
 
 # Change this to false if you want to disable warnings_as_errors in developer mode
 set(OPT_WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT TRUE)

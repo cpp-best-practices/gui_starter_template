@@ -11,9 +11,7 @@ target_link_libraries(
   intro
   PRIVATE project_options
           project_warnings
+          configured_header_interface
           docopt::docopt
           fmt::fmt
           spdlog::spdlog)
-
-target_include_directories(intro PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include")
-
