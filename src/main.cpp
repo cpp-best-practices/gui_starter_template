@@ -27,6 +27,7 @@ static constexpr auto USAGE =
           --drifting    Drifting mine.
 )";
 
+// NOLINTNEXTLINE(bugprone-exception-escape)
 int main(int argc, const char **argv)
 {
   try {
@@ -45,6 +46,6 @@ int main(int argc, const char **argv)
 
     fmt::print("Hello, from {}\n", "{fmt}");
   } catch (const std::exception &e) {
-    fmt::print("Unhandled exception in main: {}", e.what());
+    spdlog::error("Unhandled exception in main: {}", e.what());
   }
 }
