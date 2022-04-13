@@ -77,7 +77,7 @@ jobs:
       - name: Insert new org and project
         run: |
           # rename the CMake project to match the github project
-          sed -i "s/myproject/${{ env.NEW_SAFE_PROJECT }}/gi" CMakeLists.txt configured_files/config.hpp.in src/main.cpp
+          sed -i "s/myproject/${{ env.NEW_SAFE_PROJECT }}/gi" CMakeLists.txt configured_files/config.hpp.in src/main.cpp test/CMakeLists.txt fuzz_test/CMakeLists.txt
 
           # Update URL placeholders for project
           sed -i "s|%%myurl%%|${{ fromJson(steps.get_repo_meta.outputs.data).html_url }}|gi" CMakeLists.txt
