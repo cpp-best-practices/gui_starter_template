@@ -1,11 +1,11 @@
-# cpp_starter_project
+# gui_starter_template
 
 [![ci](https://github.com/cpp-best-practices/cpp_starter_project/actions/workflows/ci.yml/badge.svg)](https://github.com/cpp-best-practices/cpp_starter_project/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/cpp-best-practices/cpp_starter_project/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/cpp_starter_project)
 [![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/cpp-best-practices/cpp_starter_project)](https://lgtm.com/projects/g/cpp-best-practices/cpp_starter_project/context:cpp)
 [![CodeQL](https://github.com/cpp-best-practices/cpp_starter_project/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/cpp-best-practices/cpp_starter_project/actions/workflows/codeql-analysis.yml)
 
-## About cpp_starter_project
+## About gui_starter_template
 
 This is a C++ Best Practices GitHub template for getting up and running with C++ quickly.
 
