@@ -1,11 +1,11 @@
-# cpp_starter_project
+# gui_starter_template
 
-[![ci](https://github.com/cpp-best-practices/cpp_starter_project/actions/workflows/ci.yml/badge.svg)](https://github.com/cpp-best-practices/cpp_starter_project/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/cpp-best-practices/cpp_starter_project/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/cpp_starter_project)
-[![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/cpp-best-practices/cpp_starter_project)](https://lgtm.com/projects/g/cpp-best-practices/cpp_starter_project/context:cpp)
-[![CodeQL](https://github.com/cpp-best-practices/cpp_starter_project/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/cpp-best-practices/cpp_starter_project/actions/workflows/codeql-analysis.yml)
+[![ci](https://github.com/cpp-best-practices/gui_starter_template/actions/workflows/ci.yml/badge.svg)](https://github.com/cpp-best-practices/gui_starter_template/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/cpp-best-practices/gui_starter_template/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/gui_starter_template)
+[![Language grade: C++](https://img.shields.io/lgtm/grade/cpp/github/cpp-best-practices/gui_starter_template)](https://lgtm.com/projects/g/cpp-best-practices/gui_starter_template/context:cpp)
+[![CodeQL](https://github.com/cpp-best-practices/gui_starter_template/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/cpp-best-practices/gui_starter_template/actions/workflows/codeql-analysis.yml)
 
-## About cpp_starter_project
+## About gui_starter_template
 
 This is a C++ Best Practices GitHub template for getting up and running with C++ quickly.
 
@@ -28,16 +28,16 @@ It requires
  * conan
  * a compiler
 
-For a simplified project, check out the [cpp_starter_project](https://github.com/cpp-best-practices/cpp_starter_project).
+For a simplified project, check out the [gui_starter_template](https://github.com/cpp-best-practices/gui_starter_template).
 
-Ths Boilerplate project will merge new features first, then they will be merged (as appropriate) into cpp_starter_project.
+Ths Boilerplate project will merge new features first, then they will be merged (as appropriate) into gui_starter_template.
 
 ## Getting Started
 
 ### Use the Github template
 
 First, click the green `Use this template` button near the top of this page.
-This will take you to Github's ['Generate Repository'](https://github.com/cpp-best-practices/cpp_starter_project/generate) page.
+This will take you to Github's ['Generate Repository'](https://github.com/cpp-best-practices/gui_starter_template/generate) page.
 Fill in a repository name and short description, and click 'Create repository from template'.
 This will allow you to create a new repository in your Github account,
 prepopulated with the contents of this project.
