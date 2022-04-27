@@ -108,7 +108,17 @@ dynamic_project_options(
   # MSVC_WARNINGS    # Override the defaults for the MSVC warnings
   # CLANG_WARNINGS   # Override the defaults for the CLANG warnings
   # GCC_WARNINGS     # Override the defaults for the GCC warnings
-  # CPPCHECK_OPTIONS # Override the defaults for CppCheck
+  CPPCHECK_OPTIONS
+  --enable=style,performance,warning,portability
+  --inline-suppr
+  # We cannot act on a bug/missing feature of cppcheck
+  --suppress=cppcheckError
+  --suppress=internalAstError
+  # if a file does not have an internalAstError, we get an unmatchedSuppression error
+  --suppress=unmatchedSuppression
+  --suppress=passedByValue
+  --suppress=syntaxError
+  --inconclusive
 )
 
 target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
