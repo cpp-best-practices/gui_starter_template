@@ -43,9 +43,9 @@ static void check_video_driver(const char *name)
 // required to give full function signature for linking on Windows
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {
-  SDL_version v;
-  SDL_GetVersion(&v);
-  spdlog::info("SDL version {}.{}.{}", v.major, v.minor, v.patch);
+  SDL_version version;
+  SDL_GetVersion(&version);
+  spdlog::info("SDL version {}.{}.{}", version.major, version.minor, version.patch);
   check_video_driver("x11");
   check_audio_driver("alsa");
   check_audio_driver("pulseaudio");
