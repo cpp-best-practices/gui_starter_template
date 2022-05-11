@@ -18,7 +18,7 @@ set(ENABLE_DEVELOPER_MODE
     CACHE BOOL "Enable 'developer mode'")
 
 # Change this to false if you want to disable warnings_as_errors in developer mode
-set(OPT_WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT TRUE)
+set(WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT TRUE)
 
 # Add project_options v0.20.0
 # https://github.com/cpp-best-practices/project_options
