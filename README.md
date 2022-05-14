@@ -28,7 +28,7 @@ It requires
  * conan
  * a compiler
 
-For a simplified project, check out the [gui_starter_template](https://github.com/cpp-best-practices/gui_starter_template).
+For a simplified project, check out the [cmake_conan_boilerplate_template](https://github.com/cpp-best-practices/cmake_conan_boilerplate_template).
 
 Ths Boilerplate project will merge new features first, then they will be merged (as appropriate) into gui_starter_template.
 
