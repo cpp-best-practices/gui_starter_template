@@ -11,7 +11,7 @@ Note about install commands:
 This is a really long list of dependencies, and it's easy to mess up. That's why:
 
 #### Docker
-We have a Docker image that's already set up for you. See the [Docker instructions](#docker-instructions).
+We have a Docker image that's already set up for you. See the [Docker instructions](README_docker.md).
 
 #### Setup-cpp
 
