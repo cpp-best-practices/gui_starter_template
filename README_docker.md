@@ -69,3 +69,14 @@ run them separately.
 A script called `build_examples.sh` is provided to help you to build the example
 GUI projects in this container.
 
+## Using X11 Forwarding from .devcontainer
+
+The `.devcontainer` is also configured to use X11 Forwarding to allow GUI to the
+host machine, given that you have an X11 server already.
+
+[Here](https://en.wikipedia.org/wiki/List_of_display_servers) is a good list of
+X11 servers you could try.
+
+For Windows, [Xming](http://www.straightrunning.com/XmingNotes/) is free and 
+popular, compiled with MinGW. For MSVC, [vcXsrv](https://sourceforge.net/projects/vcxsrv/)
+is a good alternative.
